@@ -8,9 +8,9 @@ export const instant = false;
 export default function Voorwaarden() {
   return (
     <main className="flex-1">
-      <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"><Link href="/"><Woordmerk /></Link><Link href={LOGIN_URL} className="knop knop-klein">Inloggen</Link></header>
+      <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"><Link href="/"><Woordmerk /></Link><Link href={LOGIN_URL} className="knop-licht">Inloggen</Link></header>
       <article className="mx-auto max-w-2xl px-6 py-12 text-[16px] leading-relaxed text-tekst-2 [&_h1]:text-tekst [&_h2]:mt-8 [&_h2]:text-[22px] [&_h2]:font-semibold [&_h2]:text-tekst [&_p]:mt-3">
-        <h1 className="display text-[36px] font-semibold">Voorwaarden</h1>
+        <h1 className="text-[36px] font-semibold">Voorwaarden</h1>
         <h2>Wat {MERK} is</h2>
         <p>Software die je boekhouding bijhoudt met behulp van AI. {MERK} is geen boekhouder, geen accountant en geen belastingadviseur. Jij blijft verantwoordelijk voor je administratie en je aangiften.</p>
         <h2>Abonnement</h2>

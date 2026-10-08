@@ -8,9 +8,9 @@ export const instant = false;
 export default function Privacy() {
   return (
     <main className="flex-1">
-      <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"><Link href="/"><Woordmerk /></Link><Link href={LOGIN_URL} className="knop knop-klein">Inloggen</Link></header>
+      <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"><Link href="/"><Woordmerk /></Link><Link href={LOGIN_URL} className="knop-licht">Inloggen</Link></header>
       <article className="mx-auto max-w-2xl px-6 py-12 text-[16px] leading-relaxed text-tekst-2 [&_h1]:text-tekst [&_h2]:mt-8 [&_h2]:text-[22px] [&_h2]:font-semibold [&_h2]:text-tekst [&_p]:mt-3">
-        <h1 className="display text-[36px] font-semibold">Privacy</h1>
+        <h1 className="text-[36px] font-semibold">Privacy</h1>
         <p>{MERK} verwerkt je bankgegevens, bonnen, facturen en klantgegevens om je boekhouding te doen. Niet voor iets anders.</p>
         <h2>Wat we opslaan</h2>
         <p>Bankmutaties, bonnen, facturen, klanten, uren, kilometers en je bedrijfsgegevens. Sleutels van koppelingen worden versleuteld opgeslagen. Je bankkoppeling is alleen-lezen en loopt via een partij met een PSD2-vergunning.</p>

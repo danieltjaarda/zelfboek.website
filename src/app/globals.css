@@ -1,170 +1,168 @@
 @import "tailwindcss";
 
+/*
+  Marketingsite van Zelfboek, in dezelfde taal als de app: wit, koele grijzen, één merkblauw (--primair),
+  Inter, Stripe-achtige knoppen en gevulde statuslabels. Animaties zijn zacht en vallen weg bij prefers-reduced-motion.
+*/
 :root {
   color-scheme: light;
-  --inkt: #16130f;
-  --inkt-2: #221d17;
-  --inkt-3: #2e2720;
-  --papier: #fbf9f5;
+  --inkt: #1a1f36;
+  --papier: #f6f8fa;
   --wit: #ffffff;
-  --lijn: #ebe6dd;
-  --lijn-2: #d9d2c6;
-  --tekst: #16130f;
-  --tekst-2: #6b645a;
-  --tekst-3: #9a938a;
-  --groen: #1e6b47;
-  --groen-licht: #e3f1e9;
-  --groen-fel: #3dbd7d;
-  --groen-tekst: #17543a;
-  --mosterd: #e8b931;
-  --mosterd-licht: #fbf1cf;
-  --mosterd-tekst: #6e5300;
-  --rood: #c33d2e;
-  --rood-licht: #fae5e2;
-  --rood-tekst: #8f2a1f;
-  --radius: 14px;
-  --radius-s: 8px;
+  --lijn: #e3e8ee;
+  --lijn-2: #d5dbe1;
+  --tekst: #1a1f36;
+  --tekst-2: #4f566b;
+  --tekst-3: #8792a2;
+  --primair: #1db1df;
+  --primair-hover: #189ec7;
+  --primair-actief: #148aae;
+  --primair-licht: #e4f5fb;
+  --primair-tekst: #0c7f9f;
+  --groen: #2b8273;
+  --groen-licht: #e3f3ef;
+  --groen-tekst: #1f6a5d;
+  --mosterd: #d97706;
+  --mosterd-licht: #fdf2d8;
+  --mosterd-tekst: #7a4b00;
+  --rood: #ca2e30;
+  --ring-grijs: 0 0 0 1px rgba(60, 66, 87, 0.16);
+  --ring-grijs-hover: 0 0 0 1px rgba(60, 66, 87, 0.28);
+  --knop-schaduw: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(60, 66, 87, 0.08);
+  --ring: 0 0 0 4px rgba(29, 177, 223, 0.28);
 }
 
 @theme inline {
   --color-inkt: var(--inkt);
-  --color-inkt-2: var(--inkt-2);
-  --color-inkt-3: var(--inkt-3);
   --color-papier: var(--papier);
   --color-lijn: var(--lijn);
   --color-lijn-2: var(--lijn-2);
   --color-tekst: var(--tekst);
   --color-tekst-2: var(--tekst-2);
   --color-tekst-3: var(--tekst-3);
+  --color-primair: var(--primair);
+  --color-primair-hover: var(--primair-hover);
+  --color-primair-licht: var(--primair-licht);
+  --color-primair-tekst: var(--primair-tekst);
   --color-groen: var(--groen);
   --color-groen-licht: var(--groen-licht);
-  --color-groen-fel: var(--groen-fel);
   --color-groen-tekst: var(--groen-tekst);
   --color-mosterd: var(--mosterd);
   --color-mosterd-licht: var(--mosterd-licht);
   --color-mosterd-tekst: var(--mosterd-tekst);
   --color-rood: var(--rood);
-  --color-rood-licht: var(--rood-licht);
-  --color-rood-tekst: var(--rood-tekst);
   --font-sans: var(--font-body), system-ui, sans-serif;
-  --font-display: var(--font-body), sans-serif;
 }
 
+html { scroll-behavior: smooth; }
 body {
-  background: var(--papier);
+  background: var(--wit);
   color: var(--tekst);
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
-
-h1, h2, h3, .display {
-  font-family: var(--font-body), sans-serif;
-  letter-spacing: -0.02em;
-}
-
-.cijfer {
-  font-family: var(--font-body), sans-serif;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-
-.tabular { font-variant-numeric: tabular-nums; }
+h1, h2, h3 { letter-spacing: -0.02em; }
+.cijfer { font-variant-numeric: tabular-nums; }
 
 @layer components {
-/* Kaart: één vlak, één dunne lijn, geen schaduw. Hiërarchie komt van positie en grootte. */
-.kaart {
-  background: var(--wit);
-  border: 1px solid var(--lijn);
-  border-radius: var(--radius);
-}
+.kaart { background: var(--wit); border: 1px solid var(--lijn); border-radius: 12px; box-shadow: 0 1px 2px rgba(26, 31, 54, 0.05); }
 
-/* Tabel: lijnen alleen tussen rijen, kopregel klein en rustig. */
-.tabel { width: 100%; font-size: 15px; }
-.tabel th {
-  text-align: left; font-weight: 500; color: var(--tekst-2);
-  padding: 12px 16px; border-bottom: 1px solid var(--lijn); font-size: 14px;
-}
-.tabel td { padding: 14px 16px; border-bottom: 1px solid var(--lijn); vertical-align: top; }
-.tabel tr:last-child td { border-bottom: 0; }
-.tabel td.num, .tabel th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-
-/* Formulier */
-.veld {
-  width: 100%; background: var(--wit); border: 1px solid var(--lijn-2); border-radius: var(--radius-s);
-  padding: 10px 12px; font-size: 15px; color: var(--tekst);
-}
-.veld:focus { outline: 2px solid var(--groen); outline-offset: 0; border-color: var(--groen); }
-.veld-klein { padding: 6px 9px; font-size: 14px; border-radius: 6px; }
-label.lbl { display: block; font-size: 14px; color: var(--tekst-2); margin-bottom: 4px; }
-
-/* Knoppen */
+/* Knoppen zoals in de app (Stripe-anatomie), met een grotere variant voor de site. */
 .knop, .knop-licht, .knop-tekst {
-  display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; font-weight: 500;
-  font-size: 15px; padding: 10px 20px; border: 1px solid transparent; cursor: pointer; white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 36px; padding: 0 14px; border: 0; border-radius: 6px;
+  font-size: 14px; font-weight: 600; line-height: 20px; white-space: nowrap; cursor: pointer;
+  transition: background-color .15s, box-shadow .15s, color .15s, transform .15s;
 }
-.knop { background: var(--inkt); color: #fff; }
-.knop:hover { background: var(--inkt-3); }
-.knop-groen { background: var(--groen); color: #fff; }
-.knop-groen:hover { background: var(--groen-tekst); }
-.knop-licht { background: var(--wit); color: var(--tekst); border-color: var(--lijn-2); }
-.knop-licht:hover { background: var(--papier); }
-.knop-tekst { padding: 6px 10px; color: var(--tekst-2); }
-.knop-tekst:hover { color: var(--tekst); background: var(--papier); }
-.knop:disabled, .knop-licht:disabled { opacity: .5; cursor: default; }
-.knop-klein { padding: 7px 14px; font-size: 14px; }
+.knop { background: var(--primair); color: #fff; box-shadow: 0 0 0 1px var(--primair), var(--knop-schaduw); }
+.knop:hover { background: var(--primair-hover); box-shadow: 0 0 0 1px var(--primair-hover), var(--knop-schaduw); }
+.knop:active { background: var(--primair-actief); box-shadow: 0 0 0 1px var(--primair-actief), inset 0 1px 2px rgba(0, 0, 0, 0.2); }
+.knop-licht { background: var(--wit); color: var(--tekst); box-shadow: var(--ring-grijs), var(--knop-schaduw); }
+.knop-licht:hover { background: #f7f8fa; box-shadow: var(--ring-grijs-hover), var(--knop-schaduw); }
+.knop-tekst { background: transparent; color: var(--primair-tekst); padding: 0 8px; }
+.knop-tekst:hover { background: var(--primair-licht); }
+.knop:focus-visible, .knop-licht:focus-visible, .knop-tekst:focus-visible { outline: none; box-shadow: 0 0 0 1px var(--primair), var(--ring); }
+.knop-klein { height: 30px; padding: 0 10px; font-size: 13px; }
+.knop-groot { height: 46px; padding: 0 22px; font-size: 16px; border-radius: 8px; }
 
-/* Status */
-.pil { display: inline-flex; align-items: center; border-radius: 999px; padding: 3px 10px; font-size: 13px; font-weight: 500; white-space: nowrap; }
-.pil-groen { background: var(--groen-licht); color: var(--groen-tekst); }
-.pil-geel { background: var(--mosterd-licht); color: var(--mosterd-tekst); }
-.pil-rood { background: var(--rood-licht); color: var(--rood-tekst); }
-.pil-grijs { background: var(--lijn); color: var(--tekst-2); }
+/* Gevuld statuslabel, zoals in de app. */
+.pil { display: inline-flex; align-items: center; border-radius: 999px; padding: 2px 9px; font-size: 12px; font-weight: 700; line-height: 16px; color: #fff; white-space: nowrap; }
+.pil-groen { background: var(--groen); }
+.pil-geel { background: var(--mosterd); }
+.pil-grijs { background: var(--tekst-3); }
+.pil-blauw { background: var(--primair-licht); color: var(--primair-tekst); }
 
-}
-
-:focus-visible { outline: 2px solid var(--groen); outline-offset: 2px; }
-
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-
-@media print {
-  aside, nav, .print\:hidden { display: none !important; }
-  body { background: #fff; }
-  main { padding: 0 !important; }
-}
-
-/* ── Homepage in de Rank Studio-taal: zwevende pilnavigatie, grote donkere blokken, ronde hoeken ── */
-.pilnav {
-  margin: 0 auto; max-width: 1320px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 10px 10px 10px 22px; border-radius: 999px; background: rgba(255,255,255,.92); backdrop-filter: blur(10px);
-  box-shadow: 0 1px 0 rgba(22,19,15,.04), 0 10px 30px -18px rgba(22,19,15,.25);
-}
-.blok-donker { max-width: 1320px; margin-left: auto; margin-right: auto; border-radius: 32px; background: var(--inkt); color: #fff; overflow: hidden; }
-.blok-donker-klein { border-radius: 24px; background: var(--inkt); color: #fff; padding: 26px 28px; }
-.blok-zand { max-width: 1320px; margin: 0 auto; border-radius: 32px; background: #f1ece3; overflow: hidden; }
-.blok-wit { border-radius: 24px; background: #fff; padding: 28px; border: 1px solid var(--lijn); }
-.rondknop { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 999px; background: var(--groen); color: #fff; }
-.rondknop:hover { background: var(--groen-fel); }
-.eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-.eyebrow-stip { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
-.merkpil { display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; background: #fff; border: 1px solid var(--lijn); font-weight: 600; }
-.merkpil img { max-width: 90px !important; }
-.raam-donker { box-shadow: 0 40px 80px -30px rgba(0,0,0,.8); border-color: rgba(255,255,255,.12); }
-
-/* Vragen: open en dicht, zonder extra chrome. */
-.vraag { border-bottom: 1px solid var(--lijn-2); }
-.vraag summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; font-weight: 600; font-size: 17px; }
-.vraag summary::-webkit-details-marker { display: none; }
-.vraag summary::after { content: "+"; color: var(--tekst-3); font-weight: 400; font-size: 22px; line-height: 1; }
-.vraag[open] summary::after { content: "–"; }
-.vraag p { padding: 0 0 18px; max-width: 60ch; color: var(--tekst-2); font-size: 16px; line-height: 1.55; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--primair-tekst); }
+.eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--primair); }
 
 /* Browser-raam om een echt scherm van de app heen. */
-.raam { border-radius: 18px; overflow: hidden; border: 1px solid var(--lijn-2); background: #fff; box-shadow: 0 40px 80px -40px rgba(19,32,26,.45), 0 1px 0 rgba(0,0,0,.03); }
-.raam-balk { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: #eef1ec; border-bottom: 1px solid var(--lijn); }
+.raam { border-radius: 14px; overflow: hidden; border: 1px solid var(--lijn-2); background: #fff; box-shadow: 0 30px 80px -30px rgba(26, 31, 54, 0.35), 0 0 0 1px rgba(26, 31, 54, 0.03); }
+.raam-balk { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: var(--papier); border-bottom: 1px solid var(--lijn); }
 .raam-balk i { width: 10px; height: 10px; border-radius: 50%; background: var(--lijn-2); display: block; }
-.raam-balk span { margin-left: 10px; flex: 1; height: 20px; border-radius: 6px; background: #fff; font-size: 11px; color: var(--tekst-3); display: flex; align-items: center; padding: 0 10px; }
+.raam-balk span { margin-left: 10px; flex: 1; height: 22px; border-radius: 6px; background: #fff; border: 1px solid var(--lijn); font-size: 12px; color: var(--tekst-3); display: flex; align-items: center; padding: 0 10px; }
 
-/* Vertrouwensstrook */
-.trust { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 15px; color: var(--tekst-2); }
-.trust > span { display: inline-flex; align-items: center; gap: 8px; }
+/* Blauwe halo, zoals om de vraagbalk in de app. */
+.halo { border-radius: 16px; border: 1px solid rgba(29, 177, 223, 0.65); background: #fff; box-shadow: 0 0 0 3px rgba(29, 177, 223, 0.10), 0 0 14px rgba(29, 177, 223, 0.30), 0 0 36px rgba(29, 177, 223, 0.22), 0 0 70px rgba(29, 177, 223, 0.14); }
+
+/* Vragen: open en dicht. */
+.vraag { border-bottom: 1px solid var(--lijn); }
+.vraag summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; font-weight: 600; font-size: 16px; }
+.vraag summary::-webkit-details-marker { display: none; }
+.vraag summary::after { content: "+"; color: var(--tekst-3); font-weight: 400; font-size: 22px; line-height: 1; transition: transform .2s; }
+.vraag[open] summary::after { content: "–"; }
+.vraag p { padding: 0 0 18px; max-width: 62ch; color: var(--tekst-2); font-size: 15px; line-height: 1.6; }
+
+/* Navigatie bovenaan: wit met lichte blur. */
+.navbalk { background: rgba(255, 255, 255, 0.86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--lijn); }
+}
+
+/* ── Animaties ───────────────────────────────────────────────────────────── */
+/* Bij laden: elementen komen gefaseerd omhoog. */
+@keyframes op { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.op { animation: op .7s cubic-bezier(.2, .8, .2, 1) both; }
+.v1 { animation-delay: .05s; } .v2 { animation-delay: .15s; } .v3 { animation-delay: .25s; } .v4 { animation-delay: .35s; } .v5 { animation-delay: .5s; } .v6 { animation-delay: .65s; }
+
+/* Bij scrollen: onthullen zodra in beeld (klasse "in" via IntersectionObserver). */
+.onthul { opacity: 0; transform: translateY(18px); transition: opacity .7s cubic-bezier(.2, .8, .2, 1), transform .7s cubic-bezier(.2, .8, .2, 1); }
+.onthul.in { opacity: 1; transform: none; }
+
+/* Zweven van het grote scherm. */
+@keyframes zweef { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.zweef { animation: zweef 7s ease-in-out infinite; }
+
+/* Kaarten komen iets omhoog bij hover. */
+.lift { transition: transform .2s, box-shadow .2s, border-color .2s; }
+.lift:hover { transform: translateY(-3px); box-shadow: 0 14px 30px -14px rgba(26, 31, 54, 0.25); border-color: var(--lijn-2); }
+
+/* Doorlopende strook met app-iconen. */
+@keyframes strook { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.strook { display: flex; width: max-content; gap: 40px; animation: strook 45s linear infinite; }
+.strook:hover { animation-play-state: paused; }
+.strook-masker { mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+
+/* Demo: regels die één voor één geboekt worden, in een lus van 10 seconden. */
+@keyframes boek-rij { 0% { opacity: 0; transform: translateY(8px); } 5% { opacity: 1; transform: none; } 92% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes boek-wacht { 0%, 14% { opacity: 1; } 19%, 100% { opacity: 0; } }
+@keyframes boek-klaar { 0%, 16% { opacity: 0; transform: scale(.7); } 22%, 100% { opacity: 1; transform: none; } }
+.boek-rij { animation: boek-rij 10s var(--d, 0s) infinite both; }
+.boek-rij .boek-wacht { animation: boek-wacht 10s var(--d, 0s) infinite both; }
+.boek-rij .boek-klaar { animation: boek-klaar 10s var(--d, 0s) infinite both; }
+@keyframes stip { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+.stip span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: stip 1.2s infinite; }
+.stip span:nth-child(2) { animation-delay: .2s; } .stip span:nth-child(3) { animation-delay: .4s; }
+
+/* Demo: chat met de bot, in een lus van 12 seconden. */
+@keyframes chat-vraag { 0%, 4% { opacity: 0; transform: translateY(8px); } 9%, 92% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes chat-typt { 0%, 12% { opacity: 0; } 16%, 34% { opacity: 1; } 38%, 100% { opacity: 0; } }
+@keyframes chat-antwoord { 0%, 36% { opacity: 0; transform: translateY(8px); } 42%, 92% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+.chat-vraag { animation: chat-vraag 12s infinite both; }
+.chat-typt { animation: chat-typt 12s infinite both; }
+.chat-antwoord { animation: chat-antwoord 12s infinite both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .onthul { opacity: 1; transform: none; }
+  .boek-rij .boek-wacht, .chat-typt { display: none; }
+}

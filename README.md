@@ -17,11 +17,15 @@ Open http://localhost:3000.
 
 Vercel, framework Next.js. Eén omgevingsvariabele: `NEXT_PUBLIC_APP_URL`. Domein: `zelfboek.nl` (en `www`).
 
+## Ontwerp
+
+Dezelfde taal als de app: wit, koele grijzen, merkblauw #1db1df, Inter, Stripe-achtige knoppen en gevulde statuslabels. Echte app-iconen van banken en kanalen in `public/logos/apps`, echte schermen van de app in `public/schermen`. Animaties: gefaseerd omhoog bij laden (`.op`), onthullen bij scrollen (`src/components/Onthul.tsx`), zwevend scherm, doorlopende iconenstrook, en twee CSS-demo's (`src/components/Demos.tsx`: regels die geboekt worden, chat met de bot). Alles valt stil bij `prefers-reduced-motion`.
+
 ## Structuur
 
 - `src/app/page.tsx` — homepage
 - `src/app/privacy`, `src/app/voorwaarden` — juridische pagina's
-- `src/components/Merk.tsx` — beeldmerk, woordmerk en partnerlogo's (`public/logos`)
+- `src/components/Merk.tsx` — beeldmerk, woordmerk en app-iconen (`public/logos/apps`)
 - `src/components/Voettekst.tsx` — footer
 - `src/lib/merk.ts` — merknaam, prijs, app-adres
 - `public/schermen` — screenshots van de app die op de homepage staan
@@ -29,4 +33,4 @@ Vercel, framework Next.js. Eén omgevingsvariabele: `NEXT_PUBLIC_APP_URL`. Domei
 
 ## Stack
 
-Next.js 16 (App Router), Tailwind 4, Sora via next/font.
+Next.js 16 (App Router), Tailwind 4, Inter via next/font.
