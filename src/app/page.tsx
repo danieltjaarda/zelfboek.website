@@ -67,8 +67,8 @@ export default function Landing() {
   return (
     <main className="flex-1">
       {/* Navigatie */}
-      <header className="navbalk sticky top-0 z-30">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+      <header className="sticky top-3 z-30 px-3 md:top-4 md:px-6">
+        <div className="navbalk mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full pl-5 pr-2.5">
           <Link href="/" aria-label={MERK}><Woordmerk size={17} /></Link>
           <nav className="hidden items-center gap-7 text-[14px] font-medium text-tekst-2 md:flex">
             <a href="#functies" className="hover:text-tekst">Wat hij doet</a>

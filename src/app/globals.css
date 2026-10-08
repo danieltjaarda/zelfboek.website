@@ -115,7 +115,7 @@ h1, h2, h3 { letter-spacing: -0.02em; }
 .vraag p { padding: 0 0 18px; max-width: 62ch; color: var(--tekst-2); font-size: 15px; line-height: 1.6; }
 
 /* Navigatie bovenaan: wit met lichte blur. */
-.navbalk { background: rgba(255, 255, 255, 0.86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--lijn); }
+.navbalk { background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--lijn); box-shadow: 0 1px 0 rgba(26, 31, 54, 0.03), 0 12px 32px -18px rgba(26, 31, 54, 0.28); }
 }
 
 /* ── Animaties ───────────────────────────────────────────────────────────── */
