@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
 import { AppIcoon, APPS, Woordmerk, type AppId } from "@/components/Merk";
-import { Icoon, type IcoonNaam } from "@/components/Iconen";
 import { Onthul } from "@/components/Onthul";
 import { BoekDemo, BotDemo } from "@/components/Demos";
 import { Voettekst } from "@/components/Voettekst";
@@ -27,23 +26,30 @@ function Vink() {
     </span>
   );
 }
-function IcoonVak({ naam, size = 40 }: { naam: IcoonNaam; size?: number }) {
-  return <span className="inline-flex shrink-0 items-center justify-center rounded-[10px] bg-primair-licht text-primair" style={{ width: size, height: size }}><Icoon naam={naam} size={Math.round(size * 0.5)} /></span>;
+/** Clay-icoon uit public/beeld (transparante PNG). */
+function Beeldicoon({ naam, size = 72 }: { naam: string; size?: number }) {
+  return <Image src={`/beeld/icoon-${naam}.png`} alt="" width={size} height={size} className="shrink-0" style={{ width: size, height: size }} />;
 }
 
-const stappen: { icoon: IcoonNaam; kop: string; tekst: string }[] = [
+const stappen: { icoon: string; kop: string; tekst: string }[] = [
   { icoon: "bank", kop: "Koppel je bank", tekst: "Eén klik, net als in een app store. Alleen-lezen, dus niemand kan geld overmaken." },
   { icoon: "bot", kop: "De bot boekt elke nacht", tekst: "Categorie, btw-code en een zin uitleg bij elke regel. Bonnen hangt hij aan de juiste regel." },
-  { icoon: "overzicht", kop: "Jij tikt af en toe een antwoord", tekst: "Zakelijk of privé? Dat is meestal het enige wat hij vraagt. Je btw-aangifte staat elk kwartaal klaar." },
+  { icoon: "antwoord", kop: "Jij tikt af en toe een antwoord", tekst: "Zakelijk of privé? Dat is meestal het enige wat hij vraagt. Je btw-aangifte staat elk kwartaal klaar." },
 ];
 
-const functies: { icoon: IcoonNaam; kop: string; tekst: string }[] = [
+const functies: { icoon: string; kop: string; tekst: string }[] = [
   { icoon: "bank", kop: "Bankregels geboekt voordat je wakker bent", tekst: "Elke nacht leest de bot je nieuwe regels, kiest categorie en btw-code en schrijft in één zin waarom." },
   { icoon: "bon", kop: "Bonnen: foto maken is genoeg", tekst: "Leverancier, datum, bedrag en btw worden uitgelezen. De bon hangt vanzelf aan de juiste bankregel." },
   { icoon: "factuur", kop: "Facturen die zichzelf opvolgen", tekst: "Met iDEAL-link en e-factuur. Herinneringen op dag 7, 21 en 35 gaan vanzelf. Jij hoeft er niet achteraan." },
   { icoon: "btw", kop: "Btw-aangifte in twee minuten", tekst: "Elk kwartaal staan alle rubrieken klaar, met verlegde btw uit de EU en je ICP-opgaaf. Overnemen en klaar." },
   { icoon: "ib", kop: "Nooit meer schrikken van de inkomstenbelasting", tekst: "Je ziet het hele jaar wat je moet reserveren, met zelfstandigenaftrek, MKB-vrijstelling en urencriterium erbij." },
   { icoon: "bot", kop: "Vraag het gewoon", tekst: "Hoeveel gaf ik uit aan software? Wie betaalt altijd te laat? De bot kijkt in je cijfers en antwoordt direct." },
+];
+
+const voorWie: { beeld: string; alt: string; kop: string; tekst: string }[] = [
+  { beeld: "/beeld/zzp-webdesigner.jpg", alt: "Webdesigner achter een laptop in een lichte werkkamer", kop: "Freelancers en creatieven", tekst: "Uren naar factuur, btw verlegd naar klanten in de EU, software-abonnementen vanzelf als kosten." },
+  { beeld: "/beeld/zzp-fotograaf.jpg", alt: "Fotograaf met een camera in een daglichtstudio", kop: "Fotografen en makers", tekst: "Apparatuur als investering met afschrijving, reiskosten per rit, offertes die je omzet in een factuur." },
+  { beeld: "/beeld/zzp-fysio.jpg", alt: "Fysiotherapeut met een tablet in een lichte praktijkruimte", kop: "Zorg en praktijken", tekst: "Vrijgestelde omzet goed geboekt, bonnen per e-mail, de btw-aangifte die elk kwartaal klaarstaat." },
 ];
 
 const vragen: [string, string][] = [
@@ -127,7 +133,7 @@ export default function Landing() {
             <Onthul key={s.kop} vertraging={i * 100}>
               <div className="kaart lift h-full p-6">
                 <div className="flex items-center justify-between">
-                  <IcoonVak naam={s.icoon} />
+                  <Beeldicoon naam={s.icoon} size={64} />
                   <span className="flex h-7 w-7 items-center justify-center rounded-full bg-inkt text-[12px] font-bold text-white">{i + 1}</span>
                 </div>
                 <h3 className="mt-5 text-[18px] font-semibold">{s.kop}</h3>
@@ -150,13 +156,34 @@ export default function Landing() {
             {functies.map((f, i) => (
               <Onthul key={f.kop} vertraging={(i % 3) * 90}>
                 <div className="kaart lift h-full p-6">
-                  <IcoonVak naam={f.icoon} />
-                  <h3 className="mt-5 text-[17px] font-semibold leading-snug">{f.kop}</h3>
+                  <Beeldicoon naam={f.icoon} size={64} />
+                  <h3 className="mt-4 text-[17px] font-semibold leading-snug">{f.kop}</h3>
                   <p className="mt-2 text-[15px] leading-relaxed text-tekst-2">{f.tekst}</p>
                 </div>
               </Onthul>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Voor wie */}
+      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+        <Onthul>
+          <p className="eyebrow">Voor wie</p>
+          <h2 className="mt-3 max-w-2xl text-[34px] font-bold leading-[1.05] md:text-[48px]">Gemaakt voor zzp’ers die liever werken dan boekhouden.</h2>
+        </Onthul>
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {voorWie.map((v, i) => (
+            <Onthul key={v.kop} vertraging={i * 100}>
+              <div className="kaart lift h-full overflow-hidden">
+                <Image src={v.beeld} alt={v.alt} width={1200} height={896} className="aspect-[4/3] w-full object-cover" />
+                <div className="p-5">
+                  <h3 className="text-[17px] font-semibold">{v.kop}</h3>
+                  <p className="mt-1.5 text-[15px] leading-relaxed text-tekst-2">{v.tekst}</p>
+                </div>
+              </div>
+            </Onthul>
+          ))}
         </div>
       </section>
 
