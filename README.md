@@ -26,6 +26,8 @@ Dezelfde taal als de app: wit, koele grijzen, merkblauw #1db1df, Inter, Stripe-a
 - `src/app/page.tsx` — homepage
 - `src/app/privacy`, `src/app/voorwaarden` — juridische pagina's
 - `src/components/Merk.tsx` — beeldmerk, woordmerk en app-iconen (`public/logos/apps`)
+- `src/components/Blokken.tsx` — productblokken (koppelingen met tegelwand, mobiele app met telefoons, belasting met waaier)
+- `src/components/Accordeon.tsx` — dashboardsectie: onderwerpen links, scherm wisselt rechts mee
 - `src/components/Voettekst.tsx` — footer
 - `src/lib/merk.ts` — merknaam, prijs, app-adres
 - `public/schermen` — screenshots van de app die op de homepage staan

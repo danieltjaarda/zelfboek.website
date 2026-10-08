@@ -4,6 +4,8 @@ import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
 import { AppIcoon, APPS, Woordmerk, type AppId } from "@/components/Merk";
 import { Onthul } from "@/components/Onthul";
 import { BoekDemo, BotDemo, Reviews, Telefoon } from "@/components/Demos";
+import { BlokApp, BlokBelasting, BlokKoppelingen, Kopje } from "@/components/Blokken";
+import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
 
 export const instant = false;
@@ -63,7 +65,7 @@ const vragen: [string, string][] = [
 ];
 
 export default function Landing() {
-  const strook: AppId[] = [...BANKEN, ...KANALEN];
+  const strook: AppId[] = [...BANKEN, ...KANALEN, ...PAKKETTEN];
   return (
     <main className="flex-1">
       {/* Navigatie */}
@@ -134,8 +136,38 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Productblokken */}
+      <section className="mx-auto max-w-6xl px-6 pt-16 md:pt-24">
+        <div className="grid gap-5 md:grid-cols-2">
+          <Onthul><BlokKoppelingen /></Onthul>
+          <Onthul vertraging={100}><BlokApp /></Onthul>
+        </div>
+        <Onthul className="mt-5"><BlokBelasting /></Onthul>
+      </section>
+
+      {/* Dashboard met accordeon */}
+      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+        <Onthul>
+          <Accordeon
+            kop={
+              <>
+                <Kopje>Het dashboard</Kopje>
+                <h2 className="mt-3 text-[32px] font-bold leading-[1.05] md:text-[42px]">Je cijfers bekijken én begrijpen</h2>
+                <p className="mt-4 max-w-md text-[17px] leading-relaxed text-tekst-2">Omzet, kosten, winst en btw altijd actueel. Elke boeking met een zin uitleg, elke vraag met één tik beantwoord. Op je laptop en op je telefoon.</p>
+              </>
+            }
+            items={[
+              { titel: "Bank", tekst: "Elke regel geboekt met categorie, btw-code en uitleg. Twijfelt de bot, dan vraagt hij het: zakelijk of privé. Jij tikt, hij onthoudt.", beeld: "/schermen/bank.png", alt: `De bankpagina in ${MERK}` },
+              { titel: "Facturen", tekst: "Maak de factuur, de rest gaat vanzelf: iDEAL-link, e-factuur, herinneringen op dag 7, 21 en 35, en afletteren zodra het geld binnen is.", beeld: "/schermen/facturen.png", alt: `De facturenpagina in ${MERK}` },
+              { titel: "Koppelingen", tekst: "Banken en verkoopkanalen koppel je als in een app store. Wat live is, zie je in één oogopslag.", beeld: "/schermen/koppelingen.png", alt: `De koppelingenpagina in ${MERK}` },
+              { titel: "Vraag het de bot", badge: "⌘K", tekst: "Overal in de app: open facturen, je grootste kostenpost, hoeveel btw je straks betaalt. Hij kijkt in je eigen cijfers en antwoordt in gewone taal.", beeld: "/schermen/bot.png", alt: `De bot in ${MERK}, geopend als paneel` },
+            ]}
+          />
+        </Onthul>
+      </section>
+
       {/* Zo werkt het */}
-      <section id="hoe" className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <section id="hoe" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
         <Onthul>
           <p className="eyebrow">Zo werkt het</p>
           <h2 className="mt-3 max-w-2xl text-[34px] font-bold leading-[1.05] md:text-[48px]">Drie stappen. Daarna doet hij het zelf.</h2>
@@ -199,28 +231,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Bank: één scherm */}
-      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.25fr_1fr]">
-          <Onthul>
-            <div className="raam">
-              <div className="raam-balk"><i /><i /><i /><span>app.zelfboek.nl/app/bank</span></div>
-              <Image src="/schermen/bank.png" alt={`De bankpagina in ${MERK}: elke regel geboekt met categorie, btw-code en uitleg`} width={1440} height={900} className="block w-full" />
-            </div>
-          </Onthul>
-          <Onthul vertraging={120}>
-            <p className="eyebrow">Zo ziet je ochtend eruit</p>
-            <h2 className="mt-3 text-[32px] font-bold leading-[1.05] md:text-[42px]">Eén scherm. Meestal niets te doen.</h2>
-            <ul className="mt-7 space-y-3 text-[16px]">
-              {["Bovenaan staat of je iets moet doen", "Twijfelregels beantwoord je met één tik", "Omzet, kosten, winst en btw altijd actueel", "Bij elke boeking staat waarom"].map((x) => (
-                <li key={x} className="flex gap-3"><Vink />{x}</li>
-              ))}
-            </ul>
-            <Link href={LOGIN_URL} className="knop knop-groot mt-9">Start gratis, 30 dagen <Pijl /></Link>
-          </Onthul>
-        </div>
-      </section>
-
       {/* De bot */}
       <section className="bg-papier py-20 md:py-28">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-[1fr_1.1fr]">
@@ -235,27 +245,6 @@ export default function Landing() {
             </ul>
           </Onthul>
           <Onthul vertraging={120}><BotDemo className="mx-auto max-w-lg" /></Onthul>
-        </div>
-      </section>
-
-      {/* Koppelingen als app store */}
-      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.25fr]">
-          <Onthul>
-            <p className="eyebrow">Koppelen</p>
-            <h2 className="mt-3 text-[32px] font-bold leading-[1.05] md:text-[42px]">Je bank en je kanalen, als in een app store.</h2>
-            <p className="mt-4 max-w-lg text-[17px] leading-relaxed text-tekst-2">Kies je bank, geef toestemming, klaar. Mollie, Stripe, Shopify, bol.com, WooCommerce en PayPal koppel je met één sleutel. Overstappen van Moneybird, e-Boekhouden of Jortt? Je historie komt mee.</p>
-            <div className="mt-7 flex flex-wrap gap-2">
-              {[...PAKKETTEN, ...KANALEN].map((id) => <AppIcoon key={id} id={id} size={36} />)}
-            </div>
-            <p className="mt-5 text-[13px] text-tekst-3">Alle koppelingen alleen-lezen. Sleutels slaan we versleuteld op.</p>
-          </Onthul>
-          <Onthul vertraging={120}>
-            <div className="raam">
-              <div className="raam-balk"><i /><i /><i /><span>app.zelfboek.nl/app/koppelingen</span></div>
-              <Image src="/schermen/koppelingen.png" alt={`De koppelingenpagina in ${MERK}: banken en verkoopkanalen als tegels met een knop Koppelen`} width={1440} height={900} className="block w-full" />
-            </div>
-          </Onthul>
         </div>
       </section>
 

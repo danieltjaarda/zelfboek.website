@@ -118,6 +118,36 @@ h1, h2, h3 { letter-spacing: -0.02em; }
 .navbalk { background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--lijn); box-shadow: 0 1px 0 rgba(26, 31, 54, 0.03), 0 12px 32px -18px rgba(26, 31, 54, 0.28); }
 }
 
+/* Blokken in de stijl van productkaarten: zacht grijs vlak, grote ronde hoeken, visual loopt eruit. */
+.blok { position: relative; overflow: hidden; border-radius: 24px; background: var(--papier); }
+.meer { display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 600; color: var(--primair-tekst); text-decoration: underline; text-underline-offset: 5px; text-decoration-color: rgba(29, 177, 223, 0.45); transition: text-decoration-color .15s, gap .15s; }
+.meer:hover { text-decoration-color: var(--primair-tekst); gap: 7px; }
+
+/* Wand van app-tegels, iets gedraaid, loopt links en onder uit het blok. */
+.tegelwand { position: absolute; left: -28px; bottom: -40px; display: flex; flex-direction: column; gap: 14px; transform: rotate(-6deg); transform-origin: left bottom; }
+.tegelrij { display: flex; gap: 14px; }
+.tegelrij-2 { margin-left: 62px; }
+.tegel { box-shadow: 0 16px 30px -14px rgba(26, 31, 54, 0.4); }
+@media (max-width: 767px) { .tegelwand { transform: rotate(-6deg) scale(.7); } }
+
+/* Waaier van kaarten, draait iets verder open bij hover. */
+.fan { position: relative; }
+.fan-kaart { position: absolute; left: 50%; bottom: 72px; width: 184px; height: 256px; margin-left: -92px; border-radius: 18px; padding: 18px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; transform-origin: 50% 165%; transform: rotate(var(--r)); box-shadow: 0 24px 44px -22px rgba(26, 31, 54, 0.45); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+.fan:hover .fan-kaart { transform: rotate(calc(var(--r) * 1.25)); }
+@media (max-width: 639px) { .fan-kaart { width: 150px; height: 210px; margin-left: -75px; padding: 14px; bottom: 56px; transform: rotate(calc(var(--r) * .65)); } .fan:hover .fan-kaart { transform: rotate(calc(var(--r) * .65)); } }
+
+/* Accordeon naast het dashboard. */
+.acc-item { position: relative; border-top: 1px solid var(--lijn-2); }
+.acc-item[data-actief="true"]::before { content: ""; position: absolute; top: -1px; left: 0; width: 48px; height: 2px; background: var(--primair); }
+.acc-item button { display: flex; width: 100%; align-items: center; gap: 10px; padding: 16px 0; font-size: 17px; font-weight: 600; color: var(--tekst); text-align: left; cursor: pointer; }
+.acc-item[data-actief="false"] button { color: var(--tekst-2); }
+.acc-item[data-actief="false"] button:hover { color: var(--tekst); }
+.acc-item p { max-width: 42ch; padding-bottom: 18px; font-size: 15px; line-height: 1.6; color: var(--tekst-2); }
+.dash-vak { position: relative; height: 560px; overflow: hidden; border-radius: 24px; background: linear-gradient(135deg, #1db1df, #0c7f9f 70%, #0a6a85); }
+.dash-beeld { position: absolute; left: 48px; top: 48px; width: calc(100% - 48px); height: auto; border-radius: 14px 0 0 0; box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.45); opacity: 0; transition: opacity .45s; }
+.dash-beeld.actief { opacity: 1; }
+@media (max-width: 767px) { .dash-vak { height: 300px; } .dash-beeld { left: 24px; top: 24px; width: calc(100% - 24px); } }
+
 /* Telefoonframe */
 .telefoon { position: relative; width: 300px; aspect-ratio: 9 / 19.4; border-radius: 46px; background: #1a1f36; padding: 11px; box-shadow: 0 40px 80px -30px rgba(26, 31, 54, 0.55), 0 0 0 1px rgba(26, 31, 54, 0.3), inset 0 0 0 2px #3c4257; }
 .telefoon-scherm { height: 100%; width: 100%; overflow: hidden; border-radius: 36px; background: #fff; padding-top: 46px; }
