@@ -3,7 +3,7 @@ import Image from "next/image";
 import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
 import { AppIcoon, APPS, Woordmerk, type AppId } from "@/components/Merk";
 import { Onthul } from "@/components/Onthul";
-import { BoekDemo, BotDemo } from "@/components/Demos";
+import { BoekDemo, BotDemo, Reviews, Telefoon } from "@/components/Demos";
 import { Voettekst } from "@/components/Voettekst";
 
 export const instant = false;
@@ -83,30 +83,42 @@ export default function Landing() {
         </div>
       </header>
 
-      {/* Held */}
-      <section className="relative overflow-hidden bg-[radial-gradient(70%_55%_at_50%_0%,rgba(29,177,223,0.14),transparent)]">
-        <div className="mx-auto max-w-6xl px-6 pb-10 pt-16 text-center md:pt-24">
-          <p className="op v1 pil pil-blauw mx-auto text-[12px]">AI-boekhouding voor zzp’ers</p>
-          <h1 className="op v2 mx-auto mt-5 max-w-4xl text-[44px] font-bold leading-[1.02] tracking-[-0.03em] md:text-[76px]">
-            Boekhouding die <span className="text-primair">zichzelf</span> doet.
-          </h1>
-          <p className="op v3 mx-auto mt-6 max-w-2xl text-[18px] leading-relaxed text-tekst-2 md:text-[20px]">
-            Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord. Eén vaste prijs, € {PRIJS} per maand.
-          </p>
-          <div className="op v4 mt-9 flex flex-wrap justify-center gap-3">
-            <Link href={LOGIN_URL} className="knop knop-groot">Start gratis, 30 dagen <Pijl /></Link>
-            <a href="#hoe" className="knop-licht knop-groot">Bekijk hoe het werkt</a>
+      {/* Held: links de boodschap met reviews, rechts de app op een telefoon */}
+      <section className="relative overflow-hidden bg-[radial-gradient(70%_55%_at_70%_0%,rgba(29,177,223,0.14),transparent)]">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 pb-10 pt-12 md:pt-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
+          <div>
+            <p className="op v1 pil pil-blauw text-[12px]">AI-boekhouding voor zzp’ers</p>
+            <h1 className="op v2 mt-5 max-w-2xl text-[42px] font-bold leading-[1.02] tracking-[-0.03em] md:text-[64px]">
+              Boekhouding die <span className="text-primair">zichzelf</span> doet.
+            </h1>
+            <Reviews className="op v3 mt-6" />
+            <p className="op v3 mt-6 max-w-xl text-[17px] leading-relaxed text-tekst-2 md:text-[19px]">
+              Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord, op je laptop of op je telefoon. Eén vaste prijs, € {PRIJS} per maand.
+            </p>
+            <div className="op v4 mt-8 flex flex-wrap gap-3">
+              <Link href={LOGIN_URL} className="knop knop-groot">Start gratis, 30 dagen <Pijl /></Link>
+              <a href="#hoe" className="knop-licht knop-groot">Bekijk hoe het werkt</a>
+            </div>
+            <p className="op v5 mt-5 text-[13px] text-tekst-3">Geen creditcard nodig · Account in dertig seconden · Maandelijks opzegbaar</p>
           </div>
-          <p className="op v5 mt-5 text-[13px] text-tekst-3">Geen creditcard nodig · Account in dertig seconden · Maandelijks opzegbaar</p>
+          <div className="op v4 relative mx-auto w-full max-w-[420px] lg:max-w-none">
+            <div className="relative mx-auto w-[300px]">
+              <Telefoon scherm="/schermen/m-app.png" alt={`${MERK} op een telefoon: het overzicht met infobalken, de vraagbalk en de laatst geboekte regels`} className="zweef" />
+              <div className="absolute -right-6 top-10 hidden rounded-xl border border-lijn bg-white px-3 py-2 text-[12px] font-medium shadow-[0_14px_30px_-14px_rgba(26,31,54,0.3)] sm:block">
+                <span className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-groen" />Ook als app op je telefoon</span>
+                <span className="mt-0.5 block text-tekst-3">iPhone en Android, zonder app store</span>
+              </div>
+              <BoekDemo className="op v6 absolute -bottom-6 -left-36 hidden w-[372px] shadow-[0_24px_60px_-20px_rgba(26,31,54,0.35)] lg:block" />
+            </div>
+          </div>
         </div>
         <div className="mx-auto max-w-6xl px-6 pb-16 md:pb-24">
-          <div className="op v5 relative">
-            <div className="raam zweef">
+          <Onthul>
+            <div className="raam">
               <div className="raam-balk"><i /><i /><i /><span>app.zelfboek.nl</span></div>
-              <Image src="/schermen/dashboard.png" alt={`Het overzicht in ${MERK}: infobalken, de vraagbalk voor de bot en de laatst geboekte regels`} width={1440} height={900} className="block w-full" priority />
+              <Image src="/schermen/dashboard.png" alt={`Het overzicht in ${MERK}: infobalken, de vraagbalk voor de bot en de laatst geboekte regels`} width={1440} height={900} className="block w-full" />
             </div>
-            <BoekDemo className="op v6 absolute -bottom-8 -left-3 hidden shadow-[0_24px_60px_-20px_rgba(26,31,54,0.35)] lg:block" />
-          </div>
+          </Onthul>
         </div>
       </section>
 

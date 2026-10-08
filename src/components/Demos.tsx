@@ -57,3 +57,50 @@ export function BotDemo({ className = "" }: { className?: string }) {
     </div>
   );
 }
+
+/** Telefoonframe met een echt scherm van de app erin. */
+export function Telefoon({ scherm, alt, className = "" }: { scherm: string; alt: string; className?: string }) {
+  return (
+    <div className={`telefoon ${className}`}>
+      <div className="telefoon-notch" aria-hidden />
+      <div className="telefoon-scherm">
+        <Image src={scherm} alt={alt} width={390} height={844} className="block h-full w-full object-cover object-top" priority />
+      </div>
+    </div>
+  );
+}
+
+/** Plaatshouders. Vervang door echte reviews voordat de site live gaat. */
+export const REVIEWS: { tekst: string; naam: string; rol: string; beeld: string }[] = [
+  { tekst: "Mijn btw-aangifte kostte me altijd een avond. Nu lees ik ’m na en klik op klaar.", naam: "Sanne", rol: "grafisch ontwerper", beeld: "/beeld/avatar-1.jpg" },
+  { tekst: "Bonnetje fotograferen en vergeten. Dat is eerlijk gezegd alles wat ik nog doe.", naam: "Jeroen", rol: "timmerman", beeld: "/beeld/avatar-2.jpg" },
+  { tekst: "Ik vraag gewoon aan de bot wat ik moet reserveren voor de IB. Antwoord in één zin.", naam: "Els", rol: "adviseur", beeld: "/beeld/avatar-3.jpg" },
+  { tekst: "Stripe en mijn bank gekoppeld in vijf minuten. Daarna nooit meer naar omgekeken.", naam: "Daan", rol: "softwareontwikkelaar", beeld: "/beeld/avatar-4.jpg" },
+];
+
+function Ster() {
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="#f5b400" aria-hidden><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" /></svg>;
+}
+
+/** Sterren, score en portretten, met daaronder een citaat dat elke paar seconden wisselt. */
+export function Reviews({ className = "" }: { className?: string }) {
+  return (
+    <div className={className}>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+        <span className="flex -space-x-2">
+          {REVIEWS.map((r) => <Image key={r.naam} src={r.beeld} alt="" width={32} height={32} className="h-8 w-8 rounded-full border-2 border-white object-cover" />)}
+        </span>
+        <span className="flex items-center gap-0.5" aria-label="4,9 van 5 sterren">{[0, 1, 2, 3, 4].map((i) => <Ster key={i} />)}</span>
+        <span className="text-[14px] font-semibold">4,9 van 5</span>
+        <span className="text-[14px] text-tekst-2">op basis van 130 zzp’ers</span>
+      </div>
+      <div className="relative mt-3 h-[44px] max-w-xl text-[15px] leading-snug text-tekst-2" aria-live="off">
+        {REVIEWS.map((r, i) => (
+          <p key={r.naam} className="review-citaat absolute inset-0" style={{ animationDelay: `${i * 4}s` }}>
+            “{r.tekst}” <span className="whitespace-nowrap text-tekst-3">— {r.naam}, {r.rol}</span>
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+}

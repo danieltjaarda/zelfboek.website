@@ -118,6 +118,11 @@ h1, h2, h3 { letter-spacing: -0.02em; }
 .navbalk { background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--lijn); box-shadow: 0 1px 0 rgba(26, 31, 54, 0.03), 0 12px 32px -18px rgba(26, 31, 54, 0.28); }
 }
 
+/* Telefoonframe */
+.telefoon { position: relative; width: 300px; aspect-ratio: 9 / 19.4; border-radius: 46px; background: #1a1f36; padding: 11px; box-shadow: 0 40px 80px -30px rgba(26, 31, 54, 0.55), 0 0 0 1px rgba(26, 31, 54, 0.3), inset 0 0 0 2px #3c4257; }
+.telefoon-scherm { height: 100%; width: 100%; overflow: hidden; border-radius: 36px; background: #fff; padding-top: 46px; }
+.telefoon-notch { position: absolute; top: 20px; left: 50%; z-index: 2; width: 96px; height: 26px; transform: translateX(-50%); border-radius: 999px; background: #1a1f36; }
+
 /* ── Animaties ───────────────────────────────────────────────────────────── */
 /* Bij laden: elementen komen gefaseerd omhoog. */
 @keyframes op { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -153,6 +158,10 @@ h1, h2, h3 { letter-spacing: -0.02em; }
 .stip span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: stip 1.2s infinite; }
 .stip span:nth-child(2) { animation-delay: .2s; } .stip span:nth-child(3) { animation-delay: .4s; }
 
+/* Reviews: vier citaten wisselen elkaar af in een lus van 16 seconden. */
+@keyframes review-citaat { 0%, 2% { opacity: 0; transform: translateY(6px); } 6%, 23% { opacity: 1; transform: none; } 27%, 100% { opacity: 0; transform: translateY(-6px); } }
+.review-citaat { animation: review-citaat 16s infinite both; }
+
 /* Demo: chat met de bot, in een lus van 12 seconden. */
 @keyframes chat-vraag { 0%, 4% { opacity: 0; transform: translateY(8px); } 9%, 92% { opacity: 1; transform: none; } 100% { opacity: 0; } }
 @keyframes chat-typt { 0%, 12% { opacity: 0; } 16%, 34% { opacity: 1; } 38%, 100% { opacity: 0; } }
@@ -165,4 +174,5 @@ h1, h2, h3 { letter-spacing: -0.02em; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .onthul { opacity: 1; transform: none; }
   .boek-rij .boek-wacht, .chat-typt { display: none; }
+  .review-citaat { position: static; } .review-citaat:not(:first-child) { display: none; }
 }
