@@ -39,11 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-uploads/
 
-# database
-prisma/*.db
-prisma/*.db-journal
 
 .vercel
 .env*

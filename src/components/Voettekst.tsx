@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { MERK } from "@/lib/merk";
+import { MERK, LOGIN_URL } from "@/lib/merk";
 import { Woordmerk } from "@/components/Merk";
 
 const kolommen: { kop: string; links: [string, string][] }[] = [
-  { kop: "Product", links: [["Wat hij doet", "/#functies"], ["Werkt met", "/#werkt-met"], ["Prijs", "/#prijs"], ["Inloggen", "/login"]] },
+  { kop: "Product", links: [["Wat hij doet", "/#functies"], ["Werkt met", "/#werkt-met"], ["Prijs", "/#prijs"], ["Inloggen", LOGIN_URL]] },
   { kop: "Voor wie", links: [["Zzp’ers en freelancers", "/#functies"], ["Webshops en marktplaatsen", "/#werkt-met"], ["Overstappen van een ander pakket", "/#werkt-met"]] },
   { kop: "Hulp", links: [["Veelgestelde vragen", "/#vragen"], ["Contact", "mailto:hallo@zelfboek.nl"], ["Status", "/#"]] },
   { kop: "Juridisch", links: [["Privacy", "/privacy"], ["Voorwaarden", "/voorwaarden"], ["Verwerkersovereenkomst", "/privacy#verwerker"]] },
@@ -17,7 +17,7 @@ export function Voettekst() {
           <div>
             <Woordmerk donker size={20} />
             <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-white/65">Boekhouding die zichzelf doet. Voor eenmanszaken en vof’s zonder personeel.</p>
-            <Link href="/login" className="knop knop-groen mt-6">Start gratis, 30 dagen</Link>
+            <Link href={LOGIN_URL} className="knop knop-groen mt-6">Start gratis, 30 dagen</Link>
           </div>
           {kolommen.map((k) => (
             <div key={k.kop}>

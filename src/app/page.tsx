@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MERK, PRIJS } from "@/lib/merk";
+import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
 import { Logo, type LogoId } from "@/components/Merk";
 import { Voettekst } from "@/components/Voettekst";
 
@@ -65,8 +65,8 @@ export default function Landing() {
             <a href="#vragen" className="hover:text-tekst">Vragen</a>
           </nav>
           <div className="flex items-center gap-2">
-            <Link href="/login" className="hidden px-3 text-[15px] font-medium text-tekst-2 hover:text-tekst sm:inline">Inloggen</Link>
-            <Link href="/login" className="knop knop-groen knop-klein">Gratis proberen</Link>
+            <Link href={LOGIN_URL} className="hidden px-3 text-[15px] font-medium text-tekst-2 hover:text-tekst sm:inline">Inloggen</Link>
+            <Link href={LOGIN_URL} className="knop knop-groen knop-klein">Gratis proberen</Link>
           </div>
         </div>
       </header>
@@ -82,7 +82,7 @@ export default function Landing() {
               Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord. Vaste prijs, € {PRIJS} per maand.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Link href="/login" className="knop knop-groen px-7 py-4 text-[16px]">Start gratis, 30 dagen <Pijl /></Link>
+              <Link href={LOGIN_URL} className="knop knop-groen px-7 py-4 text-[16px]">Start gratis, 30 dagen <Pijl /></Link>
               <a href="#functies" className="knop border-white/20 bg-transparent px-7 py-4 text-[16px] text-white hover:bg-white/10">Bekijk wat hij doet</a>
             </div>
             <p className="mt-6 text-[14px] text-white/50">Geen creditcard nodig. Maandelijks opzegbaar.</p>
@@ -102,7 +102,7 @@ export default function Landing() {
             <p className="mt-1 text-[15px] text-white/65">{t}</p>
             <div className="mt-6 flex items-center justify-between">
               <span className="display text-[20px] font-bold text-groen-fel">{p}</span>
-              <Link href="/login" className="rondknop" aria-label={`Start met ${k}`}><Pijl /></Link>
+              <Link href={LOGIN_URL} className="rondknop" aria-label={`Start met ${k}`}><Pijl /></Link>
             </div>
           </div>
         ))}
@@ -138,7 +138,7 @@ export default function Landing() {
                 <li key={x} className="flex gap-3"><Vink />{x}</li>
               ))}
             </ul>
-            <Link href="/login" className="knop knop-groen mt-9">Start gratis, 30 dagen <Pijl /></Link>
+            <Link href={LOGIN_URL} className="knop knop-groen mt-9">Start gratis, 30 dagen <Pijl /></Link>
           </div>
         </div>
       </section>
@@ -171,7 +171,7 @@ export default function Landing() {
                 <li key={x} className="flex gap-3"><Vink fel />{x}</li>
               ))}
             </ul>
-            <Link href="/login" className="knop knop-groen mt-8 w-full justify-center py-4 text-[16px]">Start gratis, 30 dagen <Pijl /></Link>
+            <Link href={LOGIN_URL} className="knop knop-groen mt-8 w-full justify-center py-4 text-[16px]">Start gratis, 30 dagen <Pijl /></Link>
             <p className="mt-4 text-center text-[14px] text-white/50">Geen creditcard nodig. Maandelijks opzegbaar.</p>
           </div>
         </div>
@@ -195,7 +195,7 @@ export default function Landing() {
       <section className="blok-donker mb-3 md:mb-6">
         <div className="px-7 py-16 text-center md:px-14 md:py-24">
           <h2 className="display mx-auto max-w-2xl text-[40px] font-bold leading-[1] tracking-[-0.03em] md:text-[64px]">Morgenochtend is je boekhouding al gedaan.</h2>
-          <Link href="/login" className="knop knop-groen mt-9 px-8 py-4 text-[16px]">Start gratis, 30 dagen <Pijl /></Link>
+          <Link href={LOGIN_URL} className="knop knop-groen mt-9 px-8 py-4 text-[16px]">Start gratis, 30 dagen <Pijl /></Link>
           <p className="mt-4 text-[14px] text-white/50">Account in dertig seconden, alleen een e-mailadres.</p>
         </div>
       </section>
@@ -203,7 +203,7 @@ export default function Landing() {
       <Voettekst />
 
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-lijn bg-white/95 p-3 backdrop-blur sm:hidden">
-        <Link href="/login" className="knop knop-groen w-full justify-center py-3.5 text-[15px]">Start gratis, 30 dagen</Link>
+        <Link href={LOGIN_URL} className="knop knop-groen w-full justify-center py-3.5 text-[15px]">Start gratis, 30 dagen</Link>
       </div>
     </main>
   );
