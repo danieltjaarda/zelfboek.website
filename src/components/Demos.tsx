@@ -10,7 +10,7 @@ export function BoekDemo({ className = "" }: { className?: string }) {
     { app: "ing", naam: "NS Zakelijk", sub: "Reiskosten OV · 9%", bedrag: "-27,40" },
   ];
   return (
-    <div className={`kaart w-[372px] max-w-full p-4 ${className}`} aria-hidden>
+    <div className={`kaart w-[372px] p-4 ${className}`} aria-hidden>
       <div className="flex items-center justify-between">
         <p className="text-[13px] font-semibold">Vannacht geboekt</p>
         <span className="text-[12px] text-tekst-3">03:12</span>
