@@ -2,28 +2,20 @@ import { Kopje } from "@/components/Blokken";
 import { MERK } from "@/lib/merk";
 import { BotIcoon } from "@/components/BotIcoon";
 
-/** Regels en regelingen die als chips van de Belastingdienst naar de bot stromen. */
-const REGELS = [
-  "Kleineondernemersregeling",
-  "Zelfstandigenaftrek",
-  "Urencriterium",
-  "Investeringsaftrek (KIA)",
-  "Btw-tarieven en termijnen",
-  "Afschrijvingstermijnen",
-  "MKB-winstvrijstelling",
-  "Bijtelling en zakelijk rijden",
-  "Startersaftrek",
+/** Paren: een regel gaat erin bij de Belastingdienst, de bijbehorende actie komt eruit in jouw boekhouding. Eén paar tegelijk. */
+const PAREN: { regel: string; actie: string }[] = [
+  { regel: "Kleineondernemersregeling", actie: "KOR voorgesteld" },
+  { regel: "Afschrijvingstermijnen", actie: "Afschrijving bus ingeboekt" },
+  { regel: "Investeringsaftrek (KIA)", actie: "€ 896 investeringsaftrek verwerkt" },
+  { regel: "Btw-tarieven en termijnen", actie: "Btw-aangifte klaargezet" },
+  { regel: "Zelfstandigenaftrek", actie: "Zelfstandigenaftrek toegepast" },
+  { regel: "Urencriterium", actie: "Uren bijgehouden voor het criterium" },
+  { regel: "MKB-winstvrijstelling", actie: "Reservering inkomstenbelasting berekend" },
+  { regel: "Bijtelling en zakelijk rijden", actie: "Bijtelling berekend" },
 ];
-
-/** Wat er aan de andere kant uitkomt: concrete acties in jouw boekhouding. */
-const ACTIES = [
-  "Afschrijving bus ingeboekt",
-  "KOR voorgesteld",
-  "€ 896 investeringsaftrek verwerkt",
-  "Btw-aangifte klaargezet",
-  "Reservering inkomstenbelasting berekend",
-  "Uren bijgehouden voor het criterium",
-];
+/** Tijd per paar in seconden: regel erin (2,2 s), even bij de bot, actie eruit (2,2 s). Zelfde getallen als in de CSS (.stroom-chip). */
+const PERIODE = 5.6;
+const UIT_NA = 2.8;
 
 const PUNTEN: { kop: string; tekst: string }[] = [
   { kop: "Altijd actueel", tekst: "Verandert de Belastingdienst een tarief, grens of termijn, dan rekent de bot vanaf die dag met het nieuwe." },
@@ -62,8 +54,8 @@ export function Belastingkennis() {
           <small>alle regels, tarieven en termijnen</small>
         </div>
         <div className="stroom-baan" aria-hidden>
-          {REGELS.map((r, i) => (
-            <span key={r} className="stroom-chip" style={{ animationDelay: `${i * 1.2}s`, ["--y" as string]: `${[-46, 0, 46][i % 3]}px` }}>{r}</span>
+          {PAREN.map((p, i) => (
+            <span key={p.regel} className="stroom-chip" style={{ animationDelay: `${i * PERIODE}s` }}>{p.regel}</span>
           ))}
         </div>
         <div className="stroom-knoop stroom-bot">
@@ -72,8 +64,8 @@ export function Belastingkennis() {
           <small>leest ze en kijkt wat voor jou geldt</small>
         </div>
         <div className="stroom-baan" aria-hidden>
-          {ACTIES.map((a, i) => (
-            <span key={a} className="stroom-chip stroom-chip-uit" style={{ animationDelay: `${i * 1.8 + 0.9}s`, ["--y" as string]: `${[0, -46, 46][i % 3]}px` }}><Vinkje />{a}</span>
+          {PAREN.map((p, i) => (
+            <span key={p.actie} className="stroom-chip stroom-chip-uit" style={{ animationDelay: `${i * PERIODE + UIT_NA}s` }}><Vinkje />{p.actie}</span>
           ))}
         </div>
         <div className="stroom-knoop">

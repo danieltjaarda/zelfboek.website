@@ -351,47 +351,47 @@ body {
 @media (max-width: 767px) { .review-kaart { width: 300px; } .review-strook { animation-duration: 55s; } }
 @media (prefers-reduced-motion: reduce) { .review-strook { animation: none; } }
 
-/* Belastingkennis (src/components/Belastingkennis.tsx): regels stromen als chips van de Belastingdienst naar de bot. */
+/* Belastingkennis (src/components/Belastingkennis.tsx): één paar tegelijk. Een regel glijdt in 2,2 s van de Belastingdienst
+   naar de bot, de bot pulseert, de actie glijdt in 2,2 s door naar jouw boekhouding; na 5,6 s het volgende paar.
+   Cyclus = 8 paren x 5,6 s = 44,8 s. De reis is 2,2 / 44,8 = 4,9% van de cyclus; de rest wacht de chip onzichtbaar. */
 .stroom { display: grid; grid-template-columns: auto 1fr auto 1fr auto; align-items: center; gap: 16px; }
 .stroom-knoop { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 170px; text-align: center; }
-.stroom-icoon-boek { color: var(--tekst); }
 .stroom-icoon { display: inline-flex; align-items: center; justify-content: center; color: var(--primair); }
+.stroom-icoon-boek { color: var(--tekst); }
 .stroom-knoop img, .stroom-icoon { width: 84px; height: 84px; margin-bottom: 8px; padding: 12px; border-radius: 24px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35); object-fit: contain; }
 .stroom-knoop strong { font-size: 15px; font-weight: 600; color: var(--tekst); }
 .stroom-knoop small { font-size: 13px; color: var(--tekst-2); }
-.stroom-bot .stroom-icoon { animation: stroom-puls 1.2s ease-out infinite; }
-@keyframes stroom-puls { 0% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 0 rgba(29, 177, 223, .45); } 70%, 100% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 18px rgba(29, 177, 223, 0); } }
-.stroom-baan { position: relative; height: 170px; }
-.stroom-baan::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: repeating-linear-gradient(90deg, var(--primair) 0 8px, transparent 8px 18px); opacity: .55; animation: stroom-streep .9s linear infinite; }
+.stroom-bot .stroom-icoon { animation: stroom-puls 5.6s ease-out infinite; animation-delay: 2.2s; }
+.stroom-icoon-boek { animation: stroom-puls-groen 5.6s ease-out infinite; animation-delay: 5s; }
+@keyframes stroom-puls { 0% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 0 rgba(29, 177, 223, .5); } 18%, 100% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 22px rgba(29, 177, 223, 0); } }
+@keyframes stroom-puls-groen { 0% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 0 rgba(22, 163, 74, .4); } 18%, 100% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 22px rgba(22, 163, 74, 0); } }
+.stroom-baan { position: relative; height: 120px; }
+.stroom-baan::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: repeating-linear-gradient(90deg, var(--primair) 0 8px, transparent 8px 18px); opacity: .45; animation: stroom-streep 1.1s linear infinite; }
 @keyframes stroom-streep { to { background-position: 18px 0; } }
-.stroom-chip { position: absolute; top: calc(50% + var(--y, 0px)); left: 0; transform: translate(0, -50%) scale(.9); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 6px 18px -10px rgba(26, 31, 54, .35); font-size: 13px; font-weight: 600; color: var(--tekst); opacity: 0; animation: stroom-chip 10.8s cubic-bezier(.45, 0, .55, 1) infinite; }
-.stroom-chip-uit { border-color: rgba(22, 163, 74, .35); color: var(--tekst); }
+.stroom-chip { position: absolute; top: 50%; left: 0; transform: translate(0, -50%); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 999px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 8px 20px -10px rgba(26, 31, 54, .35); font-size: 13px; font-weight: 600; color: var(--tekst); opacity: 0; animation: stroom-chip 44.8s linear infinite; }
+.stroom-chip-uit { border-color: rgba(22, 163, 74, .35); }
 .stroom-chip-uit svg { color: var(--groen); }
-/* Een chip reist in het eerste derde van de cyclus en wacht daarna onzichtbaar: zo zijn er nooit twee tegelijk in één baan. */
 @keyframes stroom-chip {
-  0% { left: 0; transform: translate(0, -50%) scale(.9); opacity: 0; }
-  3% { opacity: 1; transform: translate(0, -50%) scale(1); }
-  30% { left: 100%; transform: translate(-100%, -50%) scale(1); opacity: 1; }
-  33%, 100% { left: 100%; transform: translate(-100%, -50%) scale(.7); opacity: 0; }
+  0% { left: 0; transform: translate(0, -50%) scale(.92); opacity: 0; animation-timing-function: ease-out; }
+  0.6% { opacity: 1; transform: translate(0, -50%) scale(1); animation-timing-function: cubic-bezier(.45, 0, .2, 1); }
+  4.3% { left: 100%; transform: translate(-100%, -50%) scale(1); opacity: 1; animation-timing-function: ease-in; }
+  4.9%, 100% { left: 100%; transform: translate(-100%, -50%) scale(.8); opacity: 0; }
 }
 @media (max-width: 767px) {
   .stroom { grid-template-columns: 1fr; justify-items: center; gap: 8px; }
-  .stroom-baan { height: 200px; width: 100%; margin: 6px 0; }
+  .stroom-baan { height: 150px; width: 100%; margin: 6px 0; }
   .stroom-baan::before { left: 50%; right: auto; top: 0; bottom: 0; width: 2px; height: auto; background: repeating-linear-gradient(180deg, var(--primair) 0 8px, transparent 8px 18px); animation-name: stroom-streep-v; }
   @keyframes stroom-streep-v { to { background-position: 0 18px; } }
-  /* Eén baan in het midden, om de andere chip, kortere looptijd: zo raken ze elkaar niet. */
-  .stroom-chip { left: 50%; top: 0; transform: translate(-50%, 0) scale(.9); animation-name: stroom-chip-v; animation-duration: 6s; }
-  .stroom-chip:nth-child(even) { display: none; }
+  .stroom-chip { left: 50%; top: 0; transform: translate(-50%, 0); animation-name: stroom-chip-v; }
   @keyframes stroom-chip-v {
-    0% { top: 0; transform: translate(-50%, 0) scale(.9); opacity: 0; }
-    3% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-    30% { top: 100%; transform: translate(-50%, -100%) scale(1); opacity: 1; }
-    33%, 100% { top: 100%; transform: translate(-50%, -100%) scale(.7); opacity: 0; }
+    0% { top: 0; transform: translate(-50%, 0) scale(.92); opacity: 0; animation-timing-function: ease-out; }
+    0.6% { opacity: 1; transform: translate(-50%, 0) scale(1); animation-timing-function: cubic-bezier(.45, 0, .2, 1); }
+    4.3% { top: 100%; transform: translate(-50%, -100%) scale(1); opacity: 1; animation-timing-function: ease-in; }
+    4.9%, 100% { top: 100%; transform: translate(-50%, -100%) scale(.8); opacity: 0; }
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .stroom-baan::before, .stroom-bot .stroom-icoon { animation: none; }
-  .stroom-chip { animation: none; opacity: 1; }
-  .stroom-chip:nth-child(n+4) { display: none; }
-  .stroom-chip:nth-child(1) { left: 10%; } .stroom-chip:nth-child(2) { left: 40%; } .stroom-chip:nth-child(3) { left: 70%; }
+  .stroom-baan::before, .stroom-bot .stroom-icoon, .stroom-icoon-boek { animation: none; }
+  .stroom-chip { animation: none; opacity: 1; left: 50%; transform: translate(-50%, -50%); }
+  .stroom-chip:nth-child(n+2) { display: none; }
 }
