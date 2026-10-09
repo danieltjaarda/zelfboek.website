@@ -125,9 +125,15 @@ h1, h2, h3 { letter-spacing: -0.02em; }
 
 /* Wand van app-tegels, iets gedraaid, loopt links en onder uit het blok. */
 .tegelwand { position: absolute; left: -28px; bottom: -40px; display: flex; flex-direction: column; gap: 14px; transform: rotate(-6deg); transform-origin: left bottom; }
-.tegelrij { display: flex; gap: 14px; }
+.tegelrij { display: flex; width: max-content; }
 .tegelrij-2 { margin-left: 62px; }
-.tegel { box-shadow: 0 16px 30px -14px rgba(26, 31, 54, 0.4); }
+.tegel { margin-right: 14px; box-shadow: 0 16px 30px -14px rgba(26, 31, 54, 0.4); }
+/* Bovenste rij schuift naar rechts, onderste naar links; één lus is precies één kopie van de rij. */
+@keyframes tegels-links { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes tegels-rechts { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.tegelrij-links { animation: tegels-links 70s linear infinite; }
+.tegelrij-rechts { animation: tegels-rechts 70s linear infinite; }
+.tegelrij:hover { animation-play-state: paused; }
 @media (max-width: 767px) { .tegelwand { transform: rotate(-6deg) scale(.7); } }
 
 /* Waaier van kaarten, draait iets verder open bij hover. */

@@ -27,9 +27,10 @@ export function BlokKoppelingen() {
       <Kopje>Koppelingen</Kopje>
       <h3 className="mt-3 max-w-md text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:text-[32px]">Koppel 11 banken en 6 verkoopkanalen met één klik</h3>
       <Meer href="#werkt-met" className="mt-4">Meer over koppelingen</Meer>
+      {/* Twee rijen die langzaam langs elkaar schuiven; de rij onder je cursor staat stil. Elke rij staat er twee keer in voor een naadloze lus. */}
       <div className="tegelwand" aria-hidden>
-        <div className="tegelrij">{rij1.map((id) => <AppIcoon key={id} id={id} size={112} className="tegel" />)}</div>
-        <div className="tegelrij tegelrij-2">{rij2.map((id) => <AppIcoon key={id} id={id} size={112} className="tegel" />)}</div>
+        <div className="tegelrij tegelrij-rechts">{[...rij1, ...rij1].map((id, i) => <AppIcoon key={`${id}-${i}`} id={id} size={112} className="tegel" />)}</div>
+        <div className="tegelrij tegelrij-links tegelrij-2">{[...rij2, ...rij2].map((id, i) => <AppIcoon key={`${id}-${i}`} id={id} size={112} className="tegel" />)}</div>
       </div>
     </div>
   );
