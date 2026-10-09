@@ -217,8 +217,8 @@ export default function Landing() {
 
       {/* Wat hij doet */}
       {/* Social proof: beoordeling, cijfers en ervaringen. Plaatshouders tot er echte klanten zijn. */}
-      <section id="ervaringen" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
-        <Onthul><Ervaringen /></Onthul>
+      <section id="ervaringen" className="overflow-hidden pb-20 md:pb-28">
+        <Ervaringen />
       </section>
 
       <section id="functies" className="bg-papier py-20 md:py-28">
