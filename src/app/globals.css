@@ -336,7 +336,7 @@ body {
 /* Ervaringen (src/components/Ervaringen.tsx): twee doorlopende rijen kaarten, de bovenste naar links, de onderste naar rechts. */
 .review-kaart { display: flex; flex-direction: column; width: 360px; height: 100%; padding: 22px 24px; border-radius: 20px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .3); }
 .review-kaart blockquote { flex: 1; }
-.review-strook { display: flex; width: max-content; gap: 20px; padding: 6px 0; animation: strook 70s linear infinite; }
+.review-strook { display: flex; width: max-content; gap: 20px; padding: 6px 0; animation: strook 72s linear infinite; }
 .review-strook-terug { animation-direction: reverse; }
 .review-strook:hover { animation-play-state: paused; }
 @media (max-width: 767px) { .review-kaart { width: 300px; } .review-strook { animation-duration: 55s; } }

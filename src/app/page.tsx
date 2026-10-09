@@ -119,8 +119,8 @@ export default function Landing() {
         </div>
       }>
         <h1 className="op v1 text-[38px] leading-[1.06] tracking-[-0.03em] md:text-[50px] md:leading-[1.04] xl:text-[58px] xl:leading-[1.03]">
-          <span className="block"><Wisselwoord woorden={KOPWOORDEN} /> die zichzelf doet,</span>
-          <span className="block">van eerste factuur tot aangifte</span>
+          <span className="block"><Wisselwoord woorden={KOPWOORDEN} /> met een AI</span>
+          <span className="block">die alles dag en nacht bijhoudt.</span>
         </h1>
         <p className="op v2 mt-5 max-w-[560px] text-pretty text-[17px] leading-[1.45] md:text-[19px]">
           Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord, op je laptop of op je telefoon. Eén vaste prijs, € {PRIJS} per maand.
@@ -151,7 +151,7 @@ export default function Landing() {
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
             <div>
               <Kopje>Altijd aan het werk</Kopje>
-              <h2 className="mt-3 text-[34px] leading-[1.05] md:text-[48px]">Een AI die je boekhouding dag en nacht bijhoudt. En zelf met voorstellen komt.</h2>
+              <h2 className="mt-3 text-[34px] leading-[1.05] md:text-[48px]">En zelf met voorstellen komt.</h2>
               <p className="mt-5 max-w-md text-[17px] leading-relaxed text-tekst-2">Hij boekt niet alleen. Hij kijkt mee naar regelingen, aftrekposten en deadlines, en stuurt je een bericht zodra er iets te halen of te regelen valt. Jij zegt ja of nee.</p>
               <ul className="mt-7 space-y-3 text-[16px] text-tekst">
                 {["Elke nacht alle bankregels, bonnen en facturen", "Voorstellen met uitleg in gewone taal", "Jij beslist met één tik, hij regelt de rest"].map((t) => (
