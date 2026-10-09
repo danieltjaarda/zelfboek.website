@@ -10,6 +10,7 @@ import { Wisselwoord } from "@/components/Wisselwoord";
 import { Held } from "@/components/Held";
 import { Meldingen, type Melding } from "@/components/Meldingen";
 import { Ervaringen } from "@/components/Ervaringen";
+import { Belastingkennis } from "@/components/Belastingkennis";
 
 export const instant = false;
 
@@ -191,6 +192,11 @@ export default function Landing() {
             ]}
           />
         </Onthul>
+      </section>
+
+      {/* Belastingkennis: regels van de Belastingdienst stromen naar de bot. */}
+      <section id="belastingkennis" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
+        <Onthul><Belastingkennis /></Onthul>
       </section>
 
       {/* Zo werkt het */}
