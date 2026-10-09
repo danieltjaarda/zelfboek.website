@@ -1,7 +1,7 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
 import { AppIcoon, type AppId } from "@/components/Merk";
 import { Telefoon } from "@/components/Demos";
+import { ChatDemo, type Gesprek } from "@/components/ChatDemo";
 
 /** Kleine kop boven een blok, in kapitalen. */
 export function Kopje({ children }: { children: React.ReactNode }) {
@@ -51,37 +51,23 @@ export function BlokApp() {
   );
 }
 
-const KAARTEN: { titel: string; sub: string; waarde: string; stijl: string }[] = [
-  { titel: "Auditfile", sub: "XAF 3.2, 2026", waarde: "Klaar", stijl: "bg-[#4f566b] text-white" },
-  { titel: "ICP-opgaaf", sub: "4e kwartaal 2026", waarde: "€ 3.200,00", stijl: "border border-lijn bg-white text-tekst" },
-  { titel: "Btw-aangifte", sub: "4e kwartaal 2026", waarde: "€ 1.125,32", stijl: "bg-[linear-gradient(160deg,#1db1df,#0c7f9f)] text-white" },
-  { titel: "Inkomstenbelasting", sub: "indicatie 2026", waarde: "€ 6.840", stijl: "bg-[#1a1f36] text-white" },
-  { titel: "Jaarrekening", sub: "2026", waarde: "Winst € 38.120", stijl: "bg-primair-licht text-tekst" },
+/** Voorbeeldgesprekken voor het typende chatvenster in het blok "Vraag het de AI". */
+const GESPREKKEN: Gesprek[] = [
+  { vraag: "Hoeveel btw moet ik dit kwartaal betalen?", antwoord: "Over dit kwartaal betaal je € 1.262. Je omzet was € 7.840 met 21% btw, en je hebt € 384 voorbelasting op inkopen. Uiterlijk 31 januari indienen. Zal ik de aangifte klaarzetten?" },
+  { vraag: "Welke facturen staan nog open?", antwoord: "Drie, samen € 5.360: Studio Lente (€ 2.420, 14 dagen te laat), Vereniging Dorpshuis (€ 1.815, vervalt morgen) en Fysio Centrum Zuid (€ 1.125, over 9 dagen). Zal ik Studio Lente een herinnering sturen?" },
+  { vraag: "Kan ik mijn nieuwe laptop aftrekken?", antwoord: "Ja. De laptop van € 1.450 is een bedrijfsmiddel: je schrijft hem in 5 jaar af, € 290 per jaar, en de btw van € 252 krijg je terug bij je volgende aangifte. Ik heb hem al zo ingeboekt." },
+  { vraag: "Hoeveel moet ik reserveren voor de inkomstenbelasting?", antwoord: "Op basis van je winst tot nu toe (€ 31.200) kom je uit op ongeveer € 4.900 inkomstenbelasting. Reserveer € 540 per maand, dan zit je eind dit jaar goed. Zal ik elke maand een overboeking klaarzetten?" },
+  { vraag: "Wat was mijn grootste kostenpost vorige maand?", antwoord: "Verzendkosten: € 1.180 bij PostNL en Sendcloud, 38% van je kosten. Daarna voorraad (€ 920) en software (€ 210)." },
 ];
 
-/** Blok 3: belasting, met een waaier van aangiften en drie regels. */
-export function BlokBelasting() {
+/** Blok 3: vraag het de AI, met een chatvenster dat echt typt. */
+export function BlokVragen() {
   return (
     <div className="blok px-6 pb-10 pt-12 text-center md:pb-14 md:pt-16">
-      <Kopje>Belasting</Kopje>
-      <h3 className="mx-auto mt-3 max-w-2xl text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Je btw-aangifte en inkomstenbelasting staan altijd klaar</h3>
-      <div className="fan mx-auto mt-8 h-[320px] w-full max-w-2xl md:mt-12 md:h-[360px]" aria-hidden>
-        {KAARTEN.map((k, i) => (
-          <div key={k.titel} className={`fan-kaart ${k.stijl}`} style={{ "--r": `${(i - 2) * 15}deg`, zIndex: i } as CSSProperties}>
-            <div>
-              <p className="text-[15px] font-semibold">{k.titel}</p>
-              <p className="text-[13px] opacity-70">{k.sub}</p>
-            </div>
-            <p className="cijfer text-[20px] font-bold">{k.waarde}</p>
-          </div>
-        ))}
-      </div>
-      <ul className="mx-auto mt-8 max-w-xl divide-y divide-lijn-2 border-y border-lijn-2 text-[16px]">
-        <li className="py-3">Alle rubrieken 1a tot 5c staan elk kwartaal klaar</li>
-        <li className="py-3">Elke maand zie je wat je moet reserveren voor de inkomstenbelasting</li>
-        <li className="py-3">Jaarrekening en auditfile met één klik</li>
-      </ul>
-      <Meer href="#vragen" className="mt-8">Meer over belasting</Meer>
+      <Kopje>Vraag het de AI</Kopje>
+      <h3 className="mx-auto mt-3 max-w-2xl text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Stel zelf vragen aan de AI die alles over jouw boekhouding weet</h3>
+      <p className="mx-auto mt-4 max-w-xl text-[16px] text-tekst-2">Hij kijkt in je eigen cijfers en antwoordt in gewone taal. Overal in de app, met ⌘K.</p>
+      <ChatDemo gesprekken={GESPREKKEN} className="mx-auto mt-8 w-full max-w-2xl md:mt-10" />
     </div>
   );
 }

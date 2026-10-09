@@ -304,3 +304,29 @@ body {
 @keyframes melding-in { from { grid-template-rows: 0fr; opacity: 0; transform: translateY(-10px); } to { grid-template-rows: 1fr; opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .melding-wrap { animation: none; } }
 @media (max-width: 767px) { .meldingen { height: 480px; } }
+
+/* Chatvenster dat echt typt (src/components/ChatDemo.tsx): vraag verschijnt in het invoerveld, bel, stipjes, antwoord streamt. */
+.chatdemo { display: flex; flex-direction: column; text-align: left; border-radius: 20px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 30px 70px -30px rgba(26, 31, 54, .35); overflow: hidden; }
+.chatdemo-kop { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--lijn); }
+.chatdemo-kop div { display: flex; flex-direction: column; line-height: 1.2; }
+.chatdemo-kop strong { font-size: 14px; font-weight: 600; color: var(--tekst); }
+.chatdemo-kop span { font-size: 12px; color: var(--tekst-3); }
+.chatdemo-avatar { width: 32px; height: 32px; border-radius: 9px; }
+.chatdemo-status { margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: var(--groen); box-shadow: 0 0 0 3px rgba(22, 163, 74, .15); }
+.chatdemo-lijst { display: flex; flex-direction: column; gap: 10px; height: 300px; padding: 16px; overflow: hidden; scroll-behavior: smooth; }
+.chatdemo-leeg { margin: auto; max-width: 30ch; text-align: center; font-size: 14px; color: var(--tekst-3); }
+.chatdemo-bel { max-width: 86%; padding: 10px 14px; border-radius: 16px; font-size: 15px; line-height: 1.5; animation: chatdemo-in .35s cubic-bezier(.2, .8, .2, 1) both; }
+.chatdemo-jij { align-self: flex-end; border-bottom-right-radius: 6px; background: var(--inkt); color: #fff; }
+.chatdemo-bot { align-self: flex-start; border-bottom-left-radius: 6px; background: var(--papier); color: var(--tekst); }
+.chatdemo-stippen { display: flex; gap: 4px; padding: 14px 16px; }
+.chatdemo-stippen span { width: 6px; height: 6px; border-radius: 50%; background: var(--tekst-3); animation: chatdemo-stip 1s infinite; }
+.chatdemo-stippen span:nth-child(2) { animation-delay: .15s; } .chatdemo-stippen span:nth-child(3) { animation-delay: .3s; }
+.chatdemo-cursor { display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -0.15em; background: currentColor; animation: chatdemo-knipper 1s steps(2) infinite; }
+.chatdemo-invoer { display: flex; align-items: center; gap: 10px; margin: 0 12px 12px; padding: 10px 10px 10px 16px; border-radius: 999px; border: 1px solid var(--lijn-2); background: #fff; box-shadow: 0 0 0 4px rgba(29, 177, 223, .10); font-size: 15px; color: var(--tekst); }
+.chatdemo-invoer span { flex: 1; min-height: 22px; white-space: nowrap; overflow: hidden; }
+.chatdemo-plaats { color: var(--tekst-3); }
+.chatdemo-invoer b { display: inline-flex; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: 50%; background: #e9ecf1; color: var(--tekst-3); transition: background .2s, color .2s; }
+.chatdemo-invoer b.actief { background: var(--primair); color: #fff; }
+@keyframes chatdemo-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes chatdemo-stip { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-3px); opacity: 1; } }
+@keyframes chatdemo-knipper { to { visibility: hidden; } }

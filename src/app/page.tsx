@@ -3,7 +3,7 @@ import Image from "next/image";
 import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
 import { Onthul } from "@/components/Onthul";
 import { BotDemo } from "@/components/Demos";
-import { BlokApp, BlokBelasting, BlokKoppelingen, Kopje } from "@/components/Blokken";
+import { BlokApp, BlokKoppelingen, BlokVragen, Kopje } from "@/components/Blokken";
 import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
 import { Wisselwoord } from "@/components/Wisselwoord";
@@ -168,7 +168,7 @@ export default function Landing() {
           <Onthul><BlokKoppelingen /></Onthul>
           <Onthul vertraging={100}><BlokApp /></Onthul>
         </div>
-        <Onthul className="mt-5"><BlokBelasting /></Onthul>
+        <Onthul className="mt-5"><BlokVragen /></Onthul>
       </section>
 
       {/* Dashboard met accordeon */}
