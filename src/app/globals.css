@@ -298,7 +298,7 @@ body {
 .melding header { display: flex; align-items: center; gap: 8px; }
 .melding header strong { font-size: 14px; font-weight: 600; color: var(--tekst); }
 .melding header time { margin-left: auto; font-size: 12px; color: var(--tekst-3); white-space: nowrap; }
-.melding-avatar { width: 28px; height: 28px; border-radius: 8px; }
+.melding-avatar { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; background: var(--primair); color: #fff; }
 .melding p { margin-top: 8px; font-size: 15px; line-height: 1.5; color: var(--tekst-2); }
 .melding-acties { display: flex; gap: 8px; margin-top: 12px; }
 .melding-knop { height: 32px; padding: 0 14px; border-radius: 16px; font-size: 13px; font-weight: 600; color: var(--tekst); background: #f0f2f5; cursor: default; }
@@ -322,7 +322,7 @@ body {
 .chatdemo-kop div { display: flex; flex-direction: column; line-height: 1.2; }
 .chatdemo-kop strong { font-size: 14px; font-weight: 600; color: var(--tekst); }
 .chatdemo-kop span { font-size: 12px; color: var(--tekst-3); }
-.chatdemo-avatar { width: 32px; height: 32px; border-radius: 9px; }
+.chatdemo-avatar { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px; background: var(--primair); color: #fff; }
 .chatdemo-status { margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: var(--groen); box-shadow: 0 0 0 3px rgba(22, 163, 74, .15); }
 .chatdemo-lijst { display: flex; flex-direction: column; gap: 10px; height: 300px; padding: 16px; overflow: hidden; scroll-behavior: smooth; }
 .chatdemo-leeg { margin: auto; max-width: 30ch; text-align: center; font-size: 14px; color: var(--tekst-3); }
@@ -354,10 +354,11 @@ body {
 /* Belastingkennis (src/components/Belastingkennis.tsx): regels stromen als chips van de Belastingdienst naar de bot. */
 .stroom { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 20px; }
 .stroom-knoop { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 190px; text-align: center; }
-.stroom-knoop img { width: 84px; height: 84px; margin-bottom: 8px; padding: 12px; border-radius: 24px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35); object-fit: contain; }
+.stroom-icoon { display: inline-flex; align-items: center; justify-content: center; color: var(--primair); }
+.stroom-knoop img, .stroom-icoon { width: 84px; height: 84px; margin-bottom: 8px; padding: 12px; border-radius: 24px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35); object-fit: contain; }
 .stroom-knoop strong { font-size: 15px; font-weight: 600; color: var(--tekst); }
 .stroom-knoop small { font-size: 13px; color: var(--tekst-2); }
-.stroom-bot img { animation: stroom-puls 1.2s ease-out infinite; }
+.stroom-bot .stroom-icoon { animation: stroom-puls 1.2s ease-out infinite; }
 @keyframes stroom-puls { 0% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 0 rgba(29, 177, 223, .45); } 70%, 100% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 18px rgba(29, 177, 223, 0); } }
 .stroom-baan { position: relative; height: 170px; }
 .stroom-baan::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: repeating-linear-gradient(90deg, var(--primair) 0 8px, transparent 8px 18px); opacity: .55; animation: stroom-streep .9s linear infinite; }
@@ -385,7 +386,7 @@ body {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .stroom-baan::before, .stroom-bot img { animation: none; }
+  .stroom-baan::before, .stroom-bot .stroom-icoon { animation: none; }
   .stroom-chip { animation: none; opacity: 1; }
   .stroom-chip:nth-child(n+4) { display: none; }
   .stroom-chip:nth-child(1) { left: 10%; } .stroom-chip:nth-child(2) { left: 40%; } .stroom-chip:nth-child(3) { left: 70%; }

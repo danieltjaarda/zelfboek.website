@@ -1,7 +1,7 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { MERK } from "@/lib/merk";
+import { BotIcoon } from "@/components/BotIcoon";
 
 export type Melding = { soort: "Voorstel" | "Geregeld" | "Vraag" | "Klaar"; tijd: string; tekst: string; acties?: [string, string] };
 
@@ -55,7 +55,7 @@ export function Meldingen({ items }: { items: Melding[] }) {
             <div>
               <article className="melding">
                 <header>
-                  <Image src="/beeld/icoon-bot.png" alt="" width={56} height={56} className="melding-avatar" />
+                  <span className="melding-avatar"><BotIcoon size={18} /></span>
                   <strong>{MERK}</strong>
                   <span className={`pil ${KLEUR[m.soort]}`}>{m.soort}</span>
                   <time>{m.tijd}</time>

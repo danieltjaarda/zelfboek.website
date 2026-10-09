@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Kopje } from "@/components/Blokken";
 import { MERK } from "@/lib/merk";
+import { BotIcoon } from "@/components/BotIcoon";
 
 /** Regels en regelingen die als chips van de Belastingdienst naar de bot stromen. */
 const REGELS = [
@@ -37,7 +37,7 @@ export function Belastingkennis() {
           ))}
         </div>
         <div className="stroom-knoop stroom-bot">
-          <Image src="/beeld/icoon-bot.png" alt="" width={84} height={84} />
+          <span className="stroom-icoon"><BotIcoon size={46} /></span>
           <strong>{MERK}</strong>
           <small>past ze toe op jouw boekhouding</small>
         </div>

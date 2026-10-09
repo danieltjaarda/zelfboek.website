@@ -1,7 +1,7 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { MERK } from "@/lib/merk";
+import { BotIcoon } from "@/components/BotIcoon";
 
 export type Gesprek = { vraag: string; antwoord: string };
 
@@ -69,7 +69,7 @@ export function ChatDemo({ gesprekken, className = "" }: { gesprekken: Gesprek[]
   return (
     <div ref={vak} className={`chatdemo ${className}`} aria-live="off">
       <div className="chatdemo-kop">
-        <Image src="/beeld/icoon-bot.png" alt="" width={56} height={56} className="chatdemo-avatar" />
+        <span className="chatdemo-avatar"><BotIcoon size={20} /></span>
         <div><strong>{MERK}</strong><span>Kent je hele boekhouding</span></div>
         <i className="chatdemo-status" aria-hidden />
       </div>
