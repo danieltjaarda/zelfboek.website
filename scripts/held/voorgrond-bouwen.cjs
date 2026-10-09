@@ -14,13 +14,28 @@ const POLY = [[780,1116],[772,650],[792,548],[800,452],[978,440],[974,402],[1188
   const polyObj = await sharp(Buffer.from(svg)).flatten({ background: "#000" }).toColourspace("b-w").raw().toBuffer({ resolveWithObject: true });
   const poly = polyObj.data; console.log("poly", polyObj.info.channels, "kanalen, lengte", poly.length, "verwacht", W * H);
   const alpha = Buffer.alloc(W * H);
+  const gm = Buffer.alloc(W * H);
   for (let i = 0; i < W * H; i++) {
     const r = groen[i*3], g = groen[i*3+1], b = groen[i*3+2];
-    const groenheid = g - Math.max(r, b);                 // puur groen ≈ 255, gewone pixels < 40
-    const nietGroen = 1 - Math.min(Math.max((groenheid - 40) / 60, 0), 1);
-    const inPoly = poly[i] / 255;
-    alpha[i] = Math.max(vision.data[i], Math.round(255 * nietGroen * inPoly));
+    const groenheid = g - Math.max(r, b);                 // puur groen ≈ 255, hout/huid/muur ≤ 0, laptop/papier ≈ 0
+    gm[i] = groenheid > 22 || poly[i] < 128 ? 0 : 255;    // harde drempel; het groenscherm is een JPEG, dus randen zijn blokkerig
   }
+  // Groen-masker 5 px krimpen (min-filter, horizontaal en verticaal) zodat JPEG-blokjes langs de rand verdwijnen;
+  // de vrouw zelf komt scherp uit het Vision-masker, dus daar kost de krimp niets.
+  const krimp = (bron, r) => {
+    const h1 = Buffer.alloc(W * H), uit = Buffer.alloc(W * H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      let m = 255; for (let d = -r; d <= r; d++) { const xx = x + d; if (xx >= 0 && xx < W) m = Math.min(m, bron[y * W + xx]); }
+      h1[y * W + x] = m;
+    }
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      let m = 255; for (let d = -r; d <= r; d++) { const yy = y + d; if (yy >= 0 && yy < H) m = Math.min(m, h1[yy * W + x]); }
+      uit[y * W + x] = m;
+    }
+    return uit;
+  };
+  const gmKlein = krimp(gm, 5);
+  for (let i = 0; i < W * H; i++) alpha[i] = Math.max(vision.data[i], gmKlein[i]);
   // Lichte verzachting van de rand
   const zachtObj = await sharp(alpha, { raw: { width: W, height: H, channels: 1 } }).blur(0.7).extractChannel(0).raw().toBuffer({ resolveWithObject: true });
   if (zachtObj.info.channels !== 1) throw new Error("zacht heeft " + zachtObj.info.channels + " kanalen");
