@@ -8,6 +8,7 @@ import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
 import { Wisselwoord } from "@/components/Wisselwoord";
 import { Held } from "@/components/Held";
+import { Meldingen, type Melding } from "@/components/Meldingen";
 
 export const instant = false;
 
@@ -19,6 +20,19 @@ const KLANTEN: { id: string; naam: string; hoogte: number }[] = [
   { id: "bax", naam: "Bax Music", hoogte: 30 }, { id: "hunkemoller", naam: "Hunkemöller", hoogte: 24 }, { id: "gstar", naam: "G-Star RAW", hoogte: 18 },
 ];
 /** Woorden die in de kop wisselen; elk past voor "die zichzelf doet". */
+/** Voorbeeldmeldingen van de bot in de sectie "Altijd aan het werk" (src/components/Meldingen.tsx). */
+const MELDINGEN: Melding[] = [
+  { soort: "Voorstel", tijd: "vannacht 03:12", tekst: "Je omzet blijft dit jaar onder de € 20.000. Dan kan de kleineondernemersregeling (KOR) interessant zijn: geen btw meer afdragen en geen btw-aangifte. Zal ik het voor je doorrekenen?", acties: ["Ja, reken door", "Later"] },
+  { soort: "Geregeld", tijd: "vannacht 03:14", tekst: "Ik zie een nieuwe bedrijfsbus van € 18.500 op je rekening. Die schrijf je in 5 jaar af. Ik heb de afschrijving al ingeboekt, € 3.700 per jaar." },
+  { soort: "Vraag", tijd: "zojuist", tekst: "Betaling van € 48,90 bij Albert Heijn. Zakelijk of privé?", acties: ["Zakelijk", "Privé"] },
+  { soort: "Klaar", tijd: "vanochtend 07:00", tekst: "Je btw-aangifte van dit kwartaal staat klaar: € 1.262 te betalen. Alle regels zijn gecontroleerd. Zal ik hem indienen?", acties: ["Indienen", "Eerst bekijken"] },
+  { soort: "Geregeld", tijd: "vannacht 03:20", tekst: "Je kocht dit jaar voor € 3.200 aan apparatuur. Boven € 2.900 krijg je kleinschaligheidsinvesteringsaftrek. Ik heb het verwerkt: dat scheelt € 896 belasting." },
+  { soort: "Geregeld", tijd: "vannacht 02:48", tekst: "Shopify-uitbetaling van € 2.410 gematcht met 37 orders. De btw is verdeeld over Nederland, België en Duitsland." },
+  { soort: "Voorstel", tijd: "gisteren 18:05", tekst: "Factuur 2026-0032 van Studio Lente is 14 dagen te laat. Ik heb een vriendelijke herinnering klaargezet.", acties: ["Versturen", "Nog even wachten"] },
+  { soort: "Voorstel", tijd: "vannacht 03:31", tekst: "Je zit op 1.180 uur dit jaar, nog 45 uur tot het urencriterium voor de zelfstandigenaftrek. Wil je dat ik je uren bijhoud?", acties: ["Ja, graag", "Nee"] },
+  { soort: "Voorstel", tijd: "maandag 06:30", tekst: "Op basis van je winst tot nu toe: reserveer € 540 per maand voor de inkomstenbelasting. Zal ik een maandelijkse overboeking klaarzetten?", acties: ["Klaarzetten", "Later"] },
+];
+
 const KOPWOORDEN = ["Boekhouding", "Btw-aangifte", "Facturatie", "Administratie", "Jaarrekening"];
 
 function Pijl({ className = "" }: { className?: string }) {
@@ -130,6 +144,25 @@ export default function Landing() {
       </section>
 
       {/* Productblokken */}
+      {/* De bot als boekhouder die 24/7 meekijkt: links de belofte, rechts een live feed van meldingen die binnenkomen. */}
+      <section id="bot" className="mx-auto max-w-6xl px-6 pt-20 md:pt-28">
+        <Onthul>
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+            <div>
+              <Kopje>Altijd aan het werk</Kopje>
+              <h2 className="mt-3 text-[34px] leading-[1.05] md:text-[48px]">Een AI die je boekhouding dag en nacht bijhoudt. En zelf met voorstellen komt.</h2>
+              <p className="mt-5 max-w-md text-[17px] leading-relaxed text-tekst-2">Hij boekt niet alleen. Hij kijkt mee naar regelingen, aftrekposten en deadlines, en stuurt je een bericht zodra er iets te halen of te regelen valt. Jij zegt ja of nee.</p>
+              <ul className="mt-7 space-y-3 text-[16px] text-tekst">
+                {["Elke nacht alle bankregels, bonnen en facturen", "Voorstellen met uitleg in gewone taal", "Jij beslist met één tik, hij regelt de rest"].map((t) => (
+                  <li key={t} className="flex items-start gap-3"><span className="mt-[3px] inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primair-licht text-primair-tekst"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden><path d="M2.5 6.3l2.3 2.3 4.7-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg></span>{t}</li>
+                ))}
+              </ul>
+            </div>
+            <Meldingen items={MELDINGEN} />
+          </div>
+        </Onthul>
+      </section>
+
       <section id="werkt-met" className="mx-auto max-w-6xl px-6 pt-16 md:pt-24">
         <div className="grid gap-5 md:grid-cols-2">
           <Onthul><BlokKoppelingen /></Onthul>
