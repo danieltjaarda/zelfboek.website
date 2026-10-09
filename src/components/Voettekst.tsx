@@ -17,7 +17,7 @@ export function Voettekst() {
           <div>
             <Woordmerk size={17} />
             <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-tekst-2">Boekhouding die zichzelf doet. Voor eenmanszaken en vof’s zonder personeel.</p>
-            <Link href={LOGIN_URL} className="knop mt-6">Start gratis, 30 dagen</Link>
+            <Link href={LOGIN_URL} className="pilknop mt-6">Start gratis, 30 dagen</Link>
           </div>
           {kolommen.map((k) => (
             <div key={k.kop}>

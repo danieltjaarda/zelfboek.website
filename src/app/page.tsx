@@ -1,18 +1,26 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
-import { AppIcoon, APPS, Woordmerk, type AppId } from "@/components/Merk";
+import { Woordmerk } from "@/components/Merk";
 import { Onthul } from "@/components/Onthul";
-import { BoekDemo, BotDemo, Reviews, Telefoon } from "@/components/Demos";
+import { BotDemo } from "@/components/Demos";
 import { BlokApp, BlokBelasting, BlokKoppelingen, Kopje } from "@/components/Blokken";
 import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
+import { Wisselwoord } from "@/components/Wisselwoord";
 
 export const instant = false;
 
-const BANKEN: AppId[] = ["ing", "rabobank", "abnamro", "bunq", "knab", "sns", "asn", "regiobank", "triodos", "revolut", "n26"];
-const KANALEN: AppId[] = ["mollie", "stripe", "shopify", "bol", "woocommerce", "paypal"];
-const PAKKETTEN: AppId[] = ["moneybird", "eboekhouden", "jortt"];
+/** Logo's in de strook "Vertrouwd door" (public/logos/bedrijven, SVG, in het zwart getoond); hoogte per logo voor optisch gelijk gewicht. */
+const KLANTEN: { id: string; naam: string; hoogte: number }[] = [
+  { id: "bol", naam: "bol", hoogte: 26 }, { id: "klm", naam: "KLM", hoogte: 30 }, { id: "philips", naam: "Philips", hoogte: 18 },
+  { id: "heineken", naam: "Heineken", hoogte: 24 }, { id: "asml", naam: "ASML", hoogte: 26 }, { id: "ns", naam: "NS", hoogte: 28 },
+  { id: "jumbo", naam: "Jumbo", hoogte: 22 }, { id: "booking", naam: "Booking.com", hoogte: 22 }, { id: "adyen", naam: "Adyen", hoogte: 22 },
+  { id: "randstad", naam: "Randstad", hoogte: 24 }, { id: "tomtom", naam: "TomTom", hoogte: 26 }, { id: "shell", naam: "Shell", hoogte: 22 },
+  { id: "unilever", naam: "Unilever", hoogte: 28 }, { id: "ahold", naam: "Ahold Delhaize", hoogte: 30 },
+];
+/** Woorden die in de kop wisselen; elk past voor "die zichzelf doet". */
+const KOPWOORDEN = ["Boekhouding", "Btw-aangifte", "Facturatie", "Administratie", "Jaarrekening"];
 
 function Pijl({ className = "" }: { className?: string }) {
   return (
@@ -65,7 +73,6 @@ const vragen: [string, string][] = [
 ];
 
 export default function Landing() {
-  const strook: AppId[] = [...BANKEN, ...KANALEN, ...PAKKETTEN];
   return (
     <main className="flex-1">
       {/* Navigatie */}
@@ -79,65 +86,53 @@ export default function Landing() {
             <a href="#vragen" className="hover:text-tekst">Vragen</a>
           </nav>
           <div className="flex items-center gap-2">
-            <Link href={LOGIN_URL} className="knop-licht hidden sm:inline-flex">Inloggen</Link>
-            <Link href={LOGIN_URL} className="knop">Gratis proberen</Link>
+            <Link href={LOGIN_URL} className="hidden px-3 text-[14px] font-medium text-tekst-2 hover:text-tekst sm:inline-flex">Inloggen</Link>
+            <Link href={LOGIN_URL} className="pilknop pilknop-klein">Gratis proberen</Link>
           </div>
         </div>
       </header>
 
-      {/* Held: links de boodschap met reviews, rechts de app op een telefoon */}
-      <section className="relative overflow-hidden bg-[radial-gradient(70%_55%_at_70%_0%,rgba(29,177,223,0.14),transparent)]">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 pb-10 pt-12 md:pt-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
-          <div>
-            <p className="op v1 pil pil-blauw text-[12px]">AI-boekhouding voor zzp’ers</p>
-            <h1 className="op v2 mt-5 max-w-2xl text-[42px] font-bold leading-[1.02] tracking-[-0.03em] md:text-[64px]">
-              Boekhouding die <span className="text-primair">zichzelf</span> doet.
-            </h1>
-            <Reviews className="op v3 mt-6" />
-            <p className="op v3 mt-6 max-w-xl text-[17px] leading-relaxed text-tekst-2 md:text-[19px]">
-              Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord, op je laptop of op je telefoon. Eén vaste prijs, € {PRIJS} per maand.
-            </p>
-            <div className="op v4 mt-8 flex flex-wrap gap-3">
-              <Link href={LOGIN_URL} className="knop knop-groot">Start gratis, 30 dagen <Pijl /></Link>
-              <a href="#hoe" className="knop-licht knop-groot">Bekijk hoe het werkt</a>
-            </div>
-            <p className="op v5 mt-5 text-[13px] text-tekst-3">Geen creditcard nodig · Account in dertig seconden · Maandelijks opzegbaar</p>
-          </div>
-          <div className="op v4 relative mx-auto w-full max-w-[420px] lg:max-w-none">
-            <div className="relative mx-auto w-[300px]">
-              <Telefoon scherm="/schermen/m-app.png" alt={`${MERK} op een telefoon: het overzicht met infobalken, de vraagbalk en de laatst geboekte regels`} className="zweef" />
-              <div className="absolute -right-6 top-10 hidden rounded-xl border border-lijn bg-white px-3 py-2 text-[12px] font-medium shadow-[0_14px_30px_-14px_rgba(26,31,54,0.3)] sm:block">
-                <span className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-groen" />Ook als app op je telefoon</span>
-                <span className="mt-0.5 block text-tekst-3">iPhone en Android, zonder app store</span>
-              </div>
-              <BoekDemo className="op v6 absolute -bottom-6 -left-36 hidden w-[372px] shadow-[0_24px_60px_-20px_rgba(26,31,54,0.35)] lg:block" />
-            </div>
+      {/* Held, naar het voorbeeld van mollie.com/nl/payments: gecentreerde lichte kop, twee pill-knoppen,
+          daaronder het dashboard dat door de volgende sectie wordt afgesneden, met de app op de telefoon als zwevende kaart. */}
+      <section className="relative overflow-hidden bg-white">
+        <div className="mx-auto max-w-[1320px] px-6 pt-14 text-center md:pt-24">
+          <h1 className="op v1 mx-auto max-w-[1180px] text-[40px] leading-[1.04] tracking-[-0.03em] md:text-[56px] md:leading-[1.02] lg:text-[66px] xl:text-[78px] xl:leading-[1]">
+            <span className="block"><Wisselwoord woorden={KOPWOORDEN} /> die zichzelf doet,</span>
+            <span className="block">van eerste factuur tot aangifte</span>
+          </h1>
+          <p className="op v2 mx-auto mt-5 max-w-[800px] text-pretty text-[17px] leading-[1.45] text-tekst-2 md:text-[20px]">
+            Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord, op je laptop of op je telefoon. Eén vaste prijs, € {PRIJS} per maand.
+          </p>
+          <div className="op v3 mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+            <Link href={LOGIN_URL} className="pilknop w-full sm:w-auto">Start gratis, 30 dagen</Link>
+            <a href="#hoe" className="pilknop-licht w-full sm:w-auto">Bekijk hoe het werkt</a>
           </div>
         </div>
-        <div className="mx-auto max-w-6xl px-6 pb-16 md:pb-24">
-          <Onthul>
-            <div className="raam">
-              <div className="raam-balk"><i /><i /><i /><span>app.zelfboek.nl</span></div>
-              <Image src="/schermen/dashboard.png" alt={`Het overzicht in ${MERK}: infobalken, de vraagbalk voor de bot en de laatst geboekte regels`} width={1440} height={900} className="block w-full" />
-            </div>
-          </Onthul>
+
+        <div className="op v4 relative mx-auto mt-14 max-w-[1310px] px-5 md:mt-28 md:px-8 xl:px-0">
+          <div className="dash-raam max-h-[280px] md:max-h-[640px] lg:w-[93.7%]">
+            <Image src="/schermen/dashboard.png" alt={`Het overzicht in ${MERK}: infobalken, de vraagbalk voor de bot en de laatst geboekte regels`} width={2880} height={1800} priority className="block w-[150%] max-w-none md:w-full" />
+          </div>
+          <div className="zweefkaart absolute -top-[70px] right-8 hidden h-[524px] w-[320px] lg:block xl:right-0">
+            <Image src="/schermen/m-app.png" alt={`${MERK} op een telefoon: het overzicht met infobalken en de vraagbalk`} width={1170} height={2532} className="block w-full" />
+          </div>
         </div>
       </section>
 
-      {/* Werkt met: doorlopende strook */}
-      <section id="werkt-met" className="border-y border-lijn bg-papier py-10">
-        <p className="text-center text-[13px] font-semibold uppercase tracking-[.08em] text-tekst-3">Werkt met elke Nederlandse bank en je verkoopkanalen</p>
-        <div className="strook-masker mt-6 overflow-hidden">
-          <div className="strook">
-            {[...strook, ...strook].map((id, i) => (
-              <span key={`${id}-${i}`} className="flex items-center gap-2.5 text-[14px] font-medium text-tekst-2"><AppIcoon id={id} size={36} />{APPS[id]}</span>
+      {/* Vertrouwd door: doorlopende rij bedrijfslogo's, allemaal in het zwart. */}
+      <section className="border-y border-lijn bg-papier py-10">
+        <p className="text-center text-[13px] font-semibold uppercase tracking-[.08em] text-tekst-3">Vertrouwd door bedrijven in heel Nederland</p>
+        <div className="strook-masker mt-8 overflow-hidden">
+          <div className="strook items-center gap-[76px]">
+            {[...KLANTEN, ...KLANTEN].map((k, i) => (
+              <img key={`${k.id}-${i}`} src={`/logos/bedrijven/${k.id}.svg`} alt={k.naam} title={k.naam} style={{ height: k.hoogte }} className="w-auto shrink-0 opacity-90 [filter:brightness(0)]" loading="lazy" />
             ))}
           </div>
         </div>
       </section>
 
       {/* Productblokken */}
-      <section className="mx-auto max-w-6xl px-6 pt-16 md:pt-24">
+      <section id="werkt-met" className="mx-auto max-w-6xl px-6 pt-16 md:pt-24">
         <div className="grid gap-5 md:grid-cols-2">
           <Onthul><BlokKoppelingen /></Onthul>
           <Onthul vertraging={100}><BlokApp /></Onthul>
@@ -152,7 +147,7 @@ export default function Landing() {
             kop={
               <>
                 <Kopje>Het dashboard</Kopje>
-                <h2 className="mt-3 text-[32px] font-bold leading-[1.05] md:text-[42px]">Je cijfers bekijken én begrijpen</h2>
+                <h2 className="mt-3 text-[32px] leading-[1.05] md:text-[42px]">Je cijfers bekijken én begrijpen</h2>
                 <p className="mt-4 max-w-md text-[17px] leading-relaxed text-tekst-2">Omzet, kosten, winst en btw altijd actueel. Elke boeking met een zin uitleg, elke vraag met één tik beantwoord. Op je laptop en op je telefoon.</p>
               </>
             }
@@ -170,7 +165,7 @@ export default function Landing() {
       <section id="hoe" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
         <Onthul>
           <p className="eyebrow">Zo werkt het</p>
-          <h2 className="mt-3 max-w-2xl text-[34px] font-bold leading-[1.05] md:text-[48px]">Drie stappen. Daarna doet hij het zelf.</h2>
+          <h2 className="mt-3 max-w-2xl text-[34px] leading-[1.05] md:text-[48px]">Drie stappen. Daarna doet hij het zelf.</h2>
         </Onthul>
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {stappen.map((s, i) => (
@@ -193,7 +188,7 @@ export default function Landing() {
         <div className="mx-auto max-w-6xl px-6">
           <Onthul>
             <p className="eyebrow">Wat hij doet</p>
-            <h2 className="mt-3 max-w-3xl text-[34px] font-bold leading-[1.05] md:text-[48px]">Alles wat een boekhouder deed. Elke nacht.</h2>
+            <h2 className="mt-3 max-w-3xl text-[34px] leading-[1.05] md:text-[48px]">Alles wat een boekhouder deed. Elke nacht.</h2>
             <p className="mt-4 max-w-xl text-[17px] text-tekst-2">Jij doet wat je al deed: facturen sturen, bonnen bewaren. Alleen korter.</p>
           </Onthul>
           <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -214,7 +209,7 @@ export default function Landing() {
       <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
         <Onthul>
           <p className="eyebrow">Voor wie</p>
-          <h2 className="mt-3 max-w-2xl text-[34px] font-bold leading-[1.05] md:text-[48px]">Gemaakt voor zzp’ers die liever werken dan boekhouden.</h2>
+          <h2 className="mt-3 max-w-2xl text-[34px] leading-[1.05] md:text-[48px]">Gemaakt voor zzp’ers die liever werken dan boekhouden.</h2>
         </Onthul>
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {voorWie.map((v, i) => (
@@ -236,7 +231,7 @@ export default function Landing() {
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-[1fr_1.1fr]">
           <Onthul>
             <p className="eyebrow">Vraag het gewoon</p>
-            <h2 className="mt-3 text-[32px] font-bold leading-[1.05] md:text-[42px]">Een bot die je cijfers kent, overal in de app.</h2>
+            <h2 className="mt-3 text-[32px] leading-[1.05] md:text-[42px]">Een bot die je cijfers kent, overal in de app.</h2>
             <p className="mt-4 max-w-lg text-[17px] leading-relaxed text-tekst-2">Druk op ⌘K en vraag wat je wilt weten: open facturen, je grootste kostenpost, hoeveel btw je straks betaalt. Hij kijkt in je eigen boekhouding en antwoordt in gewone taal. Iets wijzigen doet hij pas na jouw ja.</p>
             <ul className="mt-7 space-y-3 text-[16px]">
               {["Antwoord met de echte cijfers uit je administratie", "Zet taken klaar en past boekingen aan na je bevestiging", "Leert van elke correctie die je maakt"].map((x) => (
@@ -253,7 +248,7 @@ export default function Landing() {
         <div className="mx-auto max-w-6xl px-6">
           <Onthul className="text-center">
             <p className="eyebrow justify-center">Prijs</p>
-            <h2 className="mt-3 text-[34px] font-bold leading-[1.05] md:text-[48px]">Eén prijs. Alles erin.</h2>
+            <h2 className="mt-3 text-[34px] leading-[1.05] md:text-[48px]">Eén prijs. Alles erin.</h2>
             <p className="mx-auto mt-4 max-w-xl text-[17px] text-tekst-2">Een boekhouder kost 600 tot 2.500 euro per jaar en kijkt één keer per kwartaal. {MERK} kijkt elke nacht.</p>
           </Onthul>
           <Onthul vertraging={120} className="mx-auto mt-12 max-w-lg">
@@ -267,7 +262,7 @@ export default function Landing() {
                   <li key={x} className="flex gap-3"><Vink />{x}</li>
                 ))}
               </ul>
-              <Link href={LOGIN_URL} className="knop knop-groot mt-8 w-full">Start gratis, 30 dagen <Pijl /></Link>
+              <Link href={LOGIN_URL} className="pilknop mt-8 w-full">Start gratis, 30 dagen <Pijl /></Link>
               <p className="mt-4 text-center text-[13px] text-tekst-3">Geen creditcard nodig. Maandelijks opzegbaar.</p>
             </div>
           </Onthul>
@@ -278,7 +273,7 @@ export default function Landing() {
       <section id="vragen" className="mx-auto max-w-3xl px-6 py-20 md:py-28">
         <Onthul>
           <p className="eyebrow">Vragen</p>
-          <h2 className="mt-3 text-[32px] font-bold leading-[1.05] md:text-[42px]">Wat mensen ons vragen.</h2>
+          <h2 className="mt-3 text-[32px] leading-[1.05] md:text-[42px]">Wat mensen ons vragen.</h2>
         </Onthul>
         <Onthul vertraging={100} className="mt-8">
           {vragen.map(([v, a]) => (
@@ -296,8 +291,8 @@ export default function Landing() {
           <div className="relative overflow-hidden rounded-[24px] bg-[linear-gradient(135deg,#1db1df,#0c7f9f)] px-7 py-16 text-center text-white md:py-24">
             <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-white/10 blur-2xl" aria-hidden />
             <div className="pointer-events-none absolute -bottom-28 -left-16 h-80 w-80 rounded-full bg-white/10 blur-2xl" aria-hidden />
-            <h2 className="relative mx-auto max-w-2xl text-[34px] font-bold leading-[1.05] md:text-[56px]">Morgenochtend is je boekhouding al gedaan.</h2>
-            <Link href={LOGIN_URL} className="knop-licht knop-groot relative mt-9">Start gratis, 30 dagen <Pijl /></Link>
+            <h2 className="relative mx-auto max-w-2xl text-[34px] leading-[1.05] md:text-[56px]">Morgenochtend is je boekhouding al gedaan.</h2>
+            <Link href={LOGIN_URL} className="pilknop-licht relative mt-9 bg-white">Start gratis, 30 dagen <Pijl /></Link>
             <p className="relative mt-4 text-[13px] text-white/75">Account in dertig seconden, alleen een e-mailadres.</p>
           </div>
         </Onthul>
@@ -306,7 +301,7 @@ export default function Landing() {
       <Voettekst />
 
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-lijn bg-white/95 p-3 backdrop-blur sm:hidden">
-        <Link href={LOGIN_URL} className="knop w-full" style={{ height: 44 }}>Start gratis, 30 dagen</Link>
+        <Link href={LOGIN_URL} className="pilknop w-full" style={{ height: 44 }}>Start gratis, 30 dagen</Link>
       </div>
     </main>
   );

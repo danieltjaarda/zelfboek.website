@@ -62,8 +62,14 @@ body {
   font-size: 16px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  font-optical-sizing: auto;
 }
-h1, h2, h3 { letter-spacing: -0.02em; }
+/* Koppen zoals op mollie.com: licht gewicht (variabele Inter), strakke letterafstand, Display-snede via opsz. */
+@layer base {
+  h1 { font-weight: 380; letter-spacing: -0.03em; }
+  h2 { font-weight: 420; letter-spacing: -0.025em; }
+  h3 { letter-spacing: -0.02em; }
+}
 .cijfer { font-variant-numeric: tabular-nums; }
 
 @layer components {
@@ -86,6 +92,42 @@ h1, h2, h3 { letter-spacing: -0.02em; }
 .knop:focus-visible, .knop-licht:focus-visible, .knop-tekst:focus-visible { outline: none; box-shadow: 0 0 0 1px var(--primair), var(--ring); }
 .knop-klein { height: 30px; padding: 0 10px; font-size: 13px; }
 .knop-groot { height: 46px; padding: 0 22px; font-size: 16px; border-radius: 8px; }
+
+/* Pill-knoppen zoals op mollie.com: 50px hoog, volledig rond, medium gewicht; donker als primair, lichtgrijs als secundair. */
+.pilknop, .pilknop-licht {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 50px; padding: 0 26px; border: 0; border-radius: 25px; corner-shape: superellipse(1.4);
+  font-size: 16px; font-weight: 500; letter-spacing: -0.01em; line-height: 1; white-space: nowrap; cursor: pointer;
+  transition: background-color .15s, transform .15s, box-shadow .15s;
+}
+.pilknop { background: var(--inkt); color: #fff; }
+.pilknop:hover { background: #2b3152; }
+.pilknop-licht { background: #f0f2f5; color: var(--tekst); }
+.pilknop-licht:hover { background: #e6e9ee; }
+.pilknop:active, .pilknop-licht:active { transform: translateY(1px); }
+.pilknop:focus-visible, .pilknop-licht:focus-visible { outline: none; box-shadow: var(--ring); }
+.pilknop-klein { height: 38px; padding: 0 18px; font-size: 14px; border-radius: 19px; }
+/* Squircle-hoeken (doorlopende hoek zoals op iOS) via corner-shape. Browsers zonder corner-shape krijgen dezelfde vorm
+   als clip-path vanuit src/components/Squircle.tsx; een clip knipt de focusring buiten de knop weg, daarom daar een ring binnenin. */
+@supports not (corner-shape: squircle) {
+  .pilknop:focus-visible, .pilknop-licht:focus-visible { box-shadow: inset 0 0 0 2px var(--primair); }
+}
+
+/* Dashboard in de held: alleen de bovenste hoeken rond, onderaan afgesneden door de volgende sectie. */
+.dash-raam { overflow: hidden; border-radius: 20px 20px 0 0; border: 1px solid var(--lijn-2); border-bottom: 0; background: #fff; box-shadow: 0 -1px 0 rgba(255,255,255,.6) inset, 0 30px 80px -30px rgba(26, 31, 54, 0.30); }
+@media (min-width: 768px) { .dash-raam { border-radius: 24px 24px 0 0; } }
+/* Zwevende kaart rechtsboven over het dashboard. */
+.zweefkaart { overflow: hidden; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px rgba(26, 31, 54, 0.06), 0 30px 70px -20px rgba(26, 31, 54, 0.35), 0 8px 20px -10px rgba(26, 31, 54, 0.2); }
+
+/* Wisselend woord in de kop: het oude schuift omhoog en vervaagt met bewegingsonscherpte, het nieuwe komt van onderen. */
+.wissel { position: relative; display: inline-block; vertical-align: top; white-space: nowrap; transition: width .55s cubic-bezier(.2, .8, .2, 1); }
+.wissel-woord { display: inline-block; will-change: transform, opacity, filter; }
+.wissel-woord[data-staat="weg"] { position: absolute; left: 0; top: 0; opacity: 0; pointer-events: none; }
+.wissel-woord[data-staat="uit"] { position: absolute; left: 0; top: 0; pointer-events: none; animation: wissel-uit .45s cubic-bezier(.4, 0, .7, .3) both; }
+.wissel-woord[data-staat="in"] { animation: wissel-in .6s cubic-bezier(.2, .8, .2, 1) .09s both; }
+@keyframes wissel-uit { from { opacity: 1; transform: none; filter: blur(0); } to { opacity: 0; transform: translateY(-.6em) scaleY(1.4); filter: blur(10px); } }
+@keyframes wissel-in { from { opacity: 0; transform: translateY(.6em) scaleY(1.4); filter: blur(10px); } to { opacity: 1; transform: none; filter: blur(0); } }
+@media (prefers-reduced-motion: reduce) { .wissel { transition: none; } .wissel-woord[data-staat="uit"], .wissel-woord[data-staat="in"] { animation: none; } }
 
 /* Gevuld statuslabel, zoals in de app. */
 .pil { display: inline-flex; align-items: center; border-radius: 999px; padding: 2px 9px; font-size: 12px; font-weight: 700; line-height: 16px; color: #fff; white-space: nowrap; }
@@ -114,8 +156,8 @@ h1, h2, h3 { letter-spacing: -0.02em; }
 .vraag[open] summary::after { content: "–"; }
 .vraag p { padding: 0 0 18px; max-width: 62ch; color: var(--tekst-2); font-size: 15px; line-height: 1.6; }
 
-/* Navigatie bovenaan: wit met lichte blur. */
-.navbalk { background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--lijn); box-shadow: 0 1px 0 rgba(26, 31, 54, 0.03), 0 12px 32px -18px rgba(26, 31, 54, 0.28); }
+/* Navigatie bovenaan: dekkend wit. */
+.navbalk { background: #fff; border: 1px solid var(--lijn); box-shadow: 0 1px 0 rgba(26, 31, 54, 0.03), 0 12px 32px -18px rgba(26, 31, 54, 0.28); }
 }
 
 /* Blokken in de stijl van productkaarten: zacht grijs vlak, grote ronde hoeken, visual loopt eruit. */

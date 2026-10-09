@@ -25,7 +25,7 @@ export function BlokKoppelingen() {
   return (
     <div className="blok min-h-[440px] p-7 md:min-h-[560px] md:p-10">
       <Kopje>Koppelingen</Kopje>
-      <h3 className="mt-3 max-w-md text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:text-[32px]">Koppel 11 banken en 6 verkoopkanalen met één klik</h3>
+      <h3 className="mt-3 max-w-md text-[28px] font-[420] leading-[1.15] tracking-[-0.02em] md:text-[32px]">Koppel 11 banken en 6 verkoopkanalen met één klik</h3>
       <Meer href="#werkt-met" className="mt-4">Meer over koppelingen</Meer>
       {/* Twee rijen die langzaam langs elkaar schuiven; de rij onder je cursor staat stil. Elke rij staat er twee keer in voor een naadloze lus. */}
       <div className="tegelwand" aria-hidden>
@@ -41,7 +41,7 @@ export function BlokApp() {
   return (
     <div className="blok min-h-[600px] p-7 md:min-h-[560px] md:p-10">
       <Kopje>Mobiele app</Kopje>
-      <h3 className="mt-3 max-w-md text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:text-[32px]">Bonnen fotograferen en vragen beantwoorden, waar je ook bent</h3>
+      <h3 className="mt-3 max-w-md text-[28px] font-[420] leading-[1.15] tracking-[-0.02em] md:text-[32px]">Bonnen fotograferen en vragen beantwoorden, waar je ook bent</h3>
       <Meer href="#hoe" className="mt-4">Meer over de app</Meer>
       <div className="pointer-events-none absolute top-[250px] -right-24 h-[640px] w-[460px] origin-top-left scale-[.68] sm:top-auto sm:-bottom-[210px] sm:right-2 sm:scale-100 md:right-6" aria-hidden>
         <div className="absolute left-0 top-12 origin-bottom -rotate-[9deg] scale-[.8]"><Telefoon scherm="/schermen/m-bonnen.png" alt="" /></div>
@@ -64,7 +64,7 @@ export function BlokBelasting() {
   return (
     <div className="blok px-6 pb-10 pt-12 text-center md:pb-14 md:pt-16">
       <Kopje>Belasting</Kopje>
-      <h3 className="mx-auto mt-3 max-w-2xl text-[32px] font-semibold leading-[1.1] tracking-[-0.02em] md:text-[46px]">Je btw-aangifte en inkomstenbelasting staan altijd klaar</h3>
+      <h3 className="mx-auto mt-3 max-w-2xl text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Je btw-aangifte en inkomstenbelasting staan altijd klaar</h3>
       <div className="fan mx-auto mt-8 h-[320px] w-full max-w-2xl md:mt-12 md:h-[360px]" aria-hidden>
         {KAARTEN.map((k, i) => (
           <div key={k.titel} className={`fan-kaart ${k.stijl}`} style={{ "--r": `${(i - 2) * 15}deg`, zIndex: i } as CSSProperties}>

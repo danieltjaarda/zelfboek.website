@@ -2,8 +2,10 @@ import { MERK } from "@/lib/merk";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { SquircleFallback } from "@/components/Squircle";
 
-const inter = Inter({ variable: "--font-body", subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
+// Variabele Inter met optische grootte (opsz): koppen krijgen vanzelf de Inter Display-snede, zoals op mollie.com.
+const inter = Inter({ variable: "--font-body", subsets: ["latin"], axes: ["opsz"] });
 
 export const metadata: Metadata = {
   title: `${MERK}, boekhouding die zichzelf doet`,
@@ -15,7 +17,7 @@ export const viewport: Viewport = { themeColor: "#ffffff" };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="nl" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">{children}<SquircleFallback /></body>
     </html>
   );
 }
