@@ -27,10 +27,15 @@ export function Accordeon({ kop, items }: { kop: React.ReactNode; items: Accorde
           })}
         </ul>
       </div>
+      {/* Schuin scherm met fade naar rechts en onder, zie .dash-vak in globals.css */}
       <div className="dash-vak" aria-live="polite">
-        {items.map((it, i) => (
-          <Image key={it.beeld} src={it.beeld} alt={i === actief ? it.alt : ""} width={1440} height={900} className={`dash-beeld ${i === actief ? "actief" : ""}`} aria-hidden={i !== actief} />
-        ))}
+        <div className="dash-vak-b">
+          <div className="dash-binnen">
+            {items.map((it, i) => (
+              <Image key={it.beeld} src={it.beeld} alt={i === actief ? it.alt : ""} width={1440} height={900} className={`dash-beeld ${i === actief ? "actief" : ""}`} aria-hidden={i !== actief} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

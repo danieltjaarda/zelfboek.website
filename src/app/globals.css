@@ -198,10 +198,16 @@ body {
 .acc-item[data-actief="false"] button { color: var(--tekst-2); }
 .acc-item[data-actief="false"] button:hover { color: var(--tekst); }
 .acc-item p { max-width: 42ch; padding-bottom: 18px; font-size: 15px; line-height: 1.6; color: var(--tekst-2); }
-.dash-vak { position: relative; height: 560px; overflow: hidden; border-radius: 24px; background: linear-gradient(135deg, #1db1df, #0c7f9f 70%, #0a6a85); }
-.dash-beeld { position: absolute; left: 48px; top: 48px; width: calc(100% - 48px); height: auto; border-radius: 14px 0 0 0; box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.45); opacity: 0; transition: opacity .45s; }
+/* Schuin scherm naar het voorbeeld van moneybird.nl (feature-content__img--skew): geen echt 3D maar skew(10deg) + rotate(-5deg)
+   vanuit de linkerbovenhoek op een laag van 200% breed, een vaag 'spookraam' erachter voor diepte, en een masker dat naar
+   rechts en naar onder uitvaagt. Twee geneste maskers in plaats van mask-composite, dat werkt in elke browser. */
+.dash-vak { position: relative; aspect-ratio: 1 / 0.92; overflow: hidden; mask-image: linear-gradient(to right, #000 76%, transparent 100%); -webkit-mask-image: linear-gradient(to right, #000 76%, transparent 100%); }
+.dash-vak-b { position: absolute; inset: 0; mask-image: linear-gradient(to bottom, #000 76%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent 100%); }
+.dash-binnen { position: absolute; left: 3%; top: 9%; width: 200%; aspect-ratio: 16 / 10; transform-origin: top left; transform: rotate(-5deg) skew(10deg); }
+.dash-binnen::before { content: ""; position: absolute; left: 0; top: 0; width: 75%; aspect-ratio: 1440 / 900; border-radius: 16px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 30px 80px -30px rgba(26, 31, 54, 0.25); opacity: .55; filter: blur(1.5px); }
+.dash-beeld { position: absolute; left: 12%; top: 12%; width: 75%; height: auto; border-radius: 16px; border: 1px solid var(--lijn-2); background: #fff; box-shadow: 0 30px 80px -30px rgba(26, 31, 54, 0.35), 0 0 0 1px rgba(26, 31, 54, 0.03); opacity: 0; transition: opacity .45s; }
 .dash-beeld.actief { opacity: 1; }
-@media (max-width: 767px) { .dash-vak { height: 300px; } .dash-beeld { left: 24px; top: 24px; width: calc(100% - 24px); } }
+@media (max-width: 767px) { .dash-vak { aspect-ratio: 1 / 1; } .dash-binnen { left: 2%; top: 6%; } }
 
 /* Telefoonframe */
 .telefoon { position: relative; width: 300px; aspect-ratio: 9 / 19.4; border-radius: 46px; background: #1a1f36; padding: 11px; box-shadow: 0 40px 80px -30px rgba(26, 31, 54, 0.55), 0 0 0 1px rgba(26, 31, 54, 0.3), inset 0 0 0 2px #3c4257; }
