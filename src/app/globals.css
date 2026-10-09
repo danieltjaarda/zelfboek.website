@@ -354,23 +354,23 @@ body {
 /* Belastingkennis (src/components/Belastingkennis.tsx): één paar tegelijk. Een regel glijdt in 2,2 s van de Belastingdienst
    naar de bot, de bot pulseert, de actie glijdt in 2,2 s door naar jouw boekhouding; na 5,6 s het volgende paar.
    Cyclus = 8 paren x 5,6 s = 44,8 s. De reis is 2,2 / 44,8 = 4,9% van de cyclus; de rest wacht de chip onzichtbaar. */
-.stroom { display: grid; grid-template-columns: auto 1fr auto 1fr auto; align-items: center; gap: 16px; }
-.stroom-knoop { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 170px; text-align: center; }
+.stroom { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; }
+.stroom-knoop { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; width: 190px; text-align: center; }
 .stroom-icoon { display: inline-flex; align-items: center; justify-content: center; color: var(--primair); }
-.stroom-icoon-boek { color: var(--tekst); }
 .stroom-knoop img, .stroom-icoon { width: 84px; height: 84px; margin-bottom: 8px; padding: 12px; border-radius: 24px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35); object-fit: contain; }
 .stroom-knoop strong { font-size: 15px; font-weight: 600; color: var(--tekst); }
 .stroom-knoop small { font-size: 13px; color: var(--tekst-2); }
 .stroom-bot .stroom-icoon { animation: stroom-puls 5.6s ease-out infinite; animation-delay: 2.2s; }
-.stroom-icoon-boek { animation: stroom-puls-groen 5.6s ease-out infinite; animation-delay: 5s; }
+/* Actie onder de bot: verschijnt als de regel aankomt (2,3 s), vervaagt voor het volgende paar (5,0 s). */
+.stroom-acties { position: absolute; top: calc(100% + 10px); left: 50%; width: 0; height: 32px; }
+.stroom-actie { position: absolute; left: 0; top: 0; transform: translateX(-50%); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid rgba(22, 163, 74, .35); box-shadow: 0 8px 20px -10px rgba(26, 31, 54, .3); font-size: 13px; font-weight: 600; color: var(--tekst); opacity: 0; animation: stroom-actie 44.8s linear infinite; }
+.stroom-actie svg { color: var(--groen); }
+@keyframes stroom-actie { 0% { opacity: 0; transform: translate(-50%, 6px); animation-timing-function: ease-out; } 1% { opacity: 1; transform: translate(-50%, 0); } 5.2% { opacity: 1; transform: translate(-50%, 0); animation-timing-function: ease-in; } 6%, 100% { opacity: 0; transform: translate(-50%, -6px); } }
 @keyframes stroom-puls { 0% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 0 rgba(29, 177, 223, .5); } 18%, 100% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 22px rgba(29, 177, 223, 0); } }
-@keyframes stroom-puls-groen { 0% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 0 rgba(22, 163, 74, .4); } 18%, 100% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 22px rgba(22, 163, 74, 0); } }
 .stroom-baan { position: relative; height: 120px; }
 .stroom-baan::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: repeating-linear-gradient(90deg, var(--primair) 0 8px, transparent 8px 18px); opacity: .45; animation: stroom-streep 1.1s linear infinite; }
 @keyframes stroom-streep { to { background-position: 18px 0; } }
 .stroom-chip { position: absolute; top: 50%; left: 0; transform: translate(0, -50%); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 999px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 8px 20px -10px rgba(26, 31, 54, .35); font-size: 13px; font-weight: 600; color: var(--tekst); opacity: 0; animation: stroom-chip 44.8s linear infinite; }
-.stroom-chip-uit { border-color: rgba(22, 163, 74, .35); }
-.stroom-chip-uit svg { color: var(--groen); }
 @keyframes stroom-chip {
   0% { left: 0; transform: translate(0, -50%) scale(.92); opacity: 0; animation-timing-function: ease-out; }
   0.6% { opacity: 1; transform: translate(0, -50%) scale(1); animation-timing-function: cubic-bezier(.45, 0, .2, 1); }
@@ -379,6 +379,7 @@ body {
 }
 @media (max-width: 767px) {
   .stroom { grid-template-columns: 1fr; justify-items: center; gap: 8px; }
+  .stroom-bot { margin-bottom: 44px; }
   .stroom-baan { height: 150px; width: 100%; margin: 6px 0; }
   .stroom-baan::before { left: 50%; right: auto; top: 0; bottom: 0; width: 2px; height: auto; background: repeating-linear-gradient(180deg, var(--primair) 0 8px, transparent 8px 18px); animation-name: stroom-streep-v; }
   @keyframes stroom-streep-v { to { background-position: 0 18px; } }
@@ -391,7 +392,8 @@ body {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .stroom-baan::before, .stroom-bot .stroom-icoon, .stroom-icoon-boek { animation: none; }
+  .stroom-baan::before, .stroom-bot .stroom-icoon { animation: none; }
   .stroom-chip { animation: none; opacity: 1; left: 50%; transform: translate(-50%, -50%); }
-  .stroom-chip:nth-child(n+2) { display: none; }
+  .stroom-chip:nth-child(n+2), .stroom-actie:nth-child(n+2) { display: none; }
+  .stroom-actie { animation: none; opacity: 1; }
 }
