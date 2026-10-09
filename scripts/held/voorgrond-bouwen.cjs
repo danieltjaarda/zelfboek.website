@@ -8,7 +8,11 @@ const POLY = [[780,1116],[772,650],[792,548],[800,452],[978,440],[974,402],[1188
   const scene = await sharp(__dirname + "/werk/scene.jpg").raw().toBuffer();
   const groen = await sharp(__dirname + "/werk/groen.png").raw().toBuffer();
   // Vision-masker 1-2 px krimpen (blur + harde drempel) zodat er geen lichte rand van de muur om de vrouw blijft staan.
-  const vision = await sharp(__dirname + "/werk/masker.png").removeAlpha().toColourspace("b-w").blur(1.6).linear(6, -6 * 150).extractChannel(0).raw().toBuffer({ resolveWithObject: true });
+  // Vision-masker: 1 px verzachten en dan de rand verharden (smoothstep tussen 40% en 70%), zodat haar en kleding
+  // messcherp afsteken zonder lichte zoom van de muur. Dezelfde verharding gaat straks over het meubel-masker.
+  const verhard = (buf, van, tot) => { const uit = Buffer.alloc(buf.length); for (let i = 0; i < buf.length; i++) { let a = (buf[i] / 255 - van) / (tot - van); a = Math.min(Math.max(a, 0), 1); uit[i] = Math.round(255 * a * a * (3 - 2 * a)); } return uit; };
+  const visionZacht = await sharp(__dirname + "/werk/masker.png").removeAlpha().toColourspace("b-w").blur(1.0).extractChannel(0).raw().toBuffer({ resolveWithObject: true });
+  const vision = { info: visionZacht.info, data: verhard(visionZacht.data, 0.4, 0.7) };
   console.log("vision-masker", vision.info.width, vision.info.height, vision.info.channels);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><polygon points="${POLY.map(([x,y]) => `${x*S},${y*S}`).join(" ")}" fill="#fff"/></svg>`;
   const polyObj = await sharp(Buffer.from(svg)).flatten({ background: "#000" }).toColourspace("b-w").raw().toBuffer({ resolveWithObject: true });
@@ -35,11 +39,10 @@ const POLY = [[780,1116],[772,650],[792,548],[800,452],[978,440],[974,402],[1188
     return uit;
   };
   const gmKlein = krimp(gm, 5);
-  for (let i = 0; i < W * H; i++) alpha[i] = Math.max(vision.data[i], gmKlein[i]);
-  // Lichte verzachting van de rand
-  const zachtObj = await sharp(alpha, { raw: { width: W, height: H, channels: 1 } }).blur(0.7).extractChannel(0).raw().toBuffer({ resolveWithObject: true });
-  if (zachtObj.info.channels !== 1) throw new Error("zacht heeft " + zachtObj.info.channels + " kanalen");
-  const zacht = zachtObj.data; console.log("zacht", zachtObj.info.channels, "kanalen");
+  // Meubel-masker: 1 px verzachten en verharden geeft een anti-aliased, strakke rand in plaats van een trapje of een waas.
+  const gmRand = verhard(await sharp(gmKlein, { raw: { width: W, height: H, channels: 1 } }).blur(1.0).extractChannel(0).raw().toBuffer(), 0.3, 0.7);
+  for (let i = 0; i < W * H; i++) alpha[i] = Math.max(vision.data[i], gmRand[i]);
+  const zacht = alpha; // randen zijn al anti-aliased, geen extra verzachting
   const rgba = Buffer.alloc(W * H * 4);
   for (let i = 0; i < W * H; i++) { rgba[i*4] = scene[i*3]; rgba[i*4+1] = scene[i*3+1]; rgba[i*4+2] = scene[i*3+2]; rgba[i*4+3] = zacht[i]; }
   const vg = sharp(rgba, { raw: { width: W, height: H, channels: 4 } });
