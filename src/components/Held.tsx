@@ -59,7 +59,7 @@ export function Held({ foto, persoon, children, dashboard }: { foto: string; per
       </div>
       <div className="relative mx-auto h-full max-w-[1320px] px-6 md:px-10">
         <div ref={inhoud} className="max-w-[760px] pt-[max(112px,16svh)]">{children}</div>
-        {dashboard && <div ref={dash} className="held-dash absolute left-6 top-[46%] hidden w-[min(1040px,70%)] md:left-10 lg:block [@media(max-height:820px)]:hidden">{dashboard}</div>}
+        {dashboard && <div ref={dash} className="held-dash absolute left-6 top-[50%] hidden w-[min(900px,62%)] md:left-10 lg:block [@media(max-height:820px)]:hidden">{dashboard}</div>}
       </div>
     </section>
   );
