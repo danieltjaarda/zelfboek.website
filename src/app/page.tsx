@@ -96,8 +96,12 @@ export default function Landing() {
           personage als aparte laag die zichtbaar blijft terwijl de foto bij scrollen vervaagt (src/components/Held.tsx).
           Tekst links, personage rechts; het dashboard piept onderaan uit beeld zoals de interface bij Moneybird. */}
       <Held foto="/beeld/held-winkel.jpg" persoon="/beeld/held-persoon.png" dashboard={
-        <div className="dash-raam">
-          <Image src="/schermen/dashboard.png" alt={`Het overzicht in ${MERK}: infobalken, de vraagbalk voor de bot en de laatst geboekte regels`} width={2880} height={1800} priority className="block w-full" />
+        <div className="dash-vak">
+          <div className="dash-vak-b">
+            <div className="dash-binnen">
+              <Image src="/schermen/dashboard.png" alt={`Het overzicht in ${MERK}: infobalken, de vraagbalk voor de bot en de laatst geboekte regels`} width={2880} height={1800} priority className="dash-beeld actief" />
+            </div>
+          </div>
         </div>
       }>
         <h1 className="op v1 text-[38px] leading-[1.06] tracking-[-0.03em] md:text-[50px] md:leading-[1.04] xl:text-[58px] xl:leading-[1.03]">

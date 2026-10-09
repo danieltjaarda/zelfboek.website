@@ -9,7 +9,7 @@ const sinus = (x: number) => -(Math.cos(Math.PI * Math.min(Math.max(x, 0), 1)) -
  * Held met wallpaper naar het voorbeeld van moneybird.nl: een vaste achtergrond met twee lagen, de hele foto onderop en
  * daarboven alleen het personage als uitgesneden PNG (zelfde kadrering, dus pixel op pixel). Bij scrollen vervaagt en
  * krimpt de foto en wordt hij wazig; het personage schuift langzaam mee omhoog en blijft zichtbaar totdat de volgende
- * sectie eroverheen schuift. Tekst en dashboard vervagen mee. Bij 'minder beweging' staat alles stil.
+ * sectie eroverheen schuift. Tekst en het schuine dashboard (zelfde opzet als .dash-vak) vervagen mee. Bij 'minder beweging' staat alles stil.
  */
 export function Held({ foto, persoon, children, dashboard }: { foto: string; persoon: string; children: ReactNode; dashboard?: ReactNode }) {
   const held = useRef<HTMLElement>(null);
@@ -59,7 +59,7 @@ export function Held({ foto, persoon, children, dashboard }: { foto: string; per
       </div>
       <div className="relative mx-auto h-full max-w-[1320px] px-6 md:px-10">
         <div ref={inhoud} className="max-w-[760px] pt-[max(112px,16svh)]">{children}</div>
-        {dashboard && <div ref={dash} className="held-dash absolute bottom-0 left-6 hidden w-[min(820px,58%)] md:left-10 lg:block [@media(max-height:820px)]:hidden">{dashboard}</div>}
+        {dashboard && <div ref={dash} className="held-dash absolute left-6 top-[56%] hidden w-[min(780px,54%)] md:left-10 lg:block [@media(max-height:820px)]:hidden">{dashboard}</div>}
       </div>
     </section>
   );
