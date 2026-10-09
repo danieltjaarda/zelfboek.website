@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Kopje } from "@/components/Blokken";
+import { Onthul } from "@/components/Onthul";
 
 /** PLAATSHOUDERS: namen, citaten, cijfers en portretten zijn verzonnen. Vervang door echte klanten en echte cijfers vóór livegang. */
 const REVIEWS: { tekst: string; naam: string; rol: string; soort: "zzp'er" | "webshop"; beeld: string }[] = [
@@ -50,8 +51,9 @@ export function Ervaringen() {
         ))}
       </dl>
       <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {REVIEWS.map((r) => (
-          <figure key={r.naam} className="review-kaart">
+        {REVIEWS.map((r, i) => (
+          <Onthul key={r.naam} richting={i % 2 ? "rechts" : "links"} vertraging={(i % 3) * 90}>
+          <figure className="review-kaart h-full">
             <Sterren />
             <blockquote className="mt-3 text-[17px] leading-[1.5] text-tekst">“{r.tekst}”</blockquote>
             <figcaption className="mt-5 flex items-center gap-3">
@@ -60,6 +62,7 @@ export function Ervaringen() {
               <span className={`pil ml-auto ${r.soort === "webshop" ? "pil-blauw" : "pil-grijs"}`}>{r.soort}</span>
             </figcaption>
           </figure>
+          </Onthul>
         ))}
       </div>
     </div>

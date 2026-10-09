@@ -223,6 +223,8 @@ body {
 /* Bij scrollen: onthullen zodra in beeld (klasse "in" via IntersectionObserver). */
 .onthul { opacity: 0; transform: translateY(18px); transition: opacity .7s cubic-bezier(.2, .8, .2, 1), transform .7s cubic-bezier(.2, .8, .2, 1); }
 .onthul.in { opacity: 1; transform: none; }
+.onthul-links { transform: translateX(-64px); }
+.onthul-rechts { transform: translateX(64px); }
 
 /* Zweven van het grote scherm. */
 @keyframes zweef { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }

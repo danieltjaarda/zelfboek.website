@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
-/** Onthult de inhoud zodra die in beeld scrolt: zacht omhoog en in. */
-export function Onthul({ children, className = "", vertraging = 0 }: { children: React.ReactNode; className?: string; vertraging?: number }) {
+/** Onthult de inhoud zodra die in beeld scrolt: zacht omhoog en in, of met `richting` van links of rechts. */
+export function Onthul({ children, className = "", vertraging = 0, richting }: { children: React.ReactNode; className?: string; vertraging?: number; richting?: "links" | "rechts" }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
@@ -13,5 +13,5 @@ export function Onthul({ children, className = "", vertraging = 0 }: { children:
     io.observe(el);
     return () => io.disconnect();
   }, []);
-  return <div ref={ref} className={`onthul ${className}`} style={vertraging ? { transitionDelay: `${vertraging}ms` } : undefined}>{children}</div>;
+  return <div ref={ref} className={`onthul ${richting ? `onthul-${richting}` : ""} ${className}`} style={vertraging ? { transitionDelay: `${vertraging}ms` } : undefined}>{children}</div>;
 }
