@@ -9,6 +9,7 @@ import { Voettekst } from "@/components/Voettekst";
 import { Wisselwoord } from "@/components/Wisselwoord";
 import { Held } from "@/components/Held";
 import { Meldingen, type Melding } from "@/components/Meldingen";
+import { Ervaringen } from "@/components/Ervaringen";
 
 export const instant = false;
 
@@ -215,6 +216,11 @@ export default function Landing() {
       </section>
 
       {/* Wat hij doet */}
+      {/* Social proof: beoordeling, cijfers en ervaringen. Plaatshouders tot er echte klanten zijn. */}
+      <section id="ervaringen" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
+        <Onthul><Ervaringen /></Onthul>
+      </section>
+
       <section id="functies" className="bg-papier py-20 md:py-28">
         <div className="mx-auto max-w-6xl px-6">
           <Onthul>
