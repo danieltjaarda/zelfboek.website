@@ -16,8 +16,11 @@ const INTERVAL = 2600;
  */
 export function Meldingen({ items }: { items: Melding[] }) {
   const [lijst, setLijst] = useState(() => items.slice(0, START).map((_, i) => ({ sleutel: i, idx: i })));
+  const [pauze, setPauze] = useState(false);
+  const pauzeRef = useRef(false);
   const teller = useRef(START);
   const vak = useRef<HTMLDivElement>(null);
+  const wissel = () => { pauzeRef.current = !pauzeRef.current; setPauze(pauzeRef.current); };
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -25,7 +28,7 @@ export function Meldingen({ items }: { items: Melding[] }) {
     const io = new IntersectionObserver(([e]) => { inBeeld = e.isIntersecting; }, { threshold: 0.35 });
     if (vak.current) io.observe(vak.current);
     const t = window.setInterval(() => {
-      if (!inBeeld || document.hidden) return;
+      if (!inBeeld || document.hidden || pauzeRef.current) return;
       const n = teller.current++;
       setLijst((l) => [{ sleutel: n, idx: n % items.length }, ...l].slice(0, ZICHTBAAR));
     }, INTERVAL);
@@ -33,6 +36,17 @@ export function Meldingen({ items }: { items: Melding[] }) {
   }, [items.length]);
 
   return (
+    <div>
+      {/* Balk boven de feed: live-stipje en een knop om de stroom stil te zetten. Verborgen bij 'minder beweging'. */}
+      <div className="meldingen-kop">
+        <span className={`meldingen-live ${pauze ? "stil" : ""}`}><i aria-hidden />{pauze ? "Gepauzeerd" : "Live, meldingen van vannacht"}</span>
+        <button type="button" className="meldingen-pauze" onClick={wissel} aria-pressed={pauze}>
+          {pauze
+            ? <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden><path d="M3 1.8v8.4l7-4.2z" fill="currentColor" /></svg>
+            : <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden><path d="M2.5 1.8h2.6v8.4H2.5zM6.9 1.8h2.6v8.4H6.9z" fill="currentColor" /></svg>}
+          {pauze ? "Verder" : "Pauze"}
+        </button>
+      </div>
     <div ref={vak} className="meldingen" aria-live="off">
       {lijst.map(({ sleutel, idx }, i) => {
         const m = items[idx];
@@ -58,6 +72,7 @@ export function Meldingen({ items }: { items: Melding[] }) {
           </div>
         );
       })}
+    </div>
     </div>
   );
 }
