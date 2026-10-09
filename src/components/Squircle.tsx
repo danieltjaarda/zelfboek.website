@@ -32,7 +32,7 @@ export function SquircleFallback() {
       if (w && h) el.style.clipPath = squirclePad(w, h, Math.min(r, w / 2, h / 2));
     };
     const ro = new ResizeObserver((items) => items.forEach((i) => zet(i.target as HTMLElement)));
-    const start = () => document.querySelectorAll<HTMLElement>(".pilknop, .pilknop-licht").forEach((el) => { zet(el); ro.observe(el); });
+    const start = () => document.querySelectorAll<HTMLElement>(".pilknop, .pilknop-licht, .pilknop-wit, .pilknop-glas").forEach((el) => { zet(el); ro.observe(el); });
     start();
     const mo = new MutationObserver(start);
     mo.observe(document.body, { childList: true, subtree: true });

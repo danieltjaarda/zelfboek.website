@@ -43,3 +43,6 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# tussenbestanden van het held-wallpaper
+scripts/held/werk/

@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
-import { Woordmerk } from "@/components/Merk";
 import { Onthul } from "@/components/Onthul";
 import { BotDemo } from "@/components/Demos";
 import { BlokApp, BlokBelasting, BlokKoppelingen, Kopje } from "@/components/Blokken";
 import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
 import { Wisselwoord } from "@/components/Wisselwoord";
+import { Held } from "@/components/Held";
 
 export const instant = false;
 
@@ -78,7 +78,7 @@ export default function Landing() {
       {/* Navigatie */}
       <header className="sticky top-3 z-30 px-3 md:top-4 md:px-6">
         <div className="navbalk mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full pl-5 pr-2.5">
-          <Link href="/" aria-label={MERK}><Woordmerk size={17} /></Link>
+          <Link href="/" aria-label={MERK}><Image src="/logos/saldoplan.png" alt="Saldoplan" width={720} height={218} priority className="h-[30px] w-auto" /></Link>
           <nav className="hidden items-center gap-7 text-[14px] font-medium text-tekst-2 md:flex">
             <a href="#functies" className="hover:text-tekst">Wat hij doet</a>
             <a href="#werkt-met" className="hover:text-tekst">Werkt met</a>
@@ -92,35 +92,30 @@ export default function Landing() {
         </div>
       </header>
 
-      {/* Held, naar het voorbeeld van mollie.com/nl/payments: gecentreerde lichte kop, twee pill-knoppen,
-          daaronder het dashboard dat door de volgende sectie wordt afgesneden, met de app op de telefoon als zwevende kaart. */}
-      <section className="relative overflow-hidden bg-white">
-        <div className="mx-auto max-w-[1320px] px-6 pt-14 text-center md:pt-24">
-          <h1 className="op v1 mx-auto max-w-[1180px] text-[40px] leading-[1.04] tracking-[-0.03em] md:text-[56px] md:leading-[1.02] lg:text-[66px] xl:text-[78px] xl:leading-[1]">
-            <span className="block"><Wisselwoord woorden={KOPWOORDEN} /> die zichzelf doet,</span>
-            <span className="block">van eerste factuur tot aangifte</span>
-          </h1>
-          <p className="op v2 mx-auto mt-5 max-w-[800px] text-pretty text-[17px] leading-[1.45] text-tekst-2 md:text-[20px]">
-            Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord, op je laptop of op je telefoon. Eén vaste prijs, € {PRIJS} per maand.
-          </p>
-          <div className="op v3 mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-            <Link href={LOGIN_URL} className="pilknop w-full sm:w-auto">Start gratis, 30 dagen</Link>
-            <a href="#hoe" className="pilknop-licht w-full sm:w-auto">Bekijk hoe het werkt</a>
-          </div>
+      {/* Held met wallpaper, naar het voorbeeld van moneybird.nl: foto van een kledingwinkel als vaste achtergrond, het
+          personage als aparte laag die zichtbaar blijft terwijl de foto bij scrollen vervaagt (src/components/Held.tsx).
+          Tekst links, personage rechts; het dashboard piept onderaan uit beeld zoals de interface bij Moneybird. */}
+      <Held foto="/beeld/held-winkel.jpg" persoon="/beeld/held-persoon.png" dashboard={
+        <div className="dash-raam">
+          <Image src="/schermen/dashboard.png" alt={`Het overzicht in ${MERK}: infobalken, de vraagbalk voor de bot en de laatst geboekte regels`} width={2880} height={1800} priority className="block w-full" />
         </div>
-
-        <div className="op v4 relative mx-auto mt-14 max-w-[1310px] px-5 md:mt-28 md:px-8 xl:px-0">
-          <div className="dash-raam max-h-[280px] md:max-h-[640px] lg:w-[93.7%]">
-            <Image src="/schermen/dashboard.png" alt={`Het overzicht in ${MERK}: infobalken, de vraagbalk voor de bot en de laatst geboekte regels`} width={2880} height={1800} priority className="block w-[150%] max-w-none md:w-full" />
-          </div>
-          <div className="zweefkaart absolute -top-[70px] right-8 hidden h-[524px] w-[320px] lg:block xl:right-0">
-            <Image src="/schermen/m-app.png" alt={`${MERK} op een telefoon: het overzicht met infobalken en de vraagbalk`} width={1170} height={2532} className="block w-full" />
-          </div>
+      }>
+        <h1 className="op v1 text-[38px] leading-[1.06] tracking-[-0.03em] md:text-[50px] md:leading-[1.04] xl:text-[58px] xl:leading-[1.03]">
+          <span className="block"><Wisselwoord woorden={KOPWOORDEN} /> die zichzelf doet,</span>
+          <span className="block">van eerste factuur tot aangifte</span>
+        </h1>
+        <p className="op v2 mt-5 max-w-[560px] text-pretty text-[17px] leading-[1.45] md:text-[19px]">
+          Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord, op je laptop of op je telefoon. Eén vaste prijs, € {PRIJS} per maand.
+        </p>
+        <div className="op v3 mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
+          <Link href={LOGIN_URL} className="pilknop-wit w-full sm:w-auto">Start gratis, 30 dagen</Link>
+          <a href="#hoe" className="pilknop-glas w-full sm:w-auto">Bekijk hoe het werkt</a>
         </div>
-      </section>
+      </Held>
 
+      <div className="na-held">
       {/* Vertrouwd door: doorlopende rij bedrijfslogo's, allemaal in het zwart. */}
-      <section className="border-y border-lijn bg-papier py-10">
+      <section className="na-held-rand border-b border-lijn bg-papier py-10">
         <p className="text-center text-[13px] font-semibold uppercase tracking-[.08em] text-tekst-3">Vertrouwd door bedrijven in heel Nederland</p>
         <div className="strook-masker mt-8 overflow-hidden">
           <div className="strook items-center gap-[76px]">
@@ -299,6 +294,7 @@ export default function Landing() {
       </section>
 
       <Voettekst />
+      </div>
 
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-lijn bg-white/95 p-3 backdrop-blur sm:hidden">
         <Link href={LOGIN_URL} className="pilknop w-full" style={{ height: 44 }}>Start gratis, 30 dagen</Link>
