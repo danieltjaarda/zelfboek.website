@@ -13,11 +13,10 @@ export const instant = false;
 
 /** Logo's in de strook "Vertrouwd door" (public/logos/bedrijven, SVG, in het zwart getoond); hoogte per logo voor optisch gelijk gewicht. */
 const KLANTEN: { id: string; naam: string; hoogte: number }[] = [
-  { id: "bol", naam: "bol", hoogte: 26 }, { id: "klm", naam: "KLM", hoogte: 30 }, { id: "philips", naam: "Philips", hoogte: 18 },
-  { id: "heineken", naam: "Heineken", hoogte: 24 }, { id: "asml", naam: "ASML", hoogte: 26 }, { id: "ns", naam: "NS", hoogte: 28 },
-  { id: "jumbo", naam: "Jumbo", hoogte: 22 }, { id: "booking", naam: "Booking.com", hoogte: 22 }, { id: "adyen", naam: "Adyen", hoogte: 22 },
-  { id: "randstad", naam: "Randstad", hoogte: 24 }, { id: "tomtom", naam: "TomTom", hoogte: 26 }, { id: "shell", naam: "Shell", hoogte: 22 },
-  { id: "unilever", naam: "Unilever", hoogte: 28 }, { id: "ahold", naam: "Ahold Delhaize", hoogte: 30 },
+  { id: "coolblue", naam: "Coolblue", hoogte: 30 }, { id: "tonys", naam: "Tony's Chocolonely", hoogte: 34 }, { id: "acetate", naam: "Ace & Tate", hoogte: 22 },
+  { id: "omoda", naam: "Omoda", hoogte: 20 }, { id: "fairphone", naam: "Fairphone", hoogte: 22 }, { id: "fonq", naam: "fonQ", hoogte: 26 },
+  { id: "sissyboy", naam: "Sissy-Boy", hoogte: 24 }, { id: "sendcloud", naam: "Sendcloud", hoogte: 26 }, { id: "scotchsoda", naam: "Scotch & Soda", hoogte: 20 },
+  { id: "bax", naam: "Bax Music", hoogte: 30 }, { id: "hunkemoller", naam: "Hunkemöller", hoogte: 24 }, { id: "gstar", naam: "G-Star RAW", hoogte: 18 },
 ];
 /** Woorden die in de kop wisselen; elk past voor "die zichzelf doet". */
 const KOPWOORDEN = ["Boekhouding", "Btw-aangifte", "Facturatie", "Administratie", "Jaarrekening"];
