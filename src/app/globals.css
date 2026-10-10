@@ -129,11 +129,13 @@ body {
 .wissel { isolation: isolate; }
 .wissel::after { content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: .04em; height: .07em; border-radius: 999px; background: var(--primair); }
 .wissel-woord { display: inline-block; will-change: transform, opacity, filter; }
-.wissel-woord[data-staat="weg"] { position: absolute; left: 0; top: 0; opacity: 0; pointer-events: none; }
 .wissel-woord[data-staat="uit"] { position: absolute; left: 0; top: 0; pointer-events: none; animation: wissel-uit .45s cubic-bezier(.4, 0, .7, .3) both; }
 .wissel-woord[data-staat="in"] { animation: wissel-in .6s cubic-bezier(.2, .8, .2, 1) .09s both; }
 @keyframes wissel-uit { from { opacity: 1; transform: none; filter: blur(0); } to { opacity: 0; transform: translateY(-.6em) scaleY(1.4); filter: blur(10px); } }
 @keyframes wissel-in { from { opacity: 0; transform: translateY(.6em) scaleY(1.4); filter: blur(10px); } to { opacity: 1; transform: none; filter: blur(0); } }
+/* Op mobiel staat het wisselwoord op een eigen regel: zo breekt de rest van de kop bij elk woord hetzelfde af en springt de
+   held niet op en neer. */
+@media (max-width: 767.98px) { .wissel { display: block; width: fit-content; } }
 @media (prefers-reduced-motion: reduce) { .wissel { transition: none; } .wissel-woord[data-staat="uit"], .wissel-woord[data-staat="in"] { animation: none; } }
 
 /* Gevuld statuslabel, zoals in de app. */

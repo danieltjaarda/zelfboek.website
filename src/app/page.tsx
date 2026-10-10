@@ -122,9 +122,9 @@ export default function Landing() {
           </div>
         </div>
       }>
-        <h1 className="op v1 text-[38px] leading-[1.06] tracking-[-0.03em] md:text-[50px] md:leading-[1.04] xl:text-[58px] xl:leading-[1.03]">
-          <span className="block"><Wisselwoord woorden={KOPWOORDEN} /> met een AI</span>
-          <span className="block">die alles dag en nacht bijhoudt.</span>
+        <h1 className="op v1 text-balance text-[38px] leading-[1.06] tracking-[-0.03em] md:text-[50px] md:leading-[1.04] xl:text-[58px] xl:leading-[1.03]">
+          <span className="md:block"><Wisselwoord woorden={KOPWOORDEN} /> met een AI</span>{" "}
+          <span className="md:block">die alles dag en nacht bijhoudt.</span>
         </h1>
         <p className="op v2 mt-5 max-w-[560px] text-pretty text-[17px] leading-[1.45] md:text-[19px]">
           Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord, op je laptop of op je telefoon. Eén vaste prijs, € {PRIJS} per maand.
