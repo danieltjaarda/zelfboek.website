@@ -308,6 +308,41 @@ body {
   .review-citaat { position: static; } .review-citaat:not(:first-child) { display: none; }
 }
 
+/* Grafiek nauwkeurigheid (src/components/Nauwkeurigheid.tsx), in hetzelfde venster als het chatvenster (.chatdemo): kop met
+   icoon en legenda, liggende staven op één schaal van 0 tot 100%, onderin de bron. Staven dun, 4px rond aan het uiteinde en
+   recht aan de basis; onze AI in merkblauw, de mensen in grijs (#c5ccd5, ook voor kleurenblinden goed te onderscheiden van
+   het blauw). Breed één regel per uitslag (naam, staaf, percentage), smal de staaf eronder. */
+.meetvenster { text-align: left; border-radius: 20px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 30px 70px -30px rgba(26, 31, 54, .35); overflow: hidden; }
+.meetvenster-kop { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--lijn); }
+.meetvenster-kop div { display: flex; flex-direction: column; line-height: 1.2; }
+.meetvenster-kop strong { font-size: 14px; font-weight: 600; color: var(--tekst); }
+.meetvenster-kop div span { font-size: 12px; color: var(--tekst-3); }
+.meetvenster-icoon { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px; background: var(--primair); color: #fff; }
+.meetvenster-legenda { display: none; margin-left: auto; gap: 14px; font-size: 12px; color: var(--tekst-2); }
+.meetvenster-legenda li { display: flex; align-items: center; gap: 6px; }
+.meetvenster-legenda i { width: 10px; height: 10px; border-radius: 3px; background: #c5ccd5; }
+.meetvenster-legenda i.ons { background: var(--primair); }
+.meetvenster-voet { padding: 12px 16px; border-top: 1px solid var(--lijn); background: #fafbfc; font-size: 12px; color: var(--tekst-3); }
+.meting-lijst { display: flex; flex-direction: column; gap: 22px; padding: 24px 20px; }
+.meting { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "wie waarde" "spoor spoor"; align-items: center; column-gap: 16px; row-gap: 10px; transition: opacity .2s; }
+.meting-lijst:hover .meting:not(:hover) { opacity: .45; }
+.meting-wie { grid-area: wie; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.meting-naam { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--tekst-2); }
+.meting-telling { font-size: 12px; color: var(--tekst-3); }
+.meting-waarde { grid-area: waarde; font-size: 15px; font-weight: 500; color: var(--tekst-2); text-align: right; }
+.meting-ons .meting-naam, .meting-ons .meting-waarde { font-weight: 600; color: var(--tekst); }
+.meting-ons .meting-naam svg { color: var(--primair); }
+.meting-spoor { grid-area: spoor; height: 10px; border-radius: 0 4px 4px 0; background: #eef1f5; }
+.meting-staaf { height: 100%; width: 0; border-radius: 0 4px 4px 0; background: #c5ccd5; transition: width 1.2s cubic-bezier(.22, 1, .36, 1); }
+.meting-ons .meting-staaf { background: var(--primair); }
+.in > .meetvenster .meting-staaf { width: var(--waarde); }
+@media (min-width: 640px) {
+  .meetvenster-legenda { display: flex; }
+  .meting-lijst { gap: 20px; padding: 28px 28px 30px; }
+  .meting { grid-template-columns: 9.5rem minmax(0, 1fr) 4rem; grid-template-areas: "wie spoor waarde"; column-gap: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { .meting-staaf { width: var(--waarde); } }
+
 /* Held met wallpaper (src/components/Held.tsx), naar het voorbeeld van moneybird.nl. De vaste laag staat op -z-10 in de
    root-stapel; alles na de held heeft daarom een dekkende achtergrond (wrapper .na-held). Donkere verlopen bovenin en
    links houden de witte tekst leesbaar; bij scrollen vervaagt de foto naar de donkere ondergrond. */

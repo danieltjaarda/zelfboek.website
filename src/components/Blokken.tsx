@@ -2,6 +2,8 @@ import Link from "next/link";
 import { AppIcoon, type AppId } from "@/components/Merk";
 import { Telefoon } from "@/components/Demos";
 import { ChatDemo, type Gesprek } from "@/components/ChatDemo";
+import { Nauwkeurigheid, type Meting } from "@/components/Nauwkeurigheid";
+import { Onthul } from "@/components/Onthul";
 
 /** Kleine kop boven een blok, in kapitalen. */
 export function Kopje({ children }: { children: React.ReactNode }) {
@@ -68,6 +70,18 @@ export function BlokVragen() {
       <h3 className="mx-auto mt-3 max-w-2xl text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Stel zelf vragen aan de AI die alles over jouw boekhouding weet</h3>
       <p className="mx-auto mt-4 max-w-xl text-[16px] text-tekst-2">Hij kijkt in je eigen cijfers en antwoordt in gewone taal. Overal in de app, met ⌘K.</p>
       <ChatDemo gesprekken={GESPREKKEN} className="mx-auto mt-8 w-full max-w-2xl md:mt-10" />
+    </div>
+  );
+}
+
+/** Blok: hoe vaak de boeking klopt, in dezelfde opzet als "Vraag het de AI": kop in het midden, eronder de grafiek in een venster. */
+export function BlokNauwkeurigheid({ meting }: { meting: Meting }) {
+  return (
+    <div className="blok px-6 pb-10 pt-12 text-center md:pb-14 md:pt-16">
+      <Kopje>Nauwkeurigheid</Kopje>
+      <h2 className="mx-auto mt-3 max-w-2xl text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Hoe vaak klopt de boeking?</h2>
+      <p className="mx-auto mt-4 max-w-xl text-[16px] text-tekst-2">Onze AI naast een fiscalist en een boekhouder, op precies dezelfde bankregels, bonnen en facturen.</p>
+      <Onthul className="mx-auto mt-8 w-full max-w-2xl md:mt-10"><Nauwkeurigheid {...meting} /></Onthul>
     </div>
   );
 }

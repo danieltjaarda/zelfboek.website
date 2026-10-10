@@ -2,13 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
 import { Onthul } from "@/components/Onthul";
-import { BotDemo } from "@/components/Demos";
-import { BlokApp, BlokKoppelingen, BlokVragen, Kopje } from "@/components/Blokken";
+import { BlokApp, BlokKoppelingen, BlokNauwkeurigheid, BlokVragen, Kopje } from "@/components/Blokken";
 import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
 import { Wisselwoord } from "@/components/Wisselwoord";
 import { Held } from "@/components/Held";
 import { Navigatie } from "@/components/Navigatie";
+import type { Meting } from "@/components/Nauwkeurigheid";
 import { Meldingen, type Melding } from "@/components/Meldingen";
 import { Ervaringen } from "@/components/Ervaringen";
 import { Belastingkennis } from "@/components/Belastingkennis";
@@ -71,6 +71,20 @@ const functies: { icoon: string; kop: string; tekst: string }[] = [
   { icoon: "ib", kop: "Nooit meer schrikken van de inkomstenbelasting", tekst: "Je ziet het hele jaar wat je moet reserveren, met zelfstandigenaftrek, MKB-vrijstelling en urencriterium erbij." },
   { icoon: "bot", kop: "Vraag het gewoon", tekst: "Hoeveel gaf ik uit aan software? Wie betaalt altijd te laat? De bot kijkt in je cijfers en antwoordt direct." },
 ];
+
+/**
+ * Nauwkeurigheid bij het boeken: onze AI tegen een boekhouder en een fiscalist, op dezelfde set boekingen.
+ * VOORBEELDCIJFERS. Vervangen door een echte meting (en de voetnoot door de bron) voordat dit live gaat.
+ */
+const NAUWKEURIGHEID: Meting = {
+  totaal: 1000,
+  uitslag: [
+    { wie: `${MERK} AI`, goed: 987, ons: true },
+    { wie: "Fiscalist", goed: 951 },
+    { wie: "Boekhouder", goed: 934 },
+  ],
+  voetnoot: "Voorbeeldcijfers. De echte meting en bron volgen.",
+};
 
 const voorWie: { beeld: string; alt: string; kop: string; tekst: string }[] = [
   { beeld: "/beeld/zzp-webdesigner.jpg", alt: "Webdesigner achter een laptop in een lichte werkkamer", kop: "Freelancers en creatieven", tekst: "Uren naar factuur, btw verlegd naar klanten in de EU, software-abonnementen vanzelf als kosten." },
@@ -272,21 +286,9 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* De bot */}
-      <section className="bg-papier py-20 md:py-28">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-[1fr_1.1fr]">
-          <Onthul>
-            <p className="eyebrow">Vraag het gewoon</p>
-            <h2 className="mt-3 text-[32px] leading-[1.05] md:text-[42px]">Een bot die je cijfers kent, overal in de app.</h2>
-            <p className="mt-4 max-w-lg text-[17px] leading-relaxed text-tekst-2">Druk op ⌘K en vraag wat je wilt weten: open facturen, je grootste kostenpost, hoeveel btw je straks betaalt. Hij kijkt in je eigen boekhouding en antwoordt in gewone taal. Iets wijzigen doet hij pas na jouw ja.</p>
-            <ul className="mt-7 space-y-3 text-[16px]">
-              {["Antwoord met de echte cijfers uit je administratie", "Zet taken klaar en past boekingen aan na je bevestiging", "Leert van elke correctie die je maakt"].map((x) => (
-                <li key={x} className="flex gap-3"><Vink />{x}</li>
-              ))}
-            </ul>
-          </Onthul>
-          <Onthul vertraging={120}><BotDemo className="mx-auto max-w-lg" /></Onthul>
-        </div>
+      {/* Nauwkeurigheid: een grijs blok in dezelfde opzet als "Vraag het de AI", met de grafiek in een venster. */}
+      <section id="nauwkeurigheid" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
+        <Onthul><BlokNauwkeurigheid meting={NAUWKEURIGHEID} /></Onthul>
       </section>
 
       {/* Prijs */}
