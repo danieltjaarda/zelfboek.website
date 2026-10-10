@@ -1,4 +1,3 @@
-import { Kopje } from "@/components/Blokken";
 import { MERK } from "@/lib/merk";
 import { BotIcoon } from "@/components/BotIcoon";
 
@@ -32,8 +31,7 @@ export function Belastingkennis() {
   return (
     <div>
       <div className="text-center">
-        <Kopje>Belastingkennis</Kopje>
-        <h2 className="mx-auto mt-3 max-w-3xl text-[34px] leading-[1.05] md:text-[48px]">Kent alle regels van de Belastingdienst. En past ze toe op jouw cijfers.</h2>
+        <h2 className="mx-auto max-w-3xl text-[34px] leading-[1.05] md:text-[48px]">Kent alle regels van de Belastingdienst. En past ze toe op jouw cijfers.</h2>
         <p className="mx-auto mt-4 max-w-xl text-[17px] leading-relaxed text-tekst-2">Regels gaan erin, acties komen eruit. Jij hoeft niets op te zoeken of bij te houden: de bot ziet wat voor jou geldt en regelt het, of stelt het voor.</p>
       </div>
 

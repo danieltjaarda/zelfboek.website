@@ -5,11 +5,6 @@ import { ChatDemo, type Gesprek } from "@/components/ChatDemo";
 import { Nauwkeurigheid, type Meting } from "@/components/Nauwkeurigheid";
 import { Onthul } from "@/components/Onthul";
 
-/** Kleine kop boven een blok, in kapitalen. */
-export function Kopje({ children }: { children: React.ReactNode }) {
-  return <p className="text-[12px] font-semibold uppercase tracking-[.12em] text-tekst-3">{children}</p>;
-}
-
 /** Link "Meer over …" met een pijltje. */
 export function Meer({ href, children, className = "" }: { href: string; children: React.ReactNode; className?: string }) {
   return (
@@ -26,8 +21,7 @@ export function BlokKoppelingen() {
   const rij2: AppId[] = ["mollie", "stripe", "shopify", "bol", "woocommerce", "paypal", "n26", "asn"];
   return (
     <div className="blok min-h-[440px] p-7 md:min-h-[560px] md:p-10">
-      <Kopje>Koppelingen</Kopje>
-      <h3 className="mt-3 max-w-md text-[28px] font-[420] leading-[1.15] tracking-[-0.02em] md:text-[32px]">Koppel 11 banken en 6 verkoopkanalen met één klik</h3>
+      <h3 className="max-w-md text-[28px] font-[420] leading-[1.15] tracking-[-0.02em] md:text-[32px]">Koppel 11 banken en 6 verkoopkanalen met één klik</h3>
       <Meer href="#werkt-met" className="mt-4">Meer over koppelingen</Meer>
       {/* Twee rijen die langzaam langs elkaar schuiven; de rij onder je cursor staat stil. Elke rij staat er twee keer in voor een naadloze lus. */}
       <div className="tegelwand" aria-hidden>
@@ -42,8 +36,7 @@ export function BlokKoppelingen() {
 export function BlokApp() {
   return (
     <div className="blok min-h-[600px] p-7 md:min-h-[560px] md:p-10">
-      <Kopje>Mobiele app</Kopje>
-      <h3 className="mt-3 max-w-md text-[28px] font-[420] leading-[1.15] tracking-[-0.02em] md:text-[32px]">Bonnen fotograferen en vragen beantwoorden, waar je ook bent</h3>
+      <h3 className="max-w-md text-[28px] font-[420] leading-[1.15] tracking-[-0.02em] md:text-[32px]">Bonnen fotograferen en vragen beantwoorden, waar je ook bent</h3>
       <Meer href="#hoe" className="mt-4">Meer over de app</Meer>
       <div className="pointer-events-none absolute top-[250px] -right-24 h-[640px] w-[460px] origin-top-left scale-[.68] sm:top-auto sm:-bottom-[210px] sm:right-2 sm:scale-100 md:right-6" aria-hidden>
         <div className="absolute left-0 top-12 origin-bottom -rotate-[9deg] scale-[.8]"><Telefoon scherm="/schermen/m-bonnen.png" alt="" /></div>
@@ -66,8 +59,7 @@ const GESPREKKEN: Gesprek[] = [
 export function BlokVragen() {
   return (
     <div className="blok px-6 pb-10 pt-12 text-center md:pb-14 md:pt-16">
-      <Kopje>Vraag het de AI</Kopje>
-      <h3 className="mx-auto mt-3 max-w-2xl text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Stel zelf vragen aan de AI die alles over jouw boekhouding weet</h3>
+      <h3 className="mx-auto max-w-2xl text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Stel zelf vragen aan de AI die alles over jouw boekhouding weet</h3>
       <p className="mx-auto mt-4 max-w-xl text-[16px] text-tekst-2">Hij kijkt in je eigen cijfers en antwoordt in gewone taal. Overal in de app, met ⌘K.</p>
       <ChatDemo gesprekken={GESPREKKEN} className="mx-auto mt-8 w-full max-w-2xl md:mt-10" />
     </div>
@@ -78,8 +70,7 @@ export function BlokVragen() {
 export function BlokNauwkeurigheid({ meting }: { meting: Meting }) {
   return (
     <div className="blok px-6 pb-10 pt-12 text-center md:pb-14 md:pt-16">
-      <Kopje>Nauwkeurigheid</Kopje>
-      <h2 className="mx-auto mt-3 max-w-2xl text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Hoe vaak klopt de boeking?</h2>
+      <h2 className="mx-auto max-w-2xl text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Hoe vaak klopt de boeking?</h2>
       <p className="mx-auto mt-4 max-w-xl text-[16px] text-tekst-2">Onze AI naast een fiscalist en een boekhouder, op precies dezelfde bankregels, bonnen en facturen.</p>
       <Onthul className="mx-auto mt-8 w-full max-w-2xl md:mt-10"><Nauwkeurigheid {...meting} /></Onthul>
     </div>

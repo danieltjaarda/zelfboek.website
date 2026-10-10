@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Kopje } from "@/components/Blokken";
 import { Onthul } from "@/components/Onthul";
 
 type Review = { tekst: string; naam: string; rol: string; soort: "zzp'er" | "webshop"; beeld: string };
@@ -67,8 +66,7 @@ export function Ervaringen() {
     <div>
       <Onthul className="mx-auto max-w-6xl px-6">
         <div className="text-center">
-          <Kopje>Ervaringen</Kopje>
-          <h2 className="mx-auto mt-3 max-w-3xl text-[34px] leading-[1.05] md:text-[48px]">Zzp’ers en webshops die het al lieten doen.</h2>
+          <h2 className="mx-auto max-w-3xl text-[34px] leading-[1.05] md:text-[48px]">Zzp’ers en webshops die het al lieten doen.</h2>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[15px]">
             <span className="flex -space-x-2">
               {RIJ_A.slice(0, 4).map((r) => <Image key={r.naam} src={r.beeld} alt="" width={32} height={32} className="h-8 w-8 rounded-full border-2 border-white object-cover" />)}

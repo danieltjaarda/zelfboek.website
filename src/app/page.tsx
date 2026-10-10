@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
 import { Onthul } from "@/components/Onthul";
-import { BlokApp, BlokKoppelingen, BlokNauwkeurigheid, BlokVragen, Kopje } from "@/components/Blokken";
+import { BlokApp, BlokKoppelingen, BlokNauwkeurigheid, BlokVragen } from "@/components/Blokken";
 import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
 import { Wisselwoord } from "@/components/Wisselwoord";
@@ -168,8 +168,7 @@ export default function Landing() {
         <Onthul>
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
             <div>
-              <Kopje>Altijd aan het werk</Kopje>
-              <h2 className="mt-3 text-[34px] leading-[1.05] md:text-[48px]">Een AI die zelf met voorstellen komt.</h2>
+              <h2 className="text-[34px] leading-[1.05] md:text-[48px]">Een <span className="streep">AI</span> die zelf met voorstellen komt.</h2>
               <p className="mt-5 max-w-md text-[17px] leading-relaxed text-tekst-2">Hij boekt niet alleen. Hij kijkt mee naar regelingen, aftrekposten en deadlines, en stuurt je een bericht zodra er iets te halen of te regelen valt. Jij zegt ja of nee.</p>
               <ul className="mt-7 space-y-3 text-[16px] text-tekst">
                 {["Elke nacht alle bankregels, bonnen en facturen", "Voorstellen met uitleg in gewone taal", "Jij beslist met één tik, hij regelt de rest"].map((t) => (
@@ -196,8 +195,7 @@ export default function Landing() {
           <Accordeon
             kop={
               <>
-                <Kopje>Het dashboard</Kopje>
-                <h2 className="mt-3 text-[32px] leading-[1.05] md:text-[42px]">Je cijfers bekijken én begrijpen</h2>
+                <h2 className="text-[32px] leading-[1.05] md:text-[42px]">Je cijfers bekijken én begrijpen</h2>
                 <p className="mt-4 max-w-md text-[17px] leading-relaxed text-tekst-2">Omzet, kosten, winst en btw altijd actueel. Elke boeking met een zin uitleg, elke vraag met één tik beantwoord. Op je laptop en op je telefoon.</p>
               </>
             }

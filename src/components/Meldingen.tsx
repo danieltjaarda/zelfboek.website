@@ -1,18 +1,16 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { MERK } from "@/lib/merk";
-import { BotIcoon } from "@/components/BotIcoon";
 
 export type Melding = { soort: "Voorstel" | "Geregeld" | "Vraag" | "Klaar"; tijd: string; tekst: string; acties?: [string, string] };
 
-const KLEUR: Record<Melding["soort"], string> = { Voorstel: "pil-blauw", Geregeld: "pil-groen", Vraag: "pil-geel", Klaar: "pil-grijs" };
 const ZICHTBAAR = 5;
 const START = 3;
 const INTERVAL = 2600;
 
 /**
  * Live feed van meldingen van de bot: zodra het blok in beeld is, schuift er elke paar seconden een nieuwe melding bovenin
- * (grid-rows-animatie, dus de rest zakt soepel mee), de onderste verdwijnt in de fade. Bij 'minder beweging' een stille lijst.
+ * (grid-rows-animatie, dus de rest zakt soepel mee), de onderste verdwijnt in het donker. Op een nachtscherm, met kaarten
+ * van donker liquid glass met alleen soort, tijd en tekst. Bij 'minder beweging' een stille lijst.
  */
 export function Meldingen({ items }: { items: Melding[] }) {
   const [lijst, setLijst] = useState(() => items.slice(0, START).map((_, i) => ({ sleutel: i, idx: i })));
@@ -36,11 +34,11 @@ export function Meldingen({ items }: { items: Melding[] }) {
   }, [items.length]);
 
   return (
-    <div>
+    <div className="nacht">
       {/* Balk boven de feed: live-stipje en een knop om de stroom stil te zetten. Verborgen bij 'minder beweging'. */}
       <div className="meldingen-kop">
         <span className={`meldingen-live ${pauze ? "stil" : ""}`}><i aria-hidden />{pauze ? "Gepauzeerd" : "Live, meldingen van vannacht"}</span>
-        <button type="button" className="meldingen-pauze" onClick={wissel} aria-pressed={pauze}>
+        <button type="button" className="meldingen-pauze glas glas-donker" onClick={wissel} aria-pressed={pauze}>
           {pauze
             ? <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden><path d="M3 1.8v8.4l7-4.2z" fill="currentColor" /></svg>
             : <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden><path d="M2.5 1.8h2.6v8.4H2.5zM6.9 1.8h2.6v8.4H6.9z" fill="currentColor" /></svg>}
@@ -53,11 +51,9 @@ export function Meldingen({ items }: { items: Melding[] }) {
         return (
           <div key={sleutel} className="melding-wrap" style={{ animationDelay: sleutel < START ? `${(START - 1 - i) * 0.12}s` : "0s" }}>
             <div>
-              <article className="melding">
+              <article className="melding glas glas-donker">
                 <header>
-                  <span className="melding-avatar"><BotIcoon size={18} /></span>
-                  <strong>{MERK}</strong>
-                  <span className={`pil ${KLEUR[m.soort]}`}>{m.soort}</span>
+                  <strong>{m.soort}</strong>
                   <time>{m.tijd}</time>
                 </header>
                 <p>{m.tekst}</p>

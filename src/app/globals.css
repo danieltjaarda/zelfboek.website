@@ -125,9 +125,11 @@ body {
 
 /* Wisselend woord in de kop: het oude schuift omhoog en vervaagt met bewegingsonscherpte, het nieuwe komt van onderen. */
 .wissel { position: relative; display: inline-block; vertical-align: top; white-space: nowrap; transition: width .55s cubic-bezier(.2, .8, .2, 1); }
-/* Blauwe streep onder het wisselwoord: zit net onder de basislijn, achter de staartletters, en schuift mee met de breedte van de houder. */
-.wissel { isolation: isolate; }
-.wissel::after { content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: .04em; height: .07em; border-radius: 999px; background: var(--primair); }
+/* Blauwe streep onder het wisselwoord: zit net onder de basislijn, achter de staartletters, en schuift mee met de breedte van de houder.
+   Dezelfde streep onder een los woord in een kop met .streep (zoals "AI" in "Een AI die zelf met voorstellen komt"). */
+.wissel, .streep { isolation: isolate; }
+.streep { position: relative; white-space: nowrap; }
+.wissel::after, .streep::after { content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: .04em; height: .07em; border-radius: 999px; background: var(--primair); }
 .wissel-woord { display: inline-block; will-change: transform, opacity, filter; }
 .wissel-woord[data-staat="uit"] { position: absolute; left: 0; top: 0; pointer-events: none; animation: wissel-uit .45s cubic-bezier(.4, 0, .7, .3) both; }
 .wissel-woord[data-staat="in"] { animation: wissel-in .6s cubic-bezier(.2, .8, .2, 1) .09s both; }
@@ -308,7 +310,7 @@ body {
   .review-citaat { position: static; } .review-citaat:not(:first-child) { display: none; }
 }
 
-/* Grafiek nauwkeurigheid (src/components/Nauwkeurigheid.tsx), in hetzelfde venster als het chatvenster (.chatdemo): kop met
+/* Grafiek nauwkeurigheid (src/components/Nauwkeurigheid.tsx), in een wit venster: kop met
    icoon en legenda, liggende staven op één schaal van 0 tot 100%, onderin de bron. Staven dun, 4px rond aan het uiteinde en
    recht aan de basis; onze AI in merkblauw, de mensen in grijs (#c5ccd5, ook voor kleurenblinden goed te onderscheiden van
    het blauw). Breed één regel per uitslag (naam, staaf, percentage), smal de staaf eronder. */
@@ -362,54 +364,83 @@ body {
 .na-held-rand { border-radius: 28px 28px 0 0; margin-top: -28px; box-shadow: 0 -8px 30px -12px rgba(0, 0, 0, .35); }
 @media (min-width: 768px) { .na-held-rand { border-radius: 40px 40px 0 0; margin-top: -40px; } }
 
-/* Meldingen van de bot (src/components/Meldingen.tsx): live feed, nieuwe melding schuift bovenin via een grid-rows-animatie,
-   onderin vervaagt de lijst in een masker. */
-.meldingen { position: relative; height: 560px; overflow: hidden; mask-image: linear-gradient(#000 62%, transparent 97%); -webkit-mask-image: linear-gradient(#000 62%, transparent 97%); }
-.melding-wrap { display: grid; grid-template-rows: 1fr; animation: melding-in .6s cubic-bezier(.2, .8, .2, 1) both; }
-.melding-wrap > div { overflow: hidden; }
-.melding { margin-bottom: 12px; padding: 14px 16px 15px; border-radius: 16px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 14px 36px -22px rgba(26, 31, 54, .35); }
-.melding header { display: flex; align-items: center; gap: 8px; }
-.melding header strong { font-size: 14px; font-weight: 600; color: var(--tekst); }
-.melding header time { margin-left: auto; font-size: 12px; color: var(--tekst-3); white-space: nowrap; }
-.melding-avatar { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; background: var(--primair); color: #fff; }
-.melding p { margin-top: 8px; font-size: 15px; line-height: 1.5; color: var(--tekst-2); }
+/* Liquid glass zoals bij Apple (chatvenster, meldingen): doorschijnend met vervaging erachter, een binnenrand die
+   dik glas suggereert (naar de rand iets donkerder, zoals breking), een fijne donkere lijn erbuiten, en binnen die lijn een
+   heldere lichtrand die het felst is linksboven en rechtsonder en op de zijkanten zwakker wordt. Het glas is licht koel
+   getint, anders valt de witte lichtrand weg op een witte pagina. Squircle-hoeken via corner-shape; de lichtrand neemt die vorm over. */
+.glas { position: relative; corner-shape: superellipse(1.4); background: linear-gradient(180deg, rgba(251, 252, 253, .78), rgba(243, 245, 248, .62)); -webkit-backdrop-filter: blur(20px) saturate(190%); backdrop-filter: blur(20px) saturate(190%); box-shadow: inset 0 0 16px rgba(26, 31, 54, .07), 0 0 0 .5px rgba(26, 31, 54, .14), 0 1px 3px rgba(26, 31, 54, .06), 0 12px 28px -16px rgba(26, 31, 54, .25); }
+.glas::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; padding: 1.5px; border-radius: inherit; corner-shape: inherit; background: linear-gradient(135deg, #fff, rgba(255, 255, 255, .7) 22%, rgba(255, 255, 255, .2) 42%, rgba(255, 255, 255, .2) 58%, rgba(255, 255, 255, .7) 78%, #fff); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+
+/* Donker glas, voor glas op een donkere achtergrond (de meldingen op het nachtscherm): zelfde opbouw als .glas, maar een
+   heldere vulling van wit op laag, een lichte gloed aan de binnenkant en een zwarte lijn erbuiten. */
+.glas-donker { background: linear-gradient(180deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, .08)); box-shadow: inset 0 0 18px rgba(255, 255, 255, .07), 0 0 0 .5px rgba(0, 0, 0, .4), 0 14px 32px -16px rgba(0, 0, 0, .7); }
+.glas-donker::after { background: linear-gradient(135deg, rgba(255, 255, 255, .85), rgba(255, 255, 255, .3) 22%, rgba(255, 255, 255, .07) 42%, rgba(255, 255, 255, .07) 58%, rgba(255, 255, 255, .3) 78%, rgba(255, 255, 255, .7)); }
+
+/* Meldingen van de bot (src/components/Meldingen.tsx) op een nachtscherm zoals een vergrendelscherm: donker marineblauw paneel met
+   lichtvlekken in het merkblauw en kleine lichtpuntjes, die door het glas van de meldingen vervaagd te zien zijn. Nieuwe melding schuift
+   bovenin via een grid-rows-animatie; onderin loopt de lijst weg in het donker. Geen masker op de lijst: een masker maakt
+   er een backdrop root van, dan ziet het glas de achtergrond van het paneel niet meer. */
+.nacht { position: relative; isolation: isolate; overflow: hidden; padding: 18px 24px 0; border-radius: 32px; corner-shape: superellipse(1.4); color: #fff;
+  background:
+    radial-gradient(circle 3px at 14% 20%, rgba(220, 244, 252, .95), transparent),
+    radial-gradient(circle 5px at 72% 14%, rgba(120, 210, 240, .8), transparent),
+    radial-gradient(circle 2px at 88% 31%, rgba(255, 255, 255, .9), transparent),
+    radial-gradient(circle 6px at 31% 44%, rgba(29, 177, 223, .75), transparent),
+    radial-gradient(circle 3px at 63% 52%, rgba(210, 240, 250, .9), transparent),
+    radial-gradient(circle 8px at 84% 63%, rgba(20, 138, 174, .65), transparent),
+    radial-gradient(circle 4px at 19% 71%, rgba(150, 220, 245, .8), transparent),
+    radial-gradient(circle 3px at 48% 80%, rgba(235, 248, 253, .85), transparent),
+    radial-gradient(60% 45% at 18% 30%, rgba(29, 177, 223, .4), transparent 70%),
+    radial-gradient(55% 45% at 88% 58%, rgba(20, 138, 174, .42), transparent 70%),
+    linear-gradient(170deg, #182036, #0a0d18 75%); }
+.nacht::after { content: ""; position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; height: 32%; pointer-events: none; background: linear-gradient(rgba(10, 13, 24, 0), #0a0d18 88%); }
+.meldingen { position: relative; height: 560px; margin: 0 -24px; padding: 0 24px; overflow: hidden; }
+/* De rij klapt open, de kaart zelf vervaagt in. Niet op de rij: opacity op een voorouder van het glas maakt die een backdrop
+   root, en dan vervaagt het glas de achtergrond van het nachtscherm niet meer. De vertraging komt van de rij (inline style). */
+.melding-wrap { display: grid; grid-template-rows: 1fr; animation: melding-rij .6s cubic-bezier(.2, .8, .2, 1) both; }
+.melding-wrap > div, .melding-wrap .melding { animation-delay: inherit; }
+/* Ruimte opzij zodat de rand en schaduw van het glas niet worden afgeknipt door overflow: hidden. */
+.melding-wrap > div { overflow: hidden; margin: 0 -24px; padding: 1px 24px 0; }
+.melding { margin-bottom: 14px; padding: 15px 18px 16px; border-radius: 22px; animation: melding-in .6s cubic-bezier(.2, .8, .2, 1) both; }
+.melding header { display: flex; align-items: baseline; gap: 8px; }
+.melding header strong { font-size: 14px; font-weight: 600; color: #fff; }
+.melding header time { margin-left: auto; font-size: 12px; color: rgba(255, 255, 255, .55); white-space: nowrap; }
+.melding p { margin-top: 6px; font-size: 15px; line-height: 1.5; color: rgba(255, 255, 255, .8); }
 .melding-acties { display: flex; gap: 8px; margin-top: 12px; }
-.melding-knop { height: 32px; padding: 0 14px; border-radius: 16px; font-size: 13px; font-weight: 600; color: var(--tekst); background: #f0f2f5; cursor: default; }
-.melding-knop-primair { background: var(--primair); color: #fff; }
-@keyframes melding-in { from { grid-template-rows: 0fr; opacity: 0; transform: translateY(-10px); } to { grid-template-rows: 1fr; opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .melding-wrap { animation: none; } }
+.melding-knop { height: 32px; padding: 0 14px; border-radius: 16px; corner-shape: superellipse(1.4); font-size: 13px; font-weight: 600; color: #fff; background: rgba(255, 255, 255, .14); cursor: default; }
+.melding-knop-primair { background: #fff; color: var(--inkt); }
+@keyframes melding-rij { from { grid-template-rows: 0fr; } to { grid-template-rows: 1fr; } }
+@keyframes melding-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .melding-wrap, .melding { animation: none; } }
 @media (max-width: 767px) { .meldingen { height: 480px; } }
-.meldingen-kop { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; padding: 0 4px; }
-.meldingen-live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--tekst-2); }
-.meldingen-live i { width: 8px; height: 8px; border-radius: 50%; background: var(--groen); box-shadow: 0 0 0 0 rgba(22, 163, 74, .5); animation: meldingen-puls 1.8s ease-out infinite; }
-.meldingen-live.stil i { background: var(--tekst-3); animation: none; box-shadow: none; }
-@keyframes meldingen-puls { from { box-shadow: 0 0 0 0 rgba(22, 163, 74, .45); } to { box-shadow: 0 0 0 7px rgba(22, 163, 74, 0); } }
-.meldingen-pauze { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px 0 10px; border-radius: 16px; background: #fff; border: 1px solid var(--lijn-2); font-size: 13px; font-weight: 600; color: var(--tekst); cursor: pointer; box-shadow: 0 1px 2px rgba(26, 31, 54, .05); transition: background .15s; }
-.meldingen-pauze:hover { background: #f0f2f5; }
-.meldingen-pauze:focus-visible { outline: none; box-shadow: var(--ring); }
+.meldingen-kop { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; padding: 0 4px; }
+.meldingen-live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255, 255, 255, .75); }
+.meldingen-live i { width: 8px; height: 8px; border-radius: 50%; background: #34c759; box-shadow: 0 0 0 0 rgba(52, 199, 89, .5); animation: meldingen-puls 1.8s ease-out infinite; }
+.meldingen-live.stil i { background: rgba(255, 255, 255, .4); animation: none; box-shadow: none; }
+@keyframes meldingen-puls { from { box-shadow: 0 0 0 0 rgba(52, 199, 89, .45); } to { box-shadow: 0 0 0 7px rgba(52, 199, 89, 0); } }
+.meldingen-pauze { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px 0 10px; border-radius: 16px; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; transition: background .15s; }
+.meldingen-pauze:hover { background: rgba(255, 255, 255, .24); }
+.meldingen-pauze:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(255, 255, 255, .6); }
 @media (prefers-reduced-motion: reduce) { .meldingen-kop { display: none; } }
 
-/* Chatvenster dat echt typt (src/components/ChatDemo.tsx): vraag verschijnt in het invoerveld, bel, stipjes, antwoord streamt. */
-.chatdemo { display: flex; flex-direction: column; text-align: left; border-radius: 20px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 30px 70px -30px rgba(26, 31, 54, .35); overflow: hidden; }
-.chatdemo-kop { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--lijn); }
-.chatdemo-kop div { display: flex; flex-direction: column; line-height: 1.2; }
-.chatdemo-kop strong { font-size: 14px; font-weight: 600; color: var(--tekst); }
-.chatdemo-kop div span { font-size: 12px; color: var(--tekst-3); }
-.chatdemo-avatar { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px; background: var(--primair); color: #fff; }
-.chatdemo-status { margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: var(--groen); box-shadow: 0 0 0 3px rgba(22, 163, 74, .15); }
-.chatdemo-lijst { display: flex; flex-direction: column; gap: 10px; height: 300px; padding: 16px; overflow: hidden; scroll-behavior: smooth; }
-.chatdemo-leeg { margin: auto; max-width: 30ch; text-align: center; font-size: 14px; color: var(--tekst-3); }
-.chatdemo-bel { max-width: 86%; padding: 10px 14px; border-radius: 16px; font-size: 15px; line-height: 1.5; animation: chatdemo-in .35s cubic-bezier(.2, .8, .2, 1) both; }
-.chatdemo-jij { align-self: flex-end; border-bottom-right-radius: 6px; background: var(--inkt); color: #fff; }
-.chatdemo-bot { align-self: flex-start; border-bottom-left-radius: 6px; background: var(--papier); color: var(--tekst); }
-.chatdemo-stippen { display: flex; gap: 4px; padding: 14px 16px; }
+/* Chatvenster dat echt typt (src/components/ChatDemo.tsx): één paneel van liquid glass met onderin het invoerveld. De vraag
+   verschijnt in het veld en wordt een donkere bel, het antwoord streamt als losse tekst zonder bel. Achter het glas een zachte
+   blauwe gloed, anders schemert er niets door. Squircle-hoeken via corner-shape, zoals de knoppen; zonder corner-shape rond. */
+.chatdemo { position: relative; isolation: isolate; text-align: left; }
+.chatdemo::before { content: ""; position: absolute; z-index: -1; inset: 12% 8% 4%; background: radial-gradient(50% 60% at 25% 40%, rgba(29, 177, 223, .5), transparent 70%), radial-gradient(45% 55% at 78% 62%, rgba(29, 177, 223, .32), transparent 70%); filter: blur(32px); }
+.chatdemo-glas { display: flex; flex-direction: column; overflow: hidden; border-radius: 32px; }
+/* Oude berichten vervagen bovenin in plaats van hard af te breken. */
+.chatdemo-lijst { display: flex; flex-direction: column; gap: 14px; height: 300px; padding: 24px 20px 12px; overflow: hidden; scroll-behavior: smooth; -webkit-mask-image: linear-gradient(transparent, #000 24px); mask-image: linear-gradient(transparent, #000 24px); }
+.chatdemo-jij { align-self: flex-end; max-width: 80%; padding: 10px 16px; border-radius: 20px 20px 8px 20px; corner-shape: superellipse(1.4); background: var(--inkt); color: #fff; font-size: 15px; line-height: 1.5; animation: chatdemo-in .35s cubic-bezier(.2, .8, .2, 1) both; }
+.chatdemo-bot { align-self: flex-start; max-width: 92%; padding: 0 4px; font-size: 15px; line-height: 1.6; color: var(--tekst); }
+.chatdemo-stippen { display: flex; gap: 4px; padding: 8px 4px; animation: chatdemo-in .35s cubic-bezier(.2, .8, .2, 1) both; }
 .chatdemo-stippen span { width: 6px; height: 6px; border-radius: 50%; background: var(--tekst-3); animation: chatdemo-stip 1s infinite; }
 .chatdemo-stippen span:nth-child(2) { animation-delay: .15s; } .chatdemo-stippen span:nth-child(3) { animation-delay: .3s; }
 .chatdemo-cursor { display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -0.15em; background: currentColor; animation: chatdemo-knipper 1s steps(2) infinite; }
-.chatdemo-invoer { display: flex; align-items: center; gap: 10px; margin: 0 12px 12px; padding: 10px 10px 10px 16px; border-radius: 999px; border: 1px solid var(--lijn-2); background: #fff; box-shadow: 0 0 0 4px rgba(29, 177, 223, .10); font-size: 15px; color: var(--tekst); }
+.chatdemo-invoer { display: flex; align-items: center; gap: 10px; margin: 0 12px 12px; padding: 8px 8px 8px 18px; border-radius: 24px; corner-shape: superellipse(1.4); background: rgba(255, 255, 255, .75); box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgba(26, 31, 54, .07), 0 6px 16px -8px rgba(26, 31, 54, .18); font-size: 15px; color: var(--tekst); }
 .chatdemo-invoer span { flex: 1; min-height: 22px; white-space: nowrap; overflow: hidden; }
 .chatdemo-plaats { color: var(--tekst-3); }
-.chatdemo-invoer b { display: inline-flex; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: 50%; background: #e9ecf1; color: var(--tekst-3); transition: background .2s, color .2s; }
+.chatdemo-invoer b { display: inline-flex; flex-shrink: 0; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: 16px; corner-shape: superellipse(1.4); background: rgba(26, 31, 54, .07); color: var(--tekst-3); transition: background .2s, color .2s; }
 .chatdemo-invoer b.actief { background: var(--primair); color: #fff; }
 @keyframes chatdemo-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes chatdemo-stip { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-3px); opacity: 1; } }
