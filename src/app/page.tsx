@@ -8,6 +8,7 @@ import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
 import { Wisselwoord } from "@/components/Wisselwoord";
 import { Held } from "@/components/Held";
+import { Navigatie } from "@/components/Navigatie";
 import { Meldingen, type Melding } from "@/components/Meldingen";
 import { Ervaringen } from "@/components/Ervaringen";
 import { Belastingkennis } from "@/components/Belastingkennis";
@@ -91,21 +92,23 @@ export default function Landing() {
   return (
     <main className="flex-1">
       {/* Navigatie */}
-      <header className="sticky top-3 z-30 px-3 md:top-4 md:px-6">
-        <div className="navbalk mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full pl-5 pr-2.5">
-          <Link href="/" aria-label={MERK}><Image src="/logos/saldoplan.png" alt="Saldoplan" width={720} height={218} priority className="h-[30px] w-auto" /></Link>
-          <nav className="hidden items-center gap-7 text-[14px] font-medium text-tekst-2 md:flex">
-            <a href="#functies" className="hover:text-tekst">Wat hij doet</a>
-            <a href="#werkt-met" className="hover:text-tekst">Werkt met</a>
-            <a href="#prijs" className="hover:text-tekst">Prijs</a>
-            <a href="#vragen" className="hover:text-tekst">Vragen</a>
-          </nav>
-          <div className="flex items-center gap-2">
-            <Link href={LOGIN_URL} className="hidden px-3 text-[14px] font-medium text-tekst-2 hover:text-tekst sm:inline-flex">Inloggen</Link>
-            <Link href={LOGIN_URL} className="pilknop pilknop-klein">Gratis proberen</Link>
+      <Navigatie>
+        <div className="navbalk">
+          <div className="navinhoud flex items-center justify-between">
+            <Link href="/" aria-label={MERK}><Image src="/logos/saldoplan.png" alt="Saldoplan" width={720} height={218} priority className="navlogo w-auto" /></Link>
+            <nav className="hidden items-center gap-7 text-[14px] font-medium text-tekst-2 md:flex">
+              <a href="#functies" className="hover:text-tekst">Wat hij doet</a>
+              <a href="#werkt-met" className="hover:text-tekst">Werkt met</a>
+              <a href="#prijs" className="hover:text-tekst">Prijs</a>
+              <a href="#vragen" className="hover:text-tekst">Vragen</a>
+            </nav>
+            <div className="flex items-center gap-2">
+              <Link href={LOGIN_URL} className="hidden px-3 text-[14px] font-medium text-tekst-2 hover:text-tekst sm:inline-flex">Inloggen</Link>
+              <Link href={LOGIN_URL} className="pilknop pilknop-klein">Gratis proberen</Link>
+            </div>
           </div>
         </div>
-      </header>
+      </Navigatie>
 
       {/* Held met wallpaper, naar het voorbeeld van moneybird.nl: foto van een kledingwinkel als vaste achtergrond, het
           personage als aparte laag die zichtbaar blijft terwijl de foto bij scrollen vervaagt (src/components/Held.tsx).

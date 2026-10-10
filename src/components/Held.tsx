@@ -52,7 +52,7 @@ export function Held({ foto, persoon, children, dashboard }: { foto: string; per
   }, []);
 
   return (
-    <section ref={held} className="held relative -mt-14 h-[100svh] min-h-[640px] overflow-hidden">
+    <section ref={held} className="held relative h-[100svh] min-h-[640px] overflow-hidden">
       <div ref={dek} className="held-dek fixed inset-0 -z-10 overflow-hidden" aria-hidden>
         <Image ref={achter} src={foto} alt="" fill priority sizes="100vw" className="held-laag object-cover" />
         <Image ref={voor} src={persoon} alt="" fill priority sizes="100vw" className="held-laag object-cover" />

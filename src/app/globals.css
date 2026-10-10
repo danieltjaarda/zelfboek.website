@@ -163,8 +163,44 @@ body {
 .vraag[open] summary::after { content: "–"; }
 .vraag p { padding: 0 0 18px; max-width: 62ch; color: var(--tekst-2); font-size: 15px; line-height: 1.6; }
 
-/* Navigatie bovenaan: dekkend wit. */
-.navbalk { background: #fff; border: 1px solid var(--lijn); box-shadow: 0 1px 0 rgba(26, 31, 54, 0.03), 0 12px 32px -18px rgba(26, 31, 54, 0.28); }
+/* Navigatie bovenaan, naar het voorbeeld van ecomflow.com (src/components/Navigatie.tsx). Eén dekkend wit vlak (.navbalk)
+   dat vervormt: bovenaan de pagina een volle balk over de hele breedte, inhoud uitgelijnd met de held; na een stukje
+   scrollen krimpt hetzelfde vlak tot een zwevende pil met schaduw en zakt het iets omlaag. Alles op één tempo en één
+   easing. Alleen het vlak vangt klikken, zodat de strook naast de pil vrij blijft. */
+.navkop { --veer: cubic-bezier(.22, 1, .36, 1); --duur: .6s; position: fixed; inset: 0 0 auto; z-index: 30; pointer-events: none; }
+.navbalk {
+  pointer-events: auto; width: 100%; max-width: 100%; margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid transparent; border-bottom-color: var(--lijn); border-radius: 0;
+  box-shadow: 0 1px 0 rgba(26, 31, 54, 0), 0 12px 32px -18px rgba(26, 31, 54, 0);
+}
+.navinhoud { width: calc(100% - 48px); max-width: 1240px; height: 62px; margin: 0 auto; padding: 0; }
+.navlogo { height: 34px; }
+.navkop[data-zwevend] .navbalk {
+  width: calc(100% - 24px); max-width: 1040px; transform: translateY(12px);
+  border-color: var(--lijn); border-radius: 28px;
+  box-shadow: 0 1px 0 rgba(26, 31, 54, .03), 0 12px 32px -18px rgba(26, 31, 54, .28);
+}
+.navkop[data-zwevend] .navinhoud { width: 100%; height: 54px; padding: 0 9px 0 19px; }
+.navkop[data-zwevend] .navlogo { height: 30px; }
+@media (min-width: 768px) {
+  .navinhoud { width: calc(100% - 80px); }
+  .navkop[data-zwevend] .navbalk { width: calc(100% - 48px); transform: translateY(16px); }
+}
+/* Overgangen pas na de eerste meting (data-klaar), zodat een pagina die halverwege opent niet bij het laden al krimpt.
+   Een overgang loopt met de timing van de toestand waar hij heen gaat: naar de pil worden de hoeken meteen rond, terug
+   naar de volle balk blijven ze rond tot hij bijna de hele breedte heeft. */
+.navkop[data-klaar] .navbalk {
+  transition: width var(--duur) var(--veer), max-width var(--duur) var(--veer), transform var(--duur) var(--veer),
+    border-radius var(--duur) cubic-bezier(.7, 0, .84, 0), box-shadow .3s, border-color .3s;
+}
+.navkop[data-klaar][data-zwevend] .navbalk {
+  transition: width var(--duur) var(--veer), max-width var(--duur) var(--veer), transform var(--duur) var(--veer),
+    border-radius var(--duur) var(--veer), box-shadow var(--duur) var(--veer), border-color .3s;
+}
+.navkop[data-klaar] .navinhoud { transition: width var(--duur) var(--veer), height var(--duur) var(--veer), padding var(--duur) var(--veer); }
+.navkop[data-klaar] .navlogo { transition: height var(--duur) var(--veer); }
+@media (prefers-reduced-motion: reduce) { .navkop[data-klaar] :is(.navbalk, .navinhoud, .navlogo) { transition: none; } }
 }
 
 /* Blokken in de stijl van productkaarten: zacht grijs vlak, grote ronde hoeken, visual loopt eruit. */
