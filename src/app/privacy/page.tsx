@@ -21,7 +21,7 @@ export default function Privacy() {
         <h2 id="verwerker">Verwerkersovereenkomst</h2>
         <p>Als je {MERK} gebruikt, verwerken wij gegevens namens jou. De verwerkersovereenkomst is onderdeel van de voorwaarden en op verzoek als los document beschikbaar.</p>
         <h2>Vragen</h2>
-        <p>Mail naar hallo@zelfboek.nl.</p>
+        <p>Mail naar hallo@saldoplan.nl.</p>
       </article>
       <Voettekst />
     </main>

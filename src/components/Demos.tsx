@@ -39,7 +39,7 @@ export function BoekDemo({ className = "" }: { className?: string }) {
 export function BotDemo({ className = "" }: { className?: string }) {
   return (
     <div className={`relative ${className}`}>
-      <Image src="/beeld/mascotte.png" alt="De bot van Zelfboek, een vriendelijk blauw robotje" width={640} height={640} className="pointer-events-none absolute -top-[88px] right-5 hidden w-[112px] md:block" />
+      <Image src="/beeld/mascotte.png" alt="De bot van Saldoplan, een vriendelijk blauw robotje" width={640} height={640} className="pointer-events-none absolute -top-[88px] right-5 hidden w-[112px] md:block" />
     <div className="halo p-5" aria-hidden>
       <div className="flex items-center gap-2 text-[13px] font-semibold">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primair)" aria-hidden><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2z" /><path d="M19 14l.9 2.6L22.5 17.5l-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9L19 14z" opacity=".7" /></svg>

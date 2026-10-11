@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
-  Marketingsite van Zelfboek, in dezelfde taal als de app: wit, koele grijzen, één merkblauw (--primair),
+  Marketingsite van Saldoplan, in dezelfde taal als de app: wit, koele grijzen, één merkblauw (--primair),
   Inter, Stripe-achtige knoppen en gevulde statuslabels. Animaties zijn zacht en vallen weg bij prefers-reduced-motion.
 */
 :root {
