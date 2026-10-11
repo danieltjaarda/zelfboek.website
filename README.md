@@ -1,8 +1,8 @@
-# Zelfboek — website
+# Saldoplan — website
 
-De marketingsite van Zelfboek: homepage, privacyverklaring en voorwaarden. Statisch, geen database, geen inlog.
+De marketingsite van Saldoplan: homepage, privacyverklaring en voorwaarden. Statisch, geen database, geen inlog.
 
-De webapp (inloggen, boekhouding, API's, cron) staat in de aparte repo **zelfboek-app**. Alle knoppen "Inloggen" en "Start gratis" op deze site linken daarnaartoe via `NEXT_PUBLIC_APP_URL` (standaard `https://app.zelfboek.nl`).
+De webapp (inloggen, boekhouding, API's, cron) staat in de aparte repo **saldoplan-app**. Alle knoppen "Inloggen" en "Start gratis" op deze site linken daarnaartoe via `NEXT_PUBLIC_APP_URL` (standaard `https://app.saldoplan.nl`).
 
 ## Starten
 
@@ -15,7 +15,7 @@ Open http://localhost:3000.
 
 ## Deploy
 
-Vercel, framework Next.js. Eén omgevingsvariabele: `NEXT_PUBLIC_APP_URL`. Domein: `zelfboek.nl` (en `www`).
+Vercel, framework Next.js. Eén omgevingsvariabele: `NEXT_PUBLIC_APP_URL`. Domein: `saldoplan.nl` (en `www`).
 
 ## Ontwerp
 

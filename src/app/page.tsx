@@ -114,7 +114,7 @@ export default function Landing() {
         <div className="dash-vak">
           <div className="dash-vak-b">
             <div className="dash-binnen">
-              <Image src="/schermen/dashboard.png" alt={`Het overzicht in ${MERK}: infobalken, de vraagbalk voor de bot en de laatst geboekte regels`} width={2880} height={1800} priority className="dash-beeld actief" />
+              <Image src="/schermen/dashboard.png" alt={`Het overzicht in ${MERK}: de volgende stap, de vraagbalk voor de bot en de laatst geboekte regels`} width={2880} height={1800} priority className="dash-beeld actief" />
             </div>
           </div>
         </div>
@@ -187,7 +187,7 @@ export default function Landing() {
             items={[
               { titel: "Bank", tekst: "Elke regel geboekt met categorie, btw-code en uitleg. Twijfelt de bot, dan vraagt hij het: zakelijk of privé. Jij tikt, hij onthoudt.", beeld: "/schermen/bank.png", alt: `De bankpagina in ${MERK}` },
               { titel: "Facturen", tekst: "Maak de factuur, de rest gaat vanzelf: iDEAL-link, e-factuur, herinneringen op dag 7, 21 en 35, en afletteren zodra het geld binnen is.", beeld: "/schermen/facturen.png", alt: `De facturenpagina in ${MERK}` },
-              { titel: "Koppelingen", tekst: "Banken en verkoopkanalen koppel je als in een app store. Wat live is, zie je in één oogopslag.", beeld: "/schermen/koppelingen.png", alt: `De koppelingenpagina in ${MERK}` },
+              { titel: "Koppelingen", tekst: "Eén knop per bank of app: je logt in bij de partij zelf en klaar. Geen codes overtypen, wat gekoppeld is zie je in één oogopslag.", beeld: "/schermen/koppelingen.png", alt: `De koppelingenpagina in ${MERK}` },
               { titel: "Vraag het de bot", badge: "⌘K", tekst: "Overal in de app: open facturen, je grootste kostenpost, hoeveel btw je straks betaalt. Hij kijkt in je eigen cijfers en antwoordt in gewone taal.", beeld: "/schermen/bot.png", alt: `De bot in ${MERK}, geopend als paneel` },
             ]}
           />
