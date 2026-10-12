@@ -6,7 +6,7 @@ const kolommen: { kop: string; links: [string, string][] }[] = [
   { kop: "Product", links: [["Wat hij doet", "/#functies"], ["Werkt met", "/#werkt-met"], ["Prijs", "/#prijs"], ["Inloggen", LOGIN_URL]] },
   { kop: "Voor wie", links: [["Zzp’ers en freelancers", "/#functies"], ["Webshops en marktplaatsen", "/#werkt-met"], ["Overstappen van een ander pakket", "/#werkt-met"]] },
   { kop: "Hulp", links: [["Vergelijk met anderen", "/vergelijk"], ["Veelgestelde vragen", "/#vragen"], ["Contact", "mailto:hallo@saldoplan.nl"]] },
-  { kop: "Juridisch", links: [["Privacy", "/privacy"], ["Voorwaarden", "/voorwaarden"], ["Verwerkersovereenkomst", "/privacy#verwerker"]] },
+  { kop: "Juridisch", links: [["Privacy", "/privacy"], ["Voorwaarden", "/voorwaarden"], ["Verwerkersovereenkomst", "/verwerkersovereenkomst"]] },
 ];
 
 export function Voettekst() {
