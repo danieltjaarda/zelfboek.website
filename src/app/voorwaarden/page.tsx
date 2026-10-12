@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
+import { MERK, LOGIN_URL } from "@/lib/merk";
+import { PRIJS_VANAF } from "@/lib/pakketten";
 import { Woordmerk } from "@/components/Merk";
 import { Voettekst } from "@/components/Voettekst";
 
@@ -9,12 +10,12 @@ export default function Voorwaarden() {
   return (
     <main className="flex-1">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"><Link href="/"><Woordmerk /></Link><Link href={LOGIN_URL} className="pilknop-licht pilknop-klein">Inloggen</Link></header>
-      <article className="mx-auto max-w-2xl px-6 py-12 text-[16px] leading-relaxed text-tekst-2 [&_h1]:text-tekst [&_h2]:mt-8 [&_h2]:text-[22px] [&_h2]:font-medium [&_h2]:text-tekst [&_p]:mt-3">
+      <article className="mx-auto max-w-2xl px-6 py-12 text-[16px] leading-relaxed text-tekst-2 [&_h1]:text-tekst [&_h2]:mt-8 [&_h2]:text-[22px] [&_h2]:font-semibold [&_h2]:text-tekst [&_p]:mt-3">
         <h1 className="text-[36px]">Voorwaarden</h1>
         <h2>Wat {MERK} is</h2>
         <p>Software die je boekhouding bijhoudt met behulp van AI. {MERK} is geen boekhouder, geen accountant en geen belastingadviseur. Jij blijft verantwoordelijk voor je administratie en je aangiften.</p>
         <h2>Abonnement</h2>
-        <p>De eerste 30 dagen zijn gratis. Daarna € {PRIJS} per maand, exclusief btw, maandelijks opzegbaar via Instellingen. Je betaalt vooraf per maand.</p>
+        <p>De eerste 30 dagen zijn gratis. Daarna vanaf € {PRIJS_VANAF} per maand, exclusief btw, afhankelijk van je pakket. Je betaalt vooraf, per maand of per jaar. Een maandabonnement is maandelijks opzegbaar via Instellingen; een jaarabonnement loopt tot het eind van het jaar.</p>
         <h2>Jouw verplichtingen</h2>
         <p>Je controleert de boekingen waar de bot om vraagt, bewaart je bonnen en dient je aangiften zelf en op tijd in. Wij zetten alles klaar, maar wij dienen niet in.</p>
         <h2>Aansprakelijkheid</h2>

@@ -1,4 +1,5 @@
 import { MERK } from "@/lib/merk";
+import { PRIJS_VANAF } from "@/lib/pakketten";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -9,7 +10,7 @@ const inter = Inter({ variable: "--font-body", subsets: ["latin"], axes: ["opsz"
 
 export const metadata: Metadata = {
   title: `${MERK}, boekhouding die zichzelf doet`,
-  description: "AI-boekhouding voor zzp'ers. Koppel je bank, de bot boekt elke nacht je regels, bonnen en facturen. € 50 per maand, 30 dagen gratis.",
+  description: `AI-boekhouding voor zzp'ers. Koppel je bank, de bot boekt elke nacht je regels, bonnen en facturen. Vanaf € ${PRIJS_VANAF} per maand, 30 dagen gratis.`,
 };
 
 export const viewport: Viewport = { themeColor: "#ffffff" };

@@ -29,3 +29,12 @@ export function Icoon({ naam, size = 20, className = "" }: { naam: keyof typeof 
 }
 
 export type IcoonNaam = keyof typeof paden;
+
+/** Pijltje naar rechts in knoppen en links. */
+export function Pijl({ className = "" }: { className?: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" className={className} aria-hidden>
+      <path d="M3 8h9M8.5 4.5L12 8l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}

@@ -7,7 +7,7 @@
 :root {
   color-scheme: light;
   --inkt: #1a1f36;
-  --papier: #f6f8fa;
+  --papier: #f0f3f7;
   --wit: #ffffff;
   --lijn: #e3e8ee;
   --lijn-2: #d5dbe1;
@@ -64,11 +64,12 @@ body {
   -webkit-font-smoothing: antialiased;
   font-optical-sizing: auto;
 }
-/* Koppen zoals op mollie.com: licht gewicht (variabele Inter), strakke letterafstand, Display-snede via opsz. */
+/* Koppen: stevig gewicht (600, variabele Inter), strakke letterafstand, Display-snede via opsz. Eén gewicht voor alle
+   koppen; losse koppen zetten alleen grootte en regelafstand. */
 @layer base {
-  h1 { font-weight: 380; letter-spacing: -0.03em; }
-  h2 { font-weight: 420; letter-spacing: -0.025em; }
-  h3 { letter-spacing: -0.02em; }
+  h1 { font-weight: 600; letter-spacing: -0.03em; }
+  h2 { font-weight: 600; letter-spacing: -0.025em; }
+  h3 { font-weight: 600; letter-spacing: -0.02em; }
 }
 .cijfer { font-variant-numeric: tabular-nums; }
 
@@ -145,12 +146,19 @@ body {
 .halo { border-radius: 16px; border: 1px solid rgba(29, 177, 223, 0.65); background: #fff; box-shadow: 0 0 0 3px rgba(29, 177, 223, 0.10), 0 0 14px rgba(29, 177, 223, 0.30), 0 0 36px rgba(29, 177, 223, 0.22), 0 0 70px rgba(29, 177, 223, 0.14); }
 
 /* Vragen: open en dicht. */
+/* Veelgestelde vragen (src/components/Vragen.tsx): knop met plusje, antwoord klapt vloeiend uit via een grid-rij van 0fr
+   naar 1fr en de tekst vaagt mee; de verticale streep van het plusje krimpt tot een minnetje. */
 .vraag { border-bottom: 1px solid var(--lijn); }
-.vraag summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; font-weight: 600; font-size: 16px; }
-.vraag summary::-webkit-details-marker { display: none; }
-.vraag summary::after { content: "+"; color: var(--tekst-3); font-weight: 400; font-size: 22px; line-height: 1; transition: transform .2s; }
-.vraag[open] summary::after { content: "–"; }
-.vraag p { padding: 0 0 18px; max-width: 62ch; color: var(--tekst-2); font-size: 15px; line-height: 1.6; }
+.vraag button { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; text-align: left; font-size: 16px; font-weight: 600; color: var(--tekst); cursor: pointer; }
+.vraag button:focus-visible { outline: none; border-radius: 6px; box-shadow: var(--ring); }
+.vraag-plus { flex-shrink: 0; color: var(--tekst-3); fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.vraag-plus-v { transform-origin: center; transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+.vraag[data-open] .vraag-plus-v { transform: scaleY(0); }
+.vraag-inhoud { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.2, .8, .2, 1); }
+.vraag-inhoud > div { min-height: 0; overflow: hidden; }
+.vraag[data-open] .vraag-inhoud { grid-template-rows: 1fr; }
+.vraag p { max-width: 62ch; padding: 0 0 18px; font-size: 15px; line-height: 1.6; color: var(--tekst-2); opacity: 0; translate: 0 -4px; transition: opacity .25s, translate .35s cubic-bezier(.2, .8, .2, 1); }
+.vraag[data-open] p { opacity: 1; translate: 0 0; transition-delay: .06s; }
 
 /* Navigatie bovenaan, naar het voorbeeld van ecomflow.com (src/components/Navigatie.tsx). Eén dekkend wit vlak (.navbalk)
    dat vervormt: bovenaan de pagina een volle balk over de hele breedte, inhoud uitgelijnd met de held; na een stukje
@@ -297,38 +305,85 @@ body {
 }
 
 /* Foefjes (src/components/Foefjes.tsx): wat de bot allemaal weet, één foefje tegelijk in een venster van liquid glass met
-   een blauwe gloed erachter (zelfde opbouw als het chatvenster). Alle foefjes staan op elkaar in één rastercel, zodat het
-   venster zo hoog is als het langste en niet verspringt; het actieve vervaagt in, het vorige schuift omhoog weg. Onderin
-   alle foefjes als pillen: de actieve is inkt met een dunne voortgangslijn (9 s, alleen scale); is die vol, dan zet de
-   component het volgende neer. Hover, focus of buiten beeld zet de lijn stil. Smal scrolt de lijst opzij. */
-.foefjes { position: relative; isolation: isolate; text-align: left; }
+   een blauwe gloed erachter (zelfde opbouw als het chatvenster). Alleen de kop en wat het oplevert, gecentreerd. Alle foefjes
+   staan op elkaar in één rastercel, zodat het venster zo hoog is als het langste en niet verspringt; het actieve vervaagt
+   in, het vorige schuift omhoog weg. Onderin een dunne voortgangslijn (9 s, alleen scale); is die vol, dan zet de component
+   het volgende neer. Hover, focus of buiten beeld zet de lijn stil. */
+.foefjes { position: relative; isolation: isolate; }
 .foefjes::before { content: ""; position: absolute; z-index: -1; inset: 8% 6% 0; background: radial-gradient(50% 60% at 24% 38%, rgba(29, 177, 223, .5), transparent 70%), radial-gradient(45% 55% at 78% 66%, rgba(29, 177, 223, .34), transparent 70%); filter: blur(32px); }
 .foefjes-glas { overflow: hidden; border-radius: 32px; }
-.foefjes-podium { display: grid; grid-template-columns: minmax(0, 1fr); padding: 34px 40px 30px; }
+.foefjes-podium { display: grid; grid-template-columns: minmax(0, 1fr); padding: 44px 40px 40px; text-align: center; }
 .foefje { grid-area: 1 / 1; opacity: 0; translate: 0 12px; visibility: hidden; transition: opacity .45s cubic-bezier(.2, .8, .2, 1), translate .6s cubic-bezier(.2, .8, .2, 1), visibility 0s .6s; }
 .foefje[data-actief] { opacity: 1; translate: 0 0; visibility: visible; transition-delay: .15s, .15s, 0s; }
 .foefje[data-weg] { translate: 0 -12px; }
-.foefje h3 { font-size: 26px; font-weight: 420; line-height: 1.2; letter-spacing: -.02em; color: var(--tekst); text-wrap: balance; -webkit-hyphens: auto; hyphens: auto; }
-.foefje p { margin-top: 10px; max-width: 58ch; font-size: 16px; line-height: 1.6; color: var(--tekst-2); text-wrap: pretty; }
+.foefje h3 { margin-inline: auto; max-width: 22ch; font-size: 30px; line-height: 1.2; letter-spacing: -.02em; color: var(--tekst); text-wrap: balance; -webkit-hyphens: auto; hyphens: auto; }
 .foefje .foefje-oplevert { margin-top: 18px; font-size: 15px; line-height: 1.5; color: var(--tekst-3); }
 .foefje-oplevert strong { margin-left: 4px; font-weight: 600; color: var(--tekst); text-decoration: underline; text-decoration-color: var(--primair); text-decoration-thickness: 2px; text-underline-offset: 6px; }
-.foefjes-lijst { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 18px 40px 24px; border-top: 1px solid rgba(26, 31, 54, .07); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6); }
-.foefjes-pil { position: relative; overflow: hidden; flex-shrink: 0; height: 34px; padding: 0 14px; border-radius: 17px; corner-shape: superellipse(1.4); background: rgba(255, 255, 255, .6); box-shadow: 0 0 0 .5px rgba(26, 31, 54, .14); font-size: 13px; font-weight: 600; color: var(--tekst-2); white-space: nowrap; cursor: pointer; transition: background-color .2s, color .2s; }
-.foefjes-pil:hover { background: #fff; color: var(--tekst); }
-.foefjes-pil[aria-current] { background: var(--inkt); color: #fff; box-shadow: none; }
-.foefjes-pil:focus-visible { outline: none; box-shadow: 0 0 0 1px var(--primair), var(--ring); }
-.foefjes-voortgang { position: absolute; left: 14px; right: 14px; bottom: 6px; height: 2px; border-radius: 1px; background: rgba(255, 255, 255, .6); transform-origin: left; animation: foefjes-voortgang 9s linear both; }
-.foefjes-meer { padding: 0 6px; font-size: 13px; color: var(--tekst-3); white-space: nowrap; }
+.foefjes-voortgang { position: absolute; left: 40px; right: 40px; bottom: 0; height: 2px; background: var(--primair); opacity: .5; transform-origin: left; animation: foefjes-voortgang 9s linear both; }
 .foefjes:hover .foefjes-voortgang, .foefjes:focus-within .foefjes-voortgang, .foefjes[data-pauze] .foefjes-voortgang { animation-play-state: paused; }
 @keyframes foefjes-voortgang { from { scale: 0 1; } to { scale: 1 1; } }
 @media (max-width: 639.98px) {
-  .foefjes-podium { padding: 24px 22px 22px; }
-  .foefje h3 { font-size: 22px; }
-  .foefje p { font-size: 15px; }
-  .foefjes-lijst { flex-wrap: nowrap; overflow-x: auto; padding: 14px 22px 18px; scrollbar-width: none; mask-image: linear-gradient(90deg, transparent, #000 22px, #000 calc(100% - 22px), transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 22px, #000 calc(100% - 22px), transparent); }
-  .foefjes-lijst::-webkit-scrollbar { display: none; }
+  .foefjes-podium { padding: 30px 22px 28px; }
+  .foefje h3 { font-size: 24px; }
+  .foefjes-voortgang { left: 22px; right: 22px; }
 }
 @media (prefers-reduced-motion: reduce) { .foefjes-voortgang { display: none; } }
+
+/* Figuren: stukken van het beeldmerk (de S uit het logo, src/components/Figuren.tsx) die boven of naast een sectie uitsteken,
+   zoals de vogel bij moneybird.nl. Het venster (.figuur) knipt de vorm af op de rand van de sectie: de SVG erin is groter
+   dan het venster en loopt eruit aan de kant van de sectie. Plekken: rechts boven de functies-band, links naast het
+   foefjes-blok (alleen breed, de wrapper .na-held clipt zijwaarts) en groot en wit in het slotblok. */
+.figuur { position: absolute; overflow: hidden; pointer-events: none; color: var(--inkt); }
+.figuur svg { position: absolute; display: block; height: auto; }
+.figuur-boven { bottom: 100%; width: clamp(120px, 17vw, 220px); height: calc(clamp(120px, 17vw, 220px) * .46); }
+.figuur-boven svg { top: 0; left: 0; width: 100%; }
+.figuur-zij { top: 14%; right: calc(100% - 24px); width: 120px; height: 300px; }
+.figuur-zij svg { top: 0; left: 0; width: 290px; }
+.figuur-slot { position: absolute; right: -4%; top: -12%; width: 44%; height: auto; color: #fff; opacity: .1; pointer-events: none; }
+
+/* Stemmen (sectie "Voor wie" in page.tsx): twee vierkante fotokaarten met een citaat onderin over een donker verloop, en een
+   kaart in merkblauw met de kop, twee knoppen en een grote donkere cirkel in de hoek (de cirkel uit het logo), naar het
+   voorbeeld van moneybird.nl. */
+.stem { position: relative; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; overflow: hidden; border-radius: 24px; background: var(--inkt); color: #fff; }
+.stem img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.stem figcaption { position: relative; padding: 140px 26px 24px; background: linear-gradient(180deg, rgba(20, 26, 46, 0), rgba(20, 26, 46, .5) 40%, rgba(20, 26, 46, .82)); }
+.stem blockquote { font-size: 22px; font-weight: 600; line-height: 1.25; letter-spacing: -.02em; text-wrap: pretty; text-shadow: 0 1px 2px rgba(0, 0, 0, .2); }
+.stem figcaption span { display: block; margin-top: 12px; font-size: 14px; color: rgba(255, 255, 255, .82); }
+.stem-blauw { justify-content: space-between; padding: 28px 26px 24px; background: var(--primair); }
+.stem-blauw::after { content: ""; position: absolute; right: -24%; bottom: -28%; width: 66%; aspect-ratio: 1; border-radius: 50%; background: rgba(12, 110, 140, .55); }
+.stem-blauw h3 { position: relative; font-size: 30px; line-height: 1.15; letter-spacing: -.02em; text-wrap: balance; }
+.stem-blauw h3 span { color: var(--inkt); }
+.stem-knoppen { position: relative; display: flex; flex-wrap: wrap; gap: 10px; }
+@media (min-width: 768px) and (max-width: 1023.98px) { .stem blockquote { font-size: 18px; } .stem-blauw h3 { font-size: 24px; } }
+
+/* Prijzen (src/components/Prijzen.tsx): de pakketten als drie witte vlakken op het grijze blok, bewust zonder glas, randen
+   of lijnen: de tekst doet het werk. Bovenin een schakelaar maand/jaar (witte baan, actieve pil in inkt). Smal staan de
+   vlakken onder elkaar, breed naast elkaar en even hoog. Het meest gekozen pakket heeft een klein blauw tekstje rechtsboven
+   en als enige een donkere knop. */
+.prijzen-schakel { display: inline-flex; padding: 4px; border-radius: 22px; corner-shape: superellipse(1.4); background: var(--wit); }
+.prijzen-schakel button { height: 36px; padding: 0 18px; border-radius: 18px; corner-shape: superellipse(1.4); font-size: 14px; font-weight: 500; color: var(--tekst-2); white-space: nowrap; cursor: pointer; transition: background-color .2s, color .2s; }
+.prijzen-schakel button:hover { color: var(--tekst); }
+.prijzen-schakel button[aria-pressed="true"] { background: var(--inkt); color: #fff; }
+.prijzen-schakel button:focus-visible { outline: none; box-shadow: var(--ring); }
+.prijzen-rooster { display: grid; gap: 16px; max-width: 480px; margin: 28px auto 0; }
+.prijs-kaart { position: relative; display: flex; flex-direction: column; padding: 28px 24px; border-radius: 24px; background: var(--wit); text-align: left; }
+.prijs-kaart h3 { font-size: 22px; line-height: 1.2; letter-spacing: -.02em; color: var(--tekst); }
+.prijs-label { position: absolute; top: 30px; right: 24px; font-size: 13px; color: var(--primair-tekst); }
+.prijs-voor { margin-top: 4px; font-size: 15px; line-height: 1.5; color: var(--tekst-2); text-wrap: pretty; }
+.prijs-regel { display: flex; align-items: baseline; gap: 6px; margin-top: 26px; }
+.prijs-bedrag { font-size: 36px; font-weight: 500; line-height: 1; letter-spacing: -.03em; color: var(--tekst); }
+.prijs-per { font-size: 15px; color: var(--tekst-2); }
+.prijs-bespaar { margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--tekst-3); }
+.prijs-kaart .pilknop, .prijs-kaart .pilknop-licht { margin-top: 22px; }
+.prijs-kan { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; font-size: 15px; line-height: 1.5; color: var(--tekst); }
+.prijs-kan li { display: flex; gap: 10px; }
+.prijs-kan svg { flex-shrink: 0; margin-top: 4px; color: var(--tekst-3); }
+.prijzen-noot { margin-top: 22px; text-align: center; font-size: 13px; color: var(--tekst-3); }
+@media (min-width: 1024px) {
+  .prijzen-rooster { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; margin-top: 36px; }
+  .prijs-kaart { padding: 32px 28px; }
+  .prijs-label { top: 34px; right: 28px; }
+}
 
 /* Held met wallpaper (src/components/Held.tsx), naar het voorbeeld van moneybird.nl. De vaste laag staat op -z-10 in de
    root-stapel; alles na de held heeft daarom een dekkende achtergrond (wrapper .na-held). Donkere verlopen bovenin en
@@ -349,7 +404,7 @@ body {
 @media (min-width: 1024px) and (max-height: 820px) { .held-dash { display: none; } }
 .held-dash .dash-beeld { left: 0; top: 7%; } /* schuin scherm als in het dashboardblok; de held snijdt de onderkant af */
 .held-dash .dash-beeld { box-shadow: 0 0 0 1px rgba(255, 255, 255, .35), 0 30px 80px -30px rgba(0, 0, 0, .55); }
-.na-held { position: relative; background: var(--wit); }
+.na-held { position: relative; overflow-x: clip; background: var(--wit); } /* clip: figuren naast een sectie mogen geen zijwaartse scroll geven */
 .na-held-rand { border-radius: 28px 28px 0 0; margin-top: -28px; box-shadow: 0 -8px 30px -12px rgba(0, 0, 0, .35); }
 @media (min-width: 768px) { .na-held-rand { border-radius: 40px 40px 0 0; margin-top: -40px; } }
 
