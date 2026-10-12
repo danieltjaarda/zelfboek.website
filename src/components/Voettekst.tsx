@@ -6,15 +6,15 @@ const kolommen: { kop: string; links: [string, string][] }[] = [
   { kop: "Product", links: [["Wat hij doet", "/#functies"], ["Werkt met", "/#werkt-met"], ["Prijs", "/#prijs"], ["Inloggen", LOGIN_URL]] },
   { kop: "Voor wie", links: [["Zzp’ers en freelancers", "/#functies"], ["Webshops en marktplaatsen", "/#werkt-met"], ["Overstappen van een ander pakket", "/#werkt-met"]] },
   { kop: "Hulp", links: [["Veelgestelde vragen", "/#vragen"], ["Contact", "mailto:hallo@zelfboek.nl"]] },
-  { kop: "Juridisch", links: [["Privacy", "/privacy"], ["Voorwaarden", "/voorwaarden"], ["Verwerkersovereenkomst", "/privacy#verwerker"]] },
+  { kop: "Juridisch", links: [["Privacy", "/privacy"], ["Voorwaarden", "/voorwaarden"], ["Verwerkers\u00adovereenkomst", "/privacy#verwerker"]] },
 ];
 
 export function Voettekst() {
   return (
     <footer className="border-t border-lijn bg-papier">
       <div className="mx-auto max-w-6xl px-6 py-14">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
-          <div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] md:gap-10">
+          <div className="col-span-2 md:col-span-1">
             <Woordmerk size={17} />
             <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-tekst-2">Boekhouding die zichzelf doet. Voor eenmanszaken en vof’s zonder personeel.</p>
             <Link href={LOGIN_URL} className="pilknop mt-6">Start gratis, 30 dagen</Link>

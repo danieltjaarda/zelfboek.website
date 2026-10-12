@@ -10,6 +10,9 @@ const sinus = (x: number) => -(Math.cos(Math.PI * Math.min(Math.max(x, 0), 1)) -
  * daarboven alleen het personage als uitgesneden PNG (zelfde kadrering, dus pixel op pixel). Bij scrollen vervaagt en
  * krimpt de foto en wordt hij wazig; het personage schuift langzaam mee omhoog en blijft zichtbaar totdat de volgende
  * sectie eroverheen schuift. Tekst en het schuine dashboard (zelfde opzet als .dash-vak) vervagen mee. Bij 'minder beweging' staat alles stil.
+ * Breed hangt het dashboard los in de onderste helft en zakt het bij scrollen weg; smal staat het onder de knoppen, breder
+ * dan het scherm, en loopt het onderaan uit beeld. De held is daar minstens één scherm hoog en groeit mee als de tekst langer
+ * is, zodat er altijd een stuk dashboard te zien is.
  */
 export function Held({ foto, persoon, children, dashboard }: { foto: string; persoon: string; children: ReactNode; dashboard?: ReactNode }) {
   const held = useRef<HTMLElement>(null);
@@ -22,6 +25,7 @@ export function Held({ foto, persoon, children, dashboard }: { foto: string; per
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
+    const breed = window.matchMedia("(min-width: 1024px)");
     const blur = (x: number) => (x > 0.02 ? `blur(${(20 * x).toFixed(1)}px)` : "");
     const tik = () => {
       raf = 0;
@@ -40,8 +44,10 @@ export function Held({ foto, persoon, children, dashboard }: { foto: string; per
       }
       if (inhoud.current) inhoud.current.style.opacity = String(1 - sinus(p / 0.75));
       if (dash.current) {
-        dash.current.style.transform = `translate3d(0, ${(100 * sinus(p / 0.25)).toFixed(1)}px, 0)`;
-        dash.current.style.opacity = String(1 - e);
+        // Wegzakken en vervagen alleen breed: smal staat het dashboard onder de tekst, en op een kleine telefoon scrol je er
+        // juist naartoe; daar scrolt het gewoon mee.
+        dash.current.style.transform = breed.matches ? `translate3d(0, ${(100 * sinus(p / 0.25)).toFixed(1)}px, 0)` : "";
+        dash.current.style.opacity = breed.matches ? String(1 - e) : "";
       }
     };
     const plan = () => { if (!raf) raf = requestAnimationFrame(tik); };
@@ -52,14 +58,14 @@ export function Held({ foto, persoon, children, dashboard }: { foto: string; per
   }, []);
 
   return (
-    <section ref={held} className="held relative h-[100svh] min-h-[640px] overflow-hidden">
+    <section ref={held} className="held relative min-h-[100svh] overflow-hidden lg:h-[100svh] lg:min-h-[640px]">
       <div ref={dek} className="held-dek fixed inset-0 -z-10 overflow-hidden" aria-hidden>
         <Image ref={achter} src={foto} alt="" fill priority sizes="100vw" className="held-laag object-cover" />
         <Image ref={voor} src={persoon} alt="" fill priority sizes="100vw" className="held-laag object-cover" />
       </div>
       <div className="relative mx-auto h-full max-w-[1320px] px-6 md:px-10">
         <div ref={inhoud} className="max-w-[760px] pt-[max(112px,16svh)]">{children}</div>
-        {dashboard && <div ref={dash} className="held-dash absolute left-6 top-[50%] hidden w-[min(900px,62%)] md:left-10 lg:block [@media(max-height:820px)]:hidden">{dashboard}</div>}
+        {dashboard && <div ref={dash} className="held-dash relative mt-9 h-[230px] w-[130%] sm:h-[300px] sm:w-[110%] lg:absolute lg:left-10 lg:top-[50%] lg:mt-0 lg:h-auto lg:w-[min(900px,62%)]">{dashboard}</div>}
       </div>
     </section>
   );

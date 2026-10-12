@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AppIcoon, type AppId } from "@/components/Merk";
 import { Telefoon } from "@/components/Demos";
 import { ChatDemo, type Gesprek } from "@/components/ChatDemo";
-import { Nauwkeurigheid, type Meting } from "@/components/Nauwkeurigheid";
+import { Foefjes, type Foefje } from "@/components/Foefjes";
 import { Onthul } from "@/components/Onthul";
 
 /** Link "Meer over …" met een pijltje. */
@@ -38,7 +38,7 @@ export function BlokApp() {
     <div className="blok min-h-[600px] p-7 md:min-h-[560px] md:p-10">
       <h3 className="max-w-md text-[28px] font-[420] leading-[1.15] tracking-[-0.02em] md:text-[32px]">Bonnen fotograferen en vragen beantwoorden, waar je ook bent</h3>
       <Meer href="#hoe" className="mt-4">Meer over de app</Meer>
-      <div className="pointer-events-none absolute top-[250px] -right-24 h-[640px] w-[460px] origin-top-left scale-[.68] sm:top-auto sm:-bottom-[210px] sm:right-2 sm:scale-100 md:right-6" aria-hidden>
+      <div className="pointer-events-none absolute left-[calc(50%-142px)] top-[210px] h-[640px] w-[460px] origin-top-left scale-[.64] sm:left-auto sm:top-auto sm:-bottom-[210px] sm:right-2 sm:scale-100 md:right-6" aria-hidden>
         <div className="absolute left-0 top-12 origin-bottom -rotate-[9deg] scale-[.8]"><Telefoon scherm="/schermen/m-bonnen.png" alt="" /></div>
         <div className="absolute left-[170px] top-0 origin-bottom rotate-[7deg] scale-[.8]"><Telefoon scherm="/schermen/m-app.png" alt="" /></div>
       </div>
@@ -66,13 +66,32 @@ export function BlokVragen() {
   );
 }
 
-/** Blok: hoe vaak de boeking klopt, in dezelfde opzet als "Vraag het de AI": kop in het midden, eronder de grafiek in een venster. */
-export function BlokNauwkeurigheid({ meting }: { meting: Meting }) {
+/**
+ * Foefjes die de bot kent, in gewone taal en zonder bedragen die elk jaar veranderen. Het enige bedrag komt uit hetzelfde
+ * voorbeeld als in de meldingen: 28% investeringsaftrek over € 3.200 aan apparatuur is € 896 extra aftrek.
+ */
+const FOEFJES: Foefje[] = [
+  { kort: "Laptop vóór 31 december", titel: "Nog iets nodig voor je werk? Koop het vóór 31 december.", uitleg: "Zit je met je aankopen dit jaar net onder de grens van de investeringsaftrek, dan tilt één aankoop extra je eroverheen. De bot ziet hoe dicht je erbij zit en zegt het op tijd.", oplevert: "€ 896 extra aftrek bij € 3.200 aan apparatuur" },
+  { kort: "Voorlopige aanslag bijstellen", titel: "Verdien je meer dan vorig jaar? Stel je voorlopige aanslag bij.", uitleg: "Betaal je te weinig vooruit, dan rekent de Belastingdienst later rente over het verschil. De bot volgt je winst en zegt wanneer bijstellen loont.", oplevert: "Geen belastingrente achteraf" },
+  { kort: "Kosten van vóór je start", titel: "Kosten gemaakt vóór je inschrijving? Die tellen gewoon mee.", uitleg: "Een laptop, website of cursus van vóór je start trek je af als aanloopkosten. De bot vraagt ernaar zodra je begint, zodat je niets laat liggen.", oplevert: "Aftrek die je anders misloopt" },
+  { kort: "Jaarruimte benutten", titel: "Pensioen opbouwen en tegelijk minder belasting betalen.", uitleg: "Als zzp’er heb je jaarruimte: wat je daarbinnen inlegt in een lijfrente, trek je af van je inkomen. De bot rekent uit hoeveel ruimte je hebt, vóór het jaar om is.", oplevert: "Minder inkomstenbelasting dit jaar" },
+  { kort: "AOV-premie aftrekken", titel: "Je arbeids\u00adongeschiktheids\u00adverzekering is aftrekbaar.", uitleg: "Veel zzp’ers vergeten het in hun aangifte: de premie van je AOV trek je af van je inkomen. De bot herkent de betaling op je rekening en neemt hem mee.", oplevert: "Een deel van je premie terug" },
+  { kort: "Willekeurig afschrijven", titel: "Starter? Schrijf af in het jaar dat het jou uitkomt.", uitleg: "In je startjaren mag je de afschrijving van nieuwe bedrijfsmiddelen naar voren halen, naar het jaar waarin je het meest verdient. De bot kiest het gunstigste jaar.", oplevert: "Minder belasting in je beste jaar" },
+  { kort: "Duurzaam investeren", titel: "Zuinig of duurzaam investeren levert extra aftrek op.", uitleg: "Voor bedrijfsmiddelen op de Energielijst of de Milieulijst krijg je aftrek bovenop de gewone. De bot checkt die lijsten bij elke grote aankoop.", oplevert: "Extra aftrek op je investering" },
+  { kort: "Cursus voor je vak", titel: "Een cursus voor je werk is gewoon zakelijke kosten.", uitleg: "Een opleiding, cursus of vakboek die je kennis voor je bedrijf op peil houdt, boekt de bot als bedrijfskosten. Ook als je hem privé betaalde.", oplevert: "Aftrekbaar van je winst" },
+  { kort: "Verlies verrekenen", titel: "Een slecht jaar levert later alsnog iets op.", uitleg: "Maak je verlies, dan verreken je dat met de winst van eerdere of latere jaren. De bot houdt het bij en past het toe zodra het kan.", oplevert: "Belasting terug over eerdere jaren" },
+  { kort: "Btw terug op je bus", titel: "Rij je soms privé met je bus? Je krijgt toch de btw terug.", uitleg: "Je trekt de btw op je bus helemaal af en corrigeert één keer per jaar voor het privégebruik. De bot rekent die correctie zelf uit in je laatste aangifte.", oplevert: "De btw op je bus terug" },
+  { kort: "Zakelijke kilometers", titel: "Met je eigen auto naar een klant? Elke kilometer telt.", uitleg: "Zakelijke ritten met je privéauto trek je per kilometer af. De bot zet ze bij elkaar en neemt ze mee in je aangifte.", oplevert: "Aftrek per zakelijke kilometer" },
+  { kort: "Startersaftrek", titel: "Net begonnen? Dan krijg je extra aftrek.", uitleg: "Haal je het urencriterium, dan krijg je in je eerste jaren startersaftrek bovenop de zelfstandigenaftrek. De bot telt je uren en zegt of je het haalt.", oplevert: "Extra aftrek in je startjaren" },
+];
+
+/** Blok: wat de bot allemaal weet, in dezelfde opzet als "Vraag het de AI": kop in het midden, eronder een glazen venster met één foefje tegelijk. */
+export function BlokFoefjes() {
   return (
-    <div className="blok px-6 pb-10 pt-12 text-center md:pb-14 md:pt-16">
-      <h2 className="mx-auto max-w-2xl text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Hoe vaak klopt de boeking?</h2>
-      <p className="mx-auto mt-4 max-w-xl text-[16px] text-tekst-2">Onze AI naast een fiscalist en een boekhouder, op precies dezelfde bankregels, bonnen en facturen.</p>
-      <Onthul className="mx-auto mt-8 w-full max-w-2xl md:mt-10"><Nauwkeurigheid {...meting} /></Onthul>
+    <div className="blok px-4 pb-10 pt-12 text-center sm:px-6 md:pb-14 md:pt-16">
+      <h2 className="mx-auto max-w-2xl text-balance text-[32px] font-[420] leading-[1.1] tracking-[-0.02em] md:text-[46px]">Weet elk foefje. En zegt het op tijd.</h2>
+      <p className="mx-auto mt-4 max-w-xl text-pretty text-[16px] text-tekst-2">De trucs die je anders alleen van een goede boekhouder hoort. Geldt er een voor jou, dan zegt de bot het op het juiste moment, met erbij wat het je oplevert.</p>
+      <Onthul className="mx-auto mt-8 w-full max-w-3xl md:mt-10"><Foefjes items={FOEFJES} /></Onthul>
     </div>
   );
 }

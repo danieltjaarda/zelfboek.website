@@ -2,16 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { MERK, PRIJS, LOGIN_URL } from "@/lib/merk";
 import { Onthul } from "@/components/Onthul";
-import { BlokApp, BlokKoppelingen, BlokNauwkeurigheid, BlokVragen } from "@/components/Blokken";
+import { BlokApp, BlokFoefjes, BlokKoppelingen, BlokVragen } from "@/components/Blokken";
 import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
-import { Wisselwoord } from "@/components/Wisselwoord";
 import { Held } from "@/components/Held";
 import { Navigatie } from "@/components/Navigatie";
-import type { Meting } from "@/components/Nauwkeurigheid";
 import { Meldingen, type Melding } from "@/components/Meldingen";
 import { Ervaringen } from "@/components/Ervaringen";
 import { Belastingkennis } from "@/components/Belastingkennis";
+import { MobieleKnop } from "@/components/MobieleKnop";
 
 export const instant = false;
 
@@ -22,7 +21,6 @@ const KLANTEN: { id: string; naam: string; hoogte: number }[] = [
   { id: "sissyboy", naam: "Sissy-Boy", hoogte: 24 }, { id: "sendcloud", naam: "Sendcloud", hoogte: 26 }, { id: "scotchsoda", naam: "Scotch & Soda", hoogte: 20 },
   { id: "bax", naam: "Bax Music", hoogte: 30 }, { id: "hunkemoller", naam: "Hunkemöller", hoogte: 24 }, { id: "gstar", naam: "G-Star RAW", hoogte: 18 },
 ];
-/** Woorden die in de kop wisselen; elk past voor "die zichzelf doet". */
 /** Voorbeeldmeldingen van de bot in de sectie "Altijd aan het werk" (src/components/Meldingen.tsx). */
 const MELDINGEN: Melding[] = [
   { soort: "Voorstel", tijd: "vannacht 03:12", tekst: "Je omzet blijft dit jaar onder de € 20.000. Dan kan de kleineondernemersregeling (KOR) interessant zijn: geen btw meer afdragen en geen btw-aangifte. Zal ik het voor je doorrekenen?", acties: ["Ja, reken door", "Later"] },
@@ -36,7 +34,6 @@ const MELDINGEN: Melding[] = [
   { soort: "Voorstel", tijd: "maandag 06:30", tekst: "Op basis van je winst tot nu toe: reserveer € 540 per maand voor de inkomstenbelasting. Zal ik een maandelijkse overboeking klaarzetten?", acties: ["Klaarzetten", "Later"] },
 ];
 
-const KOPWOORDEN = ["Boekhouding", "Btw-aangifte", "Facturatie", "Administratie", "Jaarrekening"];
 
 function Pijl({ className = "" }: { className?: string }) {
   return (
@@ -71,20 +68,6 @@ const functies: { icoon: string; kop: string; tekst: string }[] = [
   { icoon: "ib", kop: "Nooit meer schrikken van de inkomstenbelasting", tekst: "Je ziet het hele jaar wat je moet reserveren, met zelfstandigenaftrek, MKB-vrijstelling en urencriterium erbij." },
   { icoon: "bot", kop: "Vraag het gewoon", tekst: "Hoeveel gaf ik uit aan software? Wie betaalt altijd te laat? De bot kijkt in je cijfers en antwoordt direct." },
 ];
-
-/**
- * Nauwkeurigheid bij het boeken: onze AI tegen een boekhouder en een fiscalist, op dezelfde set boekingen.
- * VOORBEELDCIJFERS. Vervangen door een echte meting (en de voetnoot door de bron) voordat dit live gaat.
- */
-const NAUWKEURIGHEID: Meting = {
-  totaal: 1000,
-  uitslag: [
-    { wie: `${MERK} AI`, goed: 987, ons: true },
-    { wie: "Fiscalist", goed: 951 },
-    { wie: "Boekhouder", goed: 934 },
-  ],
-  voetnoot: "Voorbeeldcijfers. De echte meting en bron volgen.",
-};
 
 const voorWie: { beeld: string; alt: string; kop: string; tekst: string }[] = [
   { beeld: "/beeld/zzp-webdesigner.jpg", alt: "Webdesigner achter een laptop in een lichte werkkamer", kop: "Freelancers en creatieven", tekst: "Uren naar factuur, btw verlegd naar klanten in de EU, software-abonnementen vanzelf als kosten." },
@@ -136,14 +119,14 @@ export default function Landing() {
           </div>
         </div>
       }>
-        <h1 className="op v1 text-balance text-[38px] leading-[1.06] tracking-[-0.03em] md:text-[50px] md:leading-[1.04] xl:text-[58px] xl:leading-[1.03]">
-          <span className="md:block"><Wisselwoord woorden={KOPWOORDEN} /> met een AI</span>{" "}
-          <span className="md:block">die alles dag en nacht bijhoudt.</span>
+        {/* Smal schaalt de kop mee met het scherm, zodat "Boekhoudsoftware" ook op 320px op één regel past. */}
+        <h1 className="op v1 text-balance text-[clamp(30px,9.6vw,38px)] font-[500] leading-[1.06] tracking-[-0.03em] md:text-[50px] md:leading-[1.04] xl:text-[58px] xl:leading-[1.03]">
+          Boekhoudsoftware die <span className="streep">slim</span> voor je werkt.
         </h1>
         <p className="op v2 mt-5 max-w-[560px] text-pretty text-[17px] leading-[1.45] md:text-[19px]">
           Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord, op je laptop of op je telefoon. Eén vaste prijs, € {PRIJS} per maand.
         </p>
-        <div className="op v3 mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
+        <div data-held-knoppen className="op v3 mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
           <Link href={LOGIN_URL} className="pilknop-wit w-full sm:w-auto">Start gratis, 30 dagen</Link>
           <a href="#hoe" className="pilknop-glas w-full sm:w-auto">Bekijk hoe het werkt</a>
         </div>
@@ -217,8 +200,7 @@ export default function Landing() {
       {/* Zo werkt het */}
       <section id="hoe" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
         <Onthul>
-          <p className="eyebrow">Zo werkt het</p>
-          <h2 className="mt-3 max-w-2xl text-[34px] leading-[1.05] md:text-[48px]">Drie stappen. Daarna doet hij het zelf.</h2>
+          <h2 className="max-w-2xl text-[34px] leading-[1.05] md:text-[48px]">Drie stappen. Daarna doet hij het zelf.</h2>
         </Onthul>
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {stappen.map((s, i) => (
@@ -245,8 +227,7 @@ export default function Landing() {
       <section id="functies" className="bg-papier py-20 md:py-28">
         <div className="mx-auto max-w-6xl px-6">
           <Onthul>
-            <p className="eyebrow">Wat hij doet</p>
-            <h2 className="mt-3 max-w-3xl text-[34px] leading-[1.05] md:text-[48px]">Alles wat een boekhouder deed. Elke nacht.</h2>
+            <h2 className="max-w-3xl text-[34px] leading-[1.05] md:text-[48px]">Alles wat een boekhouder deed. Elke nacht.</h2>
             <p className="mt-4 max-w-xl text-[17px] text-tekst-2">Jij doet wat je al deed: facturen sturen, bonnen bewaren. Alleen korter.</p>
           </Onthul>
           <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -266,8 +247,7 @@ export default function Landing() {
       {/* Voor wie */}
       <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
         <Onthul>
-          <p className="eyebrow">Voor wie</p>
-          <h2 className="mt-3 max-w-2xl text-[34px] leading-[1.05] md:text-[48px]">Gemaakt voor zzp’ers die liever werken dan boekhouden.</h2>
+          <h2 className="max-w-2xl text-[34px] leading-[1.05] md:text-[48px]">Gemaakt voor zzp’ers die liever werken dan boekhouden.</h2>
         </Onthul>
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {voorWie.map((v, i) => (
@@ -284,23 +264,22 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Nauwkeurigheid: een grijs blok in dezelfde opzet als "Vraag het de AI", met de grafiek in een venster. */}
-      <section id="nauwkeurigheid" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
-        <Onthul><BlokNauwkeurigheid meting={NAUWKEURIGHEID} /></Onthul>
+      {/* Foefjes: wat de bot allemaal weet, een grijs blok in dezelfde opzet als "Vraag het de AI". */}
+      <section id="foefjes" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
+        <Onthul><BlokFoefjes /></Onthul>
       </section>
 
       {/* Prijs */}
       <section id="prijs" className="bg-papier py-20 md:py-28">
         <div className="mx-auto max-w-6xl px-6">
           <Onthul className="text-center">
-            <p className="eyebrow justify-center">Prijs</p>
-            <h2 className="mt-3 text-[34px] leading-[1.05] md:text-[48px]">Eén prijs. Alles erin.</h2>
+            <h2 className="text-[34px] leading-[1.05] md:text-[48px]">Eén prijs. Alles erin.</h2>
             <p className="mx-auto mt-4 max-w-xl text-[17px] text-tekst-2">Een boekhouder kost 600 tot 2.500 euro per jaar en kijkt één keer per kwartaal. {MERK} kijkt elke nacht.</p>
           </Onthul>
           <Onthul vertraging={120} className="mx-auto mt-12 max-w-lg">
-            <div className="halo p-8 md:p-10">
+            <div className="halo p-6 sm:p-8 md:p-10">
               <div className="flex items-end gap-2">
-                <span className="cijfer text-[56px] font-bold leading-none tracking-[-0.03em]">€ {PRIJS}</span>
+                <span className="cijfer whitespace-nowrap text-[56px] font-bold leading-none tracking-[-0.03em]">€ {PRIJS}</span>
                 <span className="pb-2 text-[15px] text-tekst-2">per maand, zonder btw</span>
               </div>
               <ul className="mt-7 space-y-3 text-[15px]">
@@ -318,8 +297,7 @@ export default function Landing() {
       {/* Vragen */}
       <section id="vragen" className="mx-auto max-w-3xl px-6 py-20 md:py-28">
         <Onthul>
-          <p className="eyebrow">Vragen</p>
-          <h2 className="mt-3 text-[32px] leading-[1.05] md:text-[42px]">Wat mensen ons vragen.</h2>
+          <h2 className="text-[32px] leading-[1.05] md:text-[42px]">Wat mensen ons vragen.</h2>
         </Onthul>
         <Onthul vertraging={100} className="mt-8">
           {vragen.map(([v, a]) => (
@@ -332,7 +310,7 @@ export default function Landing() {
       </section>
 
       {/* Slot */}
-      <section className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
+      <section id="slot" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
         <Onthul>
           <div className="relative overflow-hidden rounded-[24px] bg-[linear-gradient(135deg,#1db1df,#0c7f9f)] px-7 py-16 text-center text-white md:py-24">
             <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-white/10 blur-2xl" aria-hidden />
@@ -347,9 +325,7 @@ export default function Landing() {
       <Voettekst />
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-lijn bg-white/95 p-3 backdrop-blur sm:hidden">
-        <Link href={LOGIN_URL} className="pilknop w-full" style={{ height: 44 }}>Start gratis, 30 dagen</Link>
-      </div>
+      <MobieleKnop href={LOGIN_URL}>Start gratis, 30 dagen</MobieleKnop>
     </main>
   );
 }

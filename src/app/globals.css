@@ -123,22 +123,10 @@ body {
 /* Zwevende kaart rechtsboven over het dashboard. */
 .zweefkaart { overflow: hidden; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px rgba(26, 31, 54, 0.06), 0 30px 70px -20px rgba(26, 31, 54, 0.35), 0 8px 20px -10px rgba(26, 31, 54, 0.2); }
 
-/* Wisselend woord in de kop: het oude schuift omhoog en vervaagt met bewegingsonscherpte, het nieuwe komt van onderen. */
-.wissel { position: relative; display: inline-block; vertical-align: top; white-space: nowrap; transition: width .55s cubic-bezier(.2, .8, .2, 1); }
-/* Blauwe streep onder het wisselwoord: zit net onder de basislijn, achter de staartletters, en schuift mee met de breedte van de houder.
-   Dezelfde streep onder een los woord in een kop met .streep (zoals "AI" in "Een AI die zelf met voorstellen komt"). */
-.wissel, .streep { isolation: isolate; }
-.streep { position: relative; white-space: nowrap; }
-.wissel::after, .streep::after { content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: .04em; height: .07em; border-radius: 999px; background: var(--primair); }
-.wissel-woord { display: inline-block; will-change: transform, opacity, filter; }
-.wissel-woord[data-staat="uit"] { position: absolute; left: 0; top: 0; pointer-events: none; animation: wissel-uit .45s cubic-bezier(.4, 0, .7, .3) both; }
-.wissel-woord[data-staat="in"] { animation: wissel-in .6s cubic-bezier(.2, .8, .2, 1) .09s both; }
-@keyframes wissel-uit { from { opacity: 1; transform: none; filter: blur(0); } to { opacity: 0; transform: translateY(-.6em) scaleY(1.4); filter: blur(10px); } }
-@keyframes wissel-in { from { opacity: 0; transform: translateY(.6em) scaleY(1.4); filter: blur(10px); } to { opacity: 1; transform: none; filter: blur(0); } }
-/* Op mobiel staat het wisselwoord op een eigen regel: zo breekt de rest van de kop bij elk woord hetzelfde af en springt de
-   held niet op en neer. */
-@media (max-width: 767.98px) { .wissel { display: block; width: fit-content; } }
-@media (prefers-reduced-motion: reduce) { .wissel { transition: none; } .wissel-woord[data-staat="uit"], .wissel-woord[data-staat="in"] { animation: none; } }
+/* Blauwe streep onder een woord in een kop (.streep), zoals "slim" in de held en "AI" in "Een AI die zelf met voorstellen
+   komt": net onder de basislijn, achter de staartletters. */
+.streep { position: relative; isolation: isolate; white-space: nowrap; }
+.streep::after { content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: .04em; height: .07em; border-radius: 999px; background: var(--primair); }
 
 /* Gevuld statuslabel, zoals in de app. */
 .pil { display: inline-flex; align-items: center; border-radius: 999px; padding: 2px 9px; font-size: 12px; font-weight: 700; line-height: 16px; color: #fff; white-space: nowrap; }
@@ -146,9 +134,6 @@ body {
 .pil-geel { background: var(--mosterd); }
 .pil-grijs { background: var(--tekst-3); }
 .pil-blauw { background: var(--primair-licht); color: var(--primair-tekst); }
-
-.eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--primair-tekst); }
-.eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--primair); }
 
 /* Browser-raam om een echt scherm van de app heen. */
 .raam { border-radius: 14px; overflow: hidden; border: 1px solid var(--lijn-2); background: #fff; box-shadow: 0 30px 80px -30px rgba(26, 31, 54, 0.35), 0 0 0 1px rgba(26, 31, 54, 0.03); }
@@ -247,7 +232,8 @@ body {
 .dash-binnen::before { content: ""; position: absolute; left: 0; top: 0; width: 75%; aspect-ratio: 1440 / 900; border-radius: 16px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 30px 80px -30px rgba(26, 31, 54, 0.25); opacity: .55; filter: blur(1.5px); }
 .dash-beeld { position: absolute; left: 12%; top: 12%; width: 75%; height: auto; border-radius: 16px; border: 1px solid var(--lijn-2); background: #fff; box-shadow: 0 30px 80px -30px rgba(26, 31, 54, 0.35), 0 0 0 1px rgba(26, 31, 54, 0.03); opacity: 0; transition: opacity .45s; }
 .dash-beeld.actief { opacity: 1; }
-@media (max-width: 767px) { .dash-vak { aspect-ratio: 1 / 1; } .dash-binnen { left: 2%; top: 6%; } }
+/* Op mobiel groter en zonder spookraam (dat oogde daar als een vaag vlak), zodat je de app echt ziet. */
+@media (max-width: 767px) { .dash-vak { aspect-ratio: 1 / .86; } .dash-binnen { left: 0; top: 8%; width: 250%; } .dash-binnen::before { display: none; } .dash-beeld { left: 4%; top: 3%; } }
 
 /* Telefoonframe */
 .telefoon { position: relative; width: 300px; aspect-ratio: 9 / 19.4; border-radius: 46px; background: #1a1f36; padding: 11px; box-shadow: 0 40px 80px -30px rgba(26, 31, 54, 0.55), 0 0 0 1px rgba(26, 31, 54, 0.3), inset 0 0 0 2px #3c4257; }
@@ -310,40 +296,39 @@ body {
   .review-citaat { position: static; } .review-citaat:not(:first-child) { display: none; }
 }
 
-/* Grafiek nauwkeurigheid (src/components/Nauwkeurigheid.tsx), in een wit venster: kop met
-   icoon en legenda, liggende staven op één schaal van 0 tot 100%, onderin de bron. Staven dun, 4px rond aan het uiteinde en
-   recht aan de basis; onze AI in merkblauw, de mensen in grijs (#c5ccd5, ook voor kleurenblinden goed te onderscheiden van
-   het blauw). Breed één regel per uitslag (naam, staaf, percentage), smal de staaf eronder. */
-.meetvenster { text-align: left; border-radius: 20px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 30px 70px -30px rgba(26, 31, 54, .35); overflow: hidden; }
-.meetvenster-kop { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--lijn); }
-.meetvenster-kop div { display: flex; flex-direction: column; line-height: 1.2; }
-.meetvenster-kop strong { font-size: 14px; font-weight: 600; color: var(--tekst); }
-.meetvenster-kop div span { font-size: 12px; color: var(--tekst-3); }
-.meetvenster-icoon { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px; background: var(--primair); color: #fff; }
-.meetvenster-legenda { display: none; margin-left: auto; gap: 14px; font-size: 12px; color: var(--tekst-2); }
-.meetvenster-legenda li { display: flex; align-items: center; gap: 6px; }
-.meetvenster-legenda i { width: 10px; height: 10px; border-radius: 3px; background: #c5ccd5; }
-.meetvenster-legenda i.ons { background: var(--primair); }
-.meetvenster-voet { padding: 12px 16px; border-top: 1px solid var(--lijn); background: #fafbfc; font-size: 12px; color: var(--tekst-3); }
-.meting-lijst { display: flex; flex-direction: column; gap: 22px; padding: 24px 20px; }
-.meting { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "wie waarde" "spoor spoor"; align-items: center; column-gap: 16px; row-gap: 10px; transition: opacity .2s; }
-.meting-lijst:hover .meting:not(:hover) { opacity: .45; }
-.meting-wie { grid-area: wie; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.meting-naam { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--tekst-2); }
-.meting-telling { font-size: 12px; color: var(--tekst-3); }
-.meting-waarde { grid-area: waarde; font-size: 15px; font-weight: 500; color: var(--tekst-2); text-align: right; }
-.meting-ons .meting-naam, .meting-ons .meting-waarde { font-weight: 600; color: var(--tekst); }
-.meting-ons .meting-naam svg { color: var(--primair); }
-.meting-spoor { grid-area: spoor; height: 10px; border-radius: 0 4px 4px 0; background: #eef1f5; }
-.meting-staaf { height: 100%; width: 0; border-radius: 0 4px 4px 0; background: #c5ccd5; transition: width 1.2s cubic-bezier(.22, 1, .36, 1); }
-.meting-ons .meting-staaf { background: var(--primair); }
-.in > .meetvenster .meting-staaf { width: var(--waarde); }
-@media (min-width: 640px) {
-  .meetvenster-legenda { display: flex; }
-  .meting-lijst { gap: 20px; padding: 28px 28px 30px; }
-  .meting { grid-template-columns: 9.5rem minmax(0, 1fr) 4rem; grid-template-areas: "wie spoor waarde"; column-gap: 20px; }
+/* Foefjes (src/components/Foefjes.tsx): wat de bot allemaal weet, één foefje tegelijk in een venster van liquid glass met
+   een blauwe gloed erachter (zelfde opbouw als het chatvenster). Alle foefjes staan op elkaar in één rastercel, zodat het
+   venster zo hoog is als het langste en niet verspringt; het actieve vervaagt in, het vorige schuift omhoog weg. Onderin
+   alle foefjes als pillen: de actieve is inkt met een dunne voortgangslijn (9 s, alleen scale); is die vol, dan zet de
+   component het volgende neer. Hover, focus of buiten beeld zet de lijn stil. Smal scrolt de lijst opzij. */
+.foefjes { position: relative; isolation: isolate; text-align: left; }
+.foefjes::before { content: ""; position: absolute; z-index: -1; inset: 8% 6% 0; background: radial-gradient(50% 60% at 24% 38%, rgba(29, 177, 223, .5), transparent 70%), radial-gradient(45% 55% at 78% 66%, rgba(29, 177, 223, .34), transparent 70%); filter: blur(32px); }
+.foefjes-glas { overflow: hidden; border-radius: 32px; }
+.foefjes-podium { display: grid; grid-template-columns: minmax(0, 1fr); padding: 34px 40px 30px; }
+.foefje { grid-area: 1 / 1; opacity: 0; translate: 0 12px; visibility: hidden; transition: opacity .45s cubic-bezier(.2, .8, .2, 1), translate .6s cubic-bezier(.2, .8, .2, 1), visibility 0s .6s; }
+.foefje[data-actief] { opacity: 1; translate: 0 0; visibility: visible; transition-delay: .15s, .15s, 0s; }
+.foefje[data-weg] { translate: 0 -12px; }
+.foefje h3 { font-size: 26px; font-weight: 420; line-height: 1.2; letter-spacing: -.02em; color: var(--tekst); text-wrap: balance; -webkit-hyphens: auto; hyphens: auto; }
+.foefje p { margin-top: 10px; max-width: 58ch; font-size: 16px; line-height: 1.6; color: var(--tekst-2); text-wrap: pretty; }
+.foefje .foefje-oplevert { margin-top: 18px; font-size: 15px; line-height: 1.5; color: var(--tekst-3); }
+.foefje-oplevert strong { margin-left: 4px; font-weight: 600; color: var(--tekst); text-decoration: underline; text-decoration-color: var(--primair); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.foefjes-lijst { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 18px 40px 24px; border-top: 1px solid rgba(26, 31, 54, .07); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6); }
+.foefjes-pil { position: relative; overflow: hidden; flex-shrink: 0; height: 34px; padding: 0 14px; border-radius: 17px; corner-shape: superellipse(1.4); background: rgba(255, 255, 255, .6); box-shadow: 0 0 0 .5px rgba(26, 31, 54, .14); font-size: 13px; font-weight: 600; color: var(--tekst-2); white-space: nowrap; cursor: pointer; transition: background-color .2s, color .2s; }
+.foefjes-pil:hover { background: #fff; color: var(--tekst); }
+.foefjes-pil[aria-current] { background: var(--inkt); color: #fff; box-shadow: none; }
+.foefjes-pil:focus-visible { outline: none; box-shadow: 0 0 0 1px var(--primair), var(--ring); }
+.foefjes-voortgang { position: absolute; left: 14px; right: 14px; bottom: 6px; height: 2px; border-radius: 1px; background: rgba(255, 255, 255, .6); transform-origin: left; animation: foefjes-voortgang 9s linear both; }
+.foefjes-meer { padding: 0 6px; font-size: 13px; color: var(--tekst-3); white-space: nowrap; }
+.foefjes:hover .foefjes-voortgang, .foefjes:focus-within .foefjes-voortgang, .foefjes[data-pauze] .foefjes-voortgang { animation-play-state: paused; }
+@keyframes foefjes-voortgang { from { scale: 0 1; } to { scale: 1 1; } }
+@media (max-width: 639.98px) {
+  .foefjes-podium { padding: 24px 22px 22px; }
+  .foefje h3 { font-size: 22px; }
+  .foefje p { font-size: 15px; }
+  .foefjes-lijst { flex-wrap: nowrap; overflow-x: auto; padding: 14px 22px 18px; scrollbar-width: none; mask-image: linear-gradient(90deg, transparent, #000 22px, #000 calc(100% - 22px), transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 22px, #000 calc(100% - 22px), transparent); }
+  .foefjes-lijst::-webkit-scrollbar { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .meting-staaf { width: var(--waarde); } }
+@media (prefers-reduced-motion: reduce) { .foefjes-voortgang { display: none; } }
 
 /* Held met wallpaper (src/components/Held.tsx), naar het voorbeeld van moneybird.nl. De vaste laag staat op -z-10 in de
    root-stapel; alles na de held heeft daarom een dekkende achtergrond (wrapper .na-held). Donkere verlopen bovenin en
@@ -352,12 +337,16 @@ body {
 .held-dek::before, .held-dek::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .held-dek::before { background: linear-gradient(180deg, rgba(12, 16, 32, .55), rgba(12, 16, 32, 0) 30%); }
 .held-dek::after { background: linear-gradient(78deg, rgba(12, 16, 32, .78) 0%, rgba(12, 16, 32, .42) 30%, rgba(12, 16, 32, 0) 60%); }
+/* Op mobiel loopt de tekst over de hele breedte, ook over het personage: daar bovenin een donkerder verloop. */
+@media (max-width: 767px) { .held-dek::before { background: linear-gradient(180deg, rgba(12, 16, 32, .62), rgba(12, 16, 32, .42) 48%, rgba(12, 16, 32, 0) 78%); } }
 .held-laag { object-position: 68% 50%; will-change: transform, opacity, filter; transform-origin: 50% 40%; }
 .held h1, .held p { color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, .25), 0 10px 40px rgba(0, 0, 0, .22); }
 .held-dash { will-change: transform, opacity; }
 .held-dash .dash-vak { aspect-ratio: 1 / 0.9; }
 .held-dash .dash-binnen::before { display: none; } /* geen spookraam op de foto, dat oogt als waas */
-.held-dash .dash-binnen { left: 0; top: 2%; } /* zonder spookraam kan het scherm in de hoek beginnen; iets marge voor de draai */
+.held-dash .dash-binnen { left: 0; top: 2%; width: 200%; } /* zonder spookraam kan het scherm in de hoek beginnen; iets marge voor de draai */
+/* Breed hangt het dashboard los in de held; in een laag venster zou het over de knoppen vallen, dan weg. Smal staat het onder de tekst. */
+@media (min-width: 1024px) and (max-height: 820px) { .held-dash { display: none; } }
 .held-dash .dash-beeld { left: 0; top: 7%; } /* schuin scherm als in het dashboardblok; de held snijdt de onderkant af */
 .held-dash .dash-beeld { box-shadow: 0 0 0 1px rgba(255, 255, 255, .35), 0 30px 80px -30px rgba(0, 0, 0, .55); }
 .na-held { position: relative; background: var(--wit); }
@@ -376,11 +365,15 @@ body {
 .glas-donker { background: linear-gradient(180deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, .08)); box-shadow: inset 0 0 18px rgba(255, 255, 255, .07), 0 0 0 .5px rgba(0, 0, 0, .4), 0 14px 32px -16px rgba(0, 0, 0, .7); }
 .glas-donker::after { background: linear-gradient(135deg, rgba(255, 255, 255, .85), rgba(255, 255, 255, .3) 22%, rgba(255, 255, 255, .07) 42%, rgba(255, 255, 255, .07) 58%, rgba(255, 255, 255, .3) 78%, rgba(255, 255, 255, .7)); }
 
+/* Helder glas op merkblauw (Belastingkennis): wit op half, met donkere tekst; het blauw en de lichtvlekken schemeren
+   erdoorheen. Zelfde lichtrand als .glas, de schaduw in een diep blauw in plaats van grijs. */
+.glas-blauw { background: linear-gradient(180deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .42)); box-shadow: inset 0 0 18px rgba(255, 255, 255, .3), 0 0 0 .5px rgba(5, 70, 100, .22), 0 1px 3px rgba(5, 70, 100, .12), 0 18px 36px -20px rgba(5, 60, 90, .65); }
+
 /* Meldingen van de bot (src/components/Meldingen.tsx) op een nachtscherm zoals een vergrendelscherm: donker marineblauw paneel met
    lichtvlekken in het merkblauw en kleine lichtpuntjes, die door het glas van de meldingen vervaagd te zien zijn. Nieuwe melding schuift
    bovenin via een grid-rows-animatie; onderin loopt de lijst weg in het donker. Geen masker op de lijst: een masker maakt
    er een backdrop root van, dan ziet het glas de achtergrond van het paneel niet meer. */
-.nacht { position: relative; isolation: isolate; overflow: hidden; padding: 18px 24px 0; border-radius: 32px; corner-shape: superellipse(1.4); color: #fff;
+.nacht { --rand: 24px; position: relative; isolation: isolate; overflow: hidden; padding: 18px var(--rand) 0; border-radius: 32px; corner-shape: superellipse(1.4); color: #fff;
   background:
     radial-gradient(circle 3px at 14% 20%, rgba(220, 244, 252, .95), transparent),
     radial-gradient(circle 5px at 72% 14%, rgba(120, 210, 240, .8), transparent),
@@ -394,13 +387,13 @@ body {
     radial-gradient(55% 45% at 88% 58%, rgba(20, 138, 174, .42), transparent 70%),
     linear-gradient(170deg, #182036, #0a0d18 75%); }
 .nacht::after { content: ""; position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; height: 32%; pointer-events: none; background: linear-gradient(rgba(10, 13, 24, 0), #0a0d18 88%); }
-.meldingen { position: relative; height: 560px; margin: 0 -24px; padding: 0 24px; overflow: hidden; }
+.meldingen { position: relative; height: 560px; margin: 0 calc(-1 * var(--rand)); padding: 0 var(--rand); overflow: hidden; }
 /* De rij klapt open, de kaart zelf vervaagt in. Niet op de rij: opacity op een voorouder van het glas maakt die een backdrop
    root, en dan vervaagt het glas de achtergrond van het nachtscherm niet meer. De vertraging komt van de rij (inline style). */
 .melding-wrap { display: grid; grid-template-rows: 1fr; animation: melding-rij .6s cubic-bezier(.2, .8, .2, 1) both; }
 .melding-wrap > div, .melding-wrap .melding { animation-delay: inherit; }
 /* Ruimte opzij zodat de rand en schaduw van het glas niet worden afgeknipt door overflow: hidden. */
-.melding-wrap > div { overflow: hidden; margin: 0 -24px; padding: 1px 24px 0; }
+.melding-wrap > div { overflow: hidden; margin: 0 calc(-1 * var(--rand)); padding: 1px var(--rand) 0; }
 .melding { margin-bottom: 14px; padding: 15px 18px 16px; border-radius: 22px; animation: melding-in .6s cubic-bezier(.2, .8, .2, 1) both; }
 .melding header { display: flex; align-items: baseline; gap: 8px; }
 .melding header strong { font-size: 14px; font-weight: 600; color: #fff; }
@@ -412,7 +405,7 @@ body {
 @keyframes melding-rij { from { grid-template-rows: 0fr; } to { grid-template-rows: 1fr; } }
 @keyframes melding-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .melding-wrap, .melding { animation: none; } }
-@media (max-width: 767px) { .meldingen { height: 480px; } }
+@media (max-width: 767px) { .nacht { --rand: 16px; border-radius: 28px; } .meldingen { height: 480px; } .melding { padding: 14px 16px 15px; } }
 .meldingen-kop { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; padding: 0 4px; }
 .meldingen-live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255, 255, 255, .75); }
 .meldingen-live i { width: 8px; height: 8px; border-radius: 50%; background: #34c759; box-shadow: 0 0 0 0 rgba(52, 199, 89, .5); animation: meldingen-puls 1.8s ease-out infinite; }
@@ -455,49 +448,83 @@ body {
 @media (max-width: 767px) { .review-kaart { width: 300px; } .review-strook { animation-duration: 55s; } }
 @media (prefers-reduced-motion: reduce) { .review-strook { animation: none; } }
 
-/* Belastingkennis (src/components/Belastingkennis.tsx): één paar tegelijk. Een regel glijdt in 2,2 s van de Belastingdienst
-   naar de bot, de bot pulseert, de actie glijdt in 2,2 s door naar jouw boekhouding; na 5,6 s het volgende paar.
-   Cyclus = 8 paren x 5,6 s = 44,8 s. De reis is 2,2 / 44,8 = 4,9% van de cyclus; de rest wacht de chip onzichtbaar. */
-.stroom { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; }
-.stroom-knoop { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; width: 190px; text-align: center; }
-.stroom-icoon { display: inline-flex; align-items: center; justify-content: center; color: var(--primair); }
-.stroom-knoop img, .stroom-icoon { width: 84px; height: 84px; margin-bottom: 8px; padding: 12px; border-radius: 24px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35); object-fit: contain; }
-.stroom-knoop strong { font-size: 15px; font-weight: 600; color: var(--tekst); }
-.stroom-knoop small { font-size: 13px; color: var(--tekst-2); }
-.stroom-bot .stroom-icoon { animation: stroom-puls 5.6s ease-out infinite; animation-delay: 2.2s; }
-/* Actie onder de bot: verschijnt als de regel aankomt (2,3 s), vervaagt voor het volgende paar (5,0 s). */
-.stroom-acties { position: absolute; top: calc(100% + 10px); left: 50%; width: 0; height: 32px; }
-.stroom-actie { position: absolute; left: 0; top: 0; transform: translateX(-50%); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid rgba(22, 163, 74, .35); box-shadow: 0 8px 20px -10px rgba(26, 31, 54, .3); font-size: 13px; font-weight: 600; color: var(--tekst); opacity: 0; animation: stroom-actie 44.8s linear infinite; }
-.stroom-actie svg { color: var(--groen); }
-@keyframes stroom-actie { 0% { opacity: 0; transform: translate(-50%, 6px); animation-timing-function: ease-out; } 1% { opacity: 1; transform: translate(-50%, 0); } 5.2% { opacity: 1; transform: translate(-50%, 0); animation-timing-function: ease-in; } 6%, 100% { opacity: 0; transform: translate(-50%, -6px); } }
-@keyframes stroom-puls { 0% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 0 rgba(29, 177, 223, .5); } 18%, 100% { box-shadow: 0 1px 2px rgba(26, 31, 54, .04), 0 20px 50px -30px rgba(26, 31, 54, .35), 0 0 0 22px rgba(29, 177, 223, 0); } }
-.stroom-baan { position: relative; height: 120px; }
-.stroom-baan::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: repeating-linear-gradient(90deg, var(--primair) 0 8px, transparent 8px 18px); opacity: .45; animation: stroom-streep 1.1s linear infinite; }
-@keyframes stroom-streep { to { background-position: 18px 0; } }
-.stroom-chip { position: absolute; top: 50%; left: 0; transform: translate(0, -50%); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 999px; background: #fff; border: 1px solid var(--lijn-2); box-shadow: 0 8px 20px -10px rgba(26, 31, 54, .35); font-size: 13px; font-weight: 600; color: var(--tekst); opacity: 0; animation: stroom-chip 44.8s linear infinite; }
-@keyframes stroom-chip {
-  0% { left: 0; transform: translate(0, -50%) scale(.92); opacity: 0; animation-timing-function: ease-out; }
-  0.6% { opacity: 1; transform: translate(0, -50%) scale(1); animation-timing-function: cubic-bezier(.45, 0, .2, 1); }
-  4.3% { left: 100%; transform: translate(-100%, -50%) scale(1); opacity: 1; animation-timing-function: ease-in; }
-  4.9%, 100% { left: 100%; transform: translate(-100%, -50%) scale(.8); opacity: 0; }
+/* Belastingkennis (src/components/RegelStroom.tsx): een paneel in merkblauw met lichtvlekken, zodat het glas iets heeft om
+   doorheen te schijnen. Links de Belastingdienst en rechts de bot, allebei een kaart van helder glas (.glas-blauw), ertussen
+   een stippellijn die naar de bot stroomt. Eén paar duurt 5,4 s: de regel schuift achter de kaart van de Belastingdienst
+   vandaan en reist in 2,2 s naar de bot, verdwijnt achter diens kaart, de bot licht op (2,05 s) en de actie verschijnt eronder
+   (2,1 tot 5,4 s). Is die uitgefaded, dan zet de component het volgende paar neer. Alleen translate, scale en opacity, dus
+   alles loopt op de GPU. Smal staat alles onder elkaar en reist de regel omlaag. */
+.stroom {
+  --kaart: 272px; --uitloop: 40px;
+  position: relative; isolation: isolate; overflow: hidden; padding: 84px 56px; border-radius: 32px; corner-shape: superellipse(1.4);
+  background:
+    radial-gradient(circle 3px at 7% 16%, rgba(255, 255, 255, .9), transparent),
+    radial-gradient(circle 5px at 36% 20%, rgba(255, 255, 255, .5), transparent),
+    radial-gradient(circle 2px at 58% 80%, rgba(255, 255, 255, .9), transparent),
+    radial-gradient(circle 7px at 94% 18%, rgba(255, 255, 255, .35), transparent),
+    radial-gradient(circle 3px at 25% 86%, rgba(255, 255, 255, .7), transparent),
+    radial-gradient(circle 4px at 74% 30%, rgba(255, 255, 255, .6), transparent),
+    radial-gradient(32% 70% at 13% 45%, rgba(255, 255, 255, .45), transparent 70%),
+    radial-gradient(30% 65% at 88% 58%, rgba(9, 92, 132, .5), transparent 70%),
+    radial-gradient(50% 35% at 50% 45%, rgba(210, 243, 253, .32), transparent 70%),
+    linear-gradient(160deg, #4ac7ee, #1db1df 45%, #1592be);
 }
-@media (max-width: 767px) {
-  .stroom { grid-template-columns: 1fr; justify-items: center; gap: 8px; }
-  .stroom-bot { margin-bottom: 44px; }
-  .stroom-baan { height: 150px; width: 100%; margin: 6px 0; }
-  .stroom-baan::before { left: 50%; right: auto; top: 0; bottom: 0; width: 2px; height: auto; background: repeating-linear-gradient(180deg, var(--primair) 0 8px, transparent 8px 18px); animation-name: stroom-streep-v; }
-  @keyframes stroom-streep-v { to { background-position: 0 18px; } }
-  .stroom-chip { left: 50%; top: 0; transform: translate(-50%, 0); animation-name: stroom-chip-v; }
-  @keyframes stroom-chip-v {
-    0% { top: 0; transform: translate(-50%, 0) scale(.92); opacity: 0; animation-timing-function: ease-out; }
-    0.6% { opacity: 1; transform: translate(-50%, 0) scale(1); animation-timing-function: cubic-bezier(.45, 0, .2, 1); }
-    4.3% { top: 100%; transform: translate(-50%, -100%) scale(1); opacity: 1; animation-timing-function: ease-in; }
-    4.9%, 100% { top: 100%; transform: translate(-50%, -100%) scale(.8); opacity: 0; }
-  }
+.stroom-rij { position: relative; display: flex; align-items: center; }
+.stroom-kaart { position: relative; z-index: 1; flex-shrink: 0; display: flex; align-items: center; gap: 14px; width: var(--kaart); padding: 14px 18px 14px 14px; border-radius: 24px; text-align: left; }
+.stroom-kaart strong { display: block; font-size: 16px; font-weight: 600; letter-spacing: -.01em; color: var(--tekst); }
+.stroom-kaart small { display: block; margin-top: 1px; font-size: 13px; line-height: 1.35; color: rgba(26, 31, 54, .7); }
+.stroom-icoon { flex-shrink: 0; width: 52px; height: 52px; border-radius: 14px; corner-shape: superellipse(1.4); box-shadow: 0 0 0 .5px rgba(5, 70, 100, .2), 0 4px 10px -4px rgba(5, 60, 90, .45); }
+.stroom-boticoon { display: inline-flex; align-items: center; justify-content: center; background: var(--primair); color: #fff; animation: stroom-bots .7s cubic-bezier(.3, 1.5, .5, 1) 2.05s both; }
+/* Lichtrand om de bot op het moment dat de regel aankomt. */
+.stroom-golf { position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit; corner-shape: inherit; box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .95), 0 0 28px 6px rgba(255, 255, 255, .55); opacity: 0; animation: stroom-golf 1s cubic-bezier(.2, .8, .2, 1) 2.05s both; }
+/* De baan knipt af op de randen van de kaarten: de regel (met zijn lichtspoor) schuift er zo onder vandaan en verdwijnt er weer onder. */
+.stroom-baan { position: relative; flex: 1; align-self: stretch; min-width: 0; overflow: hidden; }
+.stroom-lijn { position: absolute; left: 14px; right: 14px; top: 50%; height: 2px; margin-top: -1px; overflow: hidden; opacity: .75; }
+.stroom-lijn::before { content: ""; position: absolute; top: 0; bottom: 0; left: -18px; right: 0; background: repeating-linear-gradient(90deg, #fff 0 8px, transparent 8px 18px); animation: stroom-lijn-x 1.4s linear infinite; }
+/* De rit loopt van het midden van de ene kaart naar het midden van de andere (100% = zijn eigen breedte), de regel hangt er
+   gecentreerd aan. Zo zit hij bij vertrek en aankomst achter een kaart. */
+.stroom-rit { position: absolute; top: 50%; left: calc(var(--kaart) / -2); right: calc(var(--kaart) / -2); height: 0; translate: 50% 0; animation: stroom-rit-x 2.2s cubic-bezier(.6, 0, .3, 1) both; }
+.stroom-chip { position: absolute; left: 0; top: 0; translate: -50% -50%; display: inline-flex; align-items: center; height: 38px; padding: 0 16px; border-radius: 19px; white-space: nowrap; font-size: 14px; font-weight: 600; letter-spacing: -.01em; color: var(--tekst); animation: stroom-chip 2.2s linear both; }
+/* Lichtspoor achter de regel. */
+.stroom-chip::before { content: ""; position: absolute; right: calc(100% - 6px); top: 50%; width: 120px; height: 2px; margin-top: -1px; border-radius: 2px; background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff); }
+/* Breed hangt de actie onder de bot, buiten de rij, zodat de kaarten mooi in het midden van het paneel staan. */
+.stroom-uit { position: absolute; right: 0; top: calc(100% + 18px); display: flex; justify-content: center; width: var(--kaart); }
+/* Mag hooguit --uitloop naast de kaart uitsteken, binnen de rand van het paneel; is de tekst langer, dan loopt hij over twee regels. */
+.stroom-actie { display: inline-flex; flex-shrink: 0; align-items: center; gap: 9px; min-height: 40px; max-width: calc(var(--kaart) + 2 * var(--uitloop)); padding: 8px 16px 8px 8px; border-radius: 20px; font-size: 14px; font-weight: 600; line-height: 1.3; letter-spacing: -.01em; text-wrap: balance; color: var(--tekst); animation: stroom-actie 3.3s 2.1s both; }
+.stroom-actie i { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 12px; background: var(--primair); color: #fff; }
+.stroom[data-pauze] :is(.stroom-rit, .stroom-chip, .stroom-boticoon, .stroom-golf, .stroom-actie), .stroom[data-pauze] .stroom-lijn::before { animation-play-state: paused; }
+@keyframes stroom-lijn-x { to { translate: 18px 0; } }
+@keyframes stroom-lijn-y { to { translate: 0 18px; } }
+@keyframes stroom-rit-x { from { translate: 0 0; } to { translate: 100% 0; } }
+@keyframes stroom-rit-y { from { translate: 0 0; } to { translate: 0 100%; } }
+@keyframes stroom-chip { 0% { opacity: 0; scale: .94; } 12% { opacity: 1; scale: 1; } 86% { opacity: 1; scale: 1; } 100% { opacity: 0; scale: .92; } }
+@keyframes stroom-bots { 0%, 100% { scale: 1; } 40% { scale: 1.12; } }
+@keyframes stroom-golf { 0% { opacity: 0; scale: 1; } 20% { opacity: 1; } 100% { opacity: 0; scale: 1.05 1.16; } }
+@keyframes stroom-actie {
+  0% { opacity: 0; translate: 0 -10px; scale: .96; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  14% { opacity: 1; translate: 0 0; scale: 1; }
+  86% { opacity: 1; translate: 0 0; scale: 1; animation-timing-function: cubic-bezier(.4, 0, 1, 1); }
+  100% { opacity: 0; translate: 0 6px; scale: .98; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .stroom-baan::before, .stroom-bot .stroom-icoon { animation: none; }
-  .stroom-chip { animation: none; opacity: 1; left: 50%; transform: translate(-50%, -50%); }
-  .stroom-chip:nth-child(n+2), .stroom-actie:nth-child(n+2) { display: none; }
-  .stroom-actie { animation: none; opacity: 1; }
+@media (min-width: 1024px) and (max-width: 1279.98px) { .stroom { --kaart: 248px; --uitloop: 32px; padding: 84px 44px; } }
+/* Smaller dan 1024px past een regel niet meer tussen twee kaarten naast elkaar: dan staat alles onder elkaar en reist de regel omlaag. */
+@media (max-width: 1023.98px) {
+  .stroom { padding: 24px 18px 22px; border-radius: 28px; }
+  .stroom-rij { flex-direction: column; align-items: stretch; }
+  .stroom-kaart { width: auto; }
+  .stroom-baan { flex: none; height: 112px; }
+  .stroom-lijn { left: 50%; right: auto; top: 12px; bottom: 12px; width: 2px; height: auto; margin: 0 0 0 -1px; }
+  .stroom-lijn::before { left: 0; right: 0; top: -18px; bottom: 0; background: repeating-linear-gradient(180deg, #fff 0 8px, transparent 8px 18px); animation-name: stroom-lijn-y; }
+  .stroom-rit { left: 50%; right: auto; top: -42px; bottom: -42px; width: 0; height: auto; translate: 0 50%; animation-name: stroom-rit-y; }
+  .stroom-chip::before { right: auto; left: 50%; top: auto; bottom: calc(100% - 6px); width: 2px; height: 64px; margin: 0 0 0 -1px; background: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff); }
+  /* Ruimte voor twee regels, zodat het paneel niet verspringt als een lange actie omslaat. */
+  .stroom-uit { position: static; align-items: flex-start; width: auto; min-height: 54px; margin-top: 16px; }
+  .stroom-actie { max-width: 100%; }
 }
+@media (min-width: 640px) and (max-width: 1023.98px) { .stroom { padding: 44px 32px 40px; border-radius: 32px; } .stroom-rij { max-width: 440px; margin-inline: auto; } }
+
+/* Zwevende knop onderin op mobiel (src/components/MobieleKnop.tsx): schuift omhoog zodra de knoppen in de held uit beeld
+   zijn en zakt weg bij het slotblok. De schaduw zit als drop-shadow op de houder: in browsers zonder corner-shape knipt de
+   squircle-fallback (clip-path) een box-shadow op de knop zelf weg. */
+.mobielknop { position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 20; visibility: hidden; opacity: 0; translate: 0 calc(100% + 16px); filter: drop-shadow(0 12px 20px rgba(26, 31, 54, .35)) drop-shadow(0 2px 4px rgba(26, 31, 54, .2)); transition: translate .5s cubic-bezier(.22, 1, .36, 1), opacity .3s, visibility 0s .5s; }
+.mobielknop[data-zichtbaar] { visibility: visible; opacity: 1; translate: 0 0; transition: translate .5s cubic-bezier(.22, 1, .36, 1), opacity .3s, visibility 0s; }
