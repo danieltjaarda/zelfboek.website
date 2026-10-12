@@ -13,7 +13,7 @@ export default function Privacy() {
         <h1 className="text-[36px]">Privacy</h1>
         <p>{MERK} verwerkt je bankgegevens, bonnen, facturen en klantgegevens om je boekhouding te doen. Niet voor iets anders.</p>
         <h2>Wat we opslaan</h2>
-        <p>Bankmutaties, bonnen, facturen, klanten, uren, kilometers en je bedrijfsgegevens. De toegang tot je koppelingen bewaren we versleuteld. Je bankkoppeling is alleen-lezen en loopt via een partij met een PSD2-vergunning.</p>
+        <p>Bankmutaties, bonnen, facturen, klanten, uren, kilometers en je bedrijfsgegevens. De toegang tot je koppelingen bewaren we versleuteld. Je gegevens worden nooit gebruikt om AI-modellen te trainen. Je bankkoppeling is alleen-lezen en loopt via een partij met een PSD2-vergunning.</p>
         <h2>Waar het staat</h2>
         <p>Op servers in de Europese Unie. Voor het boeken sturen we de omschrijving en het bedrag van een regel, of de inhoud van een bon, naar ons AI-model. Die gegevens worden niet gebruikt om het model te trainen.</p>
         <h2>Hoe lang</h2>

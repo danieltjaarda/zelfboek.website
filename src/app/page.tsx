@@ -6,7 +6,6 @@ import { BotDemo } from "@/components/Demos";
 import { BlokApp, BlokKoppelingen, BlokVragen, Kopje } from "@/components/Blokken";
 import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
-import { Wisselwoord } from "@/components/Wisselwoord";
 import { Held } from "@/components/Held";
 import { Meldingen, type Melding } from "@/components/Meldingen";
 import { Ervaringen } from "@/components/Ervaringen";
@@ -35,7 +34,6 @@ const MELDINGEN: Melding[] = [
   { soort: "Voorstel", tijd: "maandag 06:30", tekst: "Op basis van je winst tot nu toe: reserveer € 540 per maand voor de inkomstenbelasting. Zal ik een maandelijkse overboeking klaarzetten?", acties: ["Klaarzetten", "Later"] },
 ];
 
-const KOPWOORDEN = ["Boekhouding", "Btw-aangifte", "Facturatie", "Administratie", "Jaarrekening"];
 
 function Pijl({ className = "" }: { className?: string }) {
   return (
@@ -120,11 +118,11 @@ export default function Landing() {
         </div>
       }>
         <h1 className="op v1 text-[38px] leading-[1.06] tracking-[-0.03em] md:text-[50px] md:leading-[1.04] xl:text-[58px] xl:leading-[1.03]">
-          <span className="block"><Wisselwoord woorden={KOPWOORDEN} /> met een AI</span>
-          <span className="block">die alles dag en nacht bijhoudt.</span>
+          <span className="block">Je boekhouding doet zichzelf.</span>
+          <span className="block">Jij ziet wat je echt kunt uitgeven.</span>
         </h1>
         <p className="op v2 mt-5 max-w-[560px] text-pretty text-[17px] leading-[1.45] md:text-[19px]">
-          Koppel je bank en de bot boekt elke nacht je regels, bonnen en facturen. Jij tikt af en toe een antwoord, op je laptop of op je telefoon. Eén vaste prijs, € {PRIJS} per maand.
+          Koppel je bank met één klik. {MERK} boekt elke nacht je betalingen, bonnen en facturen, en rekent uit wat er na btw en belasting echt vrij te besteden is. Jij tikt af en toe een antwoord. Eén vaste prijs, € {PRIJS} per maand.
         </p>
         <div className="op v3 mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
           <Link href={LOGIN_URL} className="pilknop-wit w-full sm:w-auto">Start gratis, 30 dagen</Link>
