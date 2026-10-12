@@ -18,7 +18,7 @@ export function Juridisch({ titel, bijgewerkt, children }: { titel: string; bijg
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"><Link href="/"><Woordmerk /></Link><Link href={LOGIN_URL} className="pilknop-licht pilknop-klein">Inloggen</Link></header>
       <article className="mx-auto max-w-2xl px-6 py-12 text-[16px] leading-relaxed text-tekst-2 [&_h1]:text-tekst [&_h2]:mt-9 [&_h2]:text-[22px] [&_h2]:font-medium [&_h2]:text-tekst [&_p]:mt-3 [&_li]:mt-1.5 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:mt-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:text-tekst">
         <p className="mb-6 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-[14px] text-amber-900">Concept. Deze tekst wordt nog nagekeken door een jurist en kan op details veranderen.</p>
-        <h1 className="text-[36px]">{titel}</h1>
+        <h1 className="text-[30px] [overflow-wrap:anywhere] [hyphens:auto] sm:text-[36px]" lang="nl">{titel}</h1>
         <p className="text-[14px] text-tekst-3">Bijgewerkt op {bijgewerkt}</p>
         {children}
       </article>
