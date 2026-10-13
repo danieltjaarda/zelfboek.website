@@ -111,7 +111,7 @@ export default function Landing() {
       }>
         {/* Smal schaalt de kop mee met het scherm, zodat "Boekhoudsoftware" ook op 320px op één regel past. */}
         <h1 className="op v1 text-balance text-[clamp(30px,9.6vw,42px)] leading-[1.06] tracking-[-0.03em] md:text-[58px] md:leading-[1.04] xl:text-[68px] xl:leading-[1.03]">
-          Boekhoudsoftware die <span className="streep">slim</span> voor je werkt.
+          Boekhoudsoftware die het echt volledig <span className="streep">automatisch</span> doet.
         </h1>
         <div data-held-knoppen className="op v2 mt-9 flex flex-col gap-3 sm:flex-row sm:gap-4">
           <Link href={LOGIN_URL} className="pilknop-wit w-full sm:w-auto">Start gratis, 30 dagen</Link>

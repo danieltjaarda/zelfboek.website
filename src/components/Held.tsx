@@ -23,9 +23,18 @@ export function Held({ foto, persoon, children, dashboard }: { foto: string; per
   const dash = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let raf = 0;
     const breed = window.matchMedia("(min-width: 1024px)");
+    // Breed hangt het dashboard op de helft van de held, maar nooit over de tekst heen: minstens 40px onder de knoppen,
+    // ook met een langere kop of in een laag venster. Smal staat het in de stroom onder de tekst (geen top).
+    const plaats = () => {
+      if (!dash.current || !inhoud.current) return;
+      dash.current.style.top = breed.matches ? `${Math.max((held.current?.offsetHeight || 0) * 0.5, inhoud.current.offsetTop + inhoud.current.offsetHeight + 40)}px` : "";
+    };
+    plaats();
+    document.fonts?.ready.then(plaats);
+    window.addEventListener("resize", plaats);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return () => window.removeEventListener("resize", plaats);
+    let raf = 0;
     const blur = (x: number) => (x > 0.02 ? `blur(${(20 * x).toFixed(1)}px)` : "");
     const tik = () => {
       raf = 0;
@@ -54,7 +63,7 @@ export function Held({ foto, persoon, children, dashboard }: { foto: string; per
     tik();
     window.addEventListener("scroll", plan, { passive: true });
     window.addEventListener("resize", plan);
-    return () => { window.removeEventListener("scroll", plan); window.removeEventListener("resize", plan); if (raf) cancelAnimationFrame(raf); };
+    return () => { window.removeEventListener("scroll", plan); window.removeEventListener("resize", plan); window.removeEventListener("resize", plaats); if (raf) cancelAnimationFrame(raf); };
   }, []);
 
   return (
