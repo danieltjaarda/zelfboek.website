@@ -42,7 +42,7 @@ export function BlokApp() {
       <h3 className="max-w-md text-[28px] leading-[1.15] tracking-[-0.02em] md:text-[32px]">Bonnen fotograferen en vragen beantwoorden, waar je ook bent</h3>
       <Meer href="#hoe" className="mt-4">Meer over de app</Meer>
       <div className="pointer-events-none absolute left-[calc(50%-142px)] top-[210px] h-[640px] w-[460px] origin-top-left scale-[.64] sm:left-auto sm:top-auto sm:-bottom-[210px] sm:right-2 sm:scale-100 md:right-6" aria-hidden>
-        <div className="absolute left-0 top-12 origin-bottom -rotate-[9deg] scale-[.8]"><Telefoon scherm="/schermen/m-bonnen.png" alt="" /></div>
+        <div className="absolute left-0 top-12 origin-bottom -rotate-[9deg] scale-[.8]"><Telefoon scherm="/schermen/m-camera.png" alt="" /></div>
         <div className="absolute left-[170px] top-0 origin-bottom rotate-[7deg] scale-[.8]"><Telefoon scherm="/schermen/m-app.png" alt="" /></div>
       </div>
     </div>

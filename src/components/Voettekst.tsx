@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MERK, LOGIN_URL } from "@/lib/merk";
-import { Woordmerk } from "@/components/Merk";
+import { Logo } from "@/components/Merk";
 
 const kolommen: { kop: string; links: [string, string][] }[] = [
   { kop: "Product", links: [["Wat hij doet", "/#functies"], ["Werkt met", "/#werkt-met"], ["Prijs", "/#prijs"], ["Inloggen", LOGIN_URL]] },
@@ -15,7 +15,7 @@ export function Voettekst() {
       <div className="mx-auto max-w-6xl px-6 py-14">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] md:gap-10">
           <div className="col-span-2 md:col-span-1">
-            <Woordmerk size={17} />
+            <Link href="/" className="inline-block"><Logo hoogte={30} /></Link>
             <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-tekst-2">Boekhouding die zichzelf doet. Voor eenmanszaken en vof’s zonder personeel.</p>
             <Link href={LOGIN_URL} className="pilknop mt-6">Start gratis, 30 dagen</Link>
           </div>

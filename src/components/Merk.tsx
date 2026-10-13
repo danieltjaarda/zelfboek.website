@@ -1,4 +1,11 @@
+import Image from "next/image";
 import { MERK } from "@/lib/merk";
+
+/** Het logo (public/logos/saldoplan.png, 720×218): overal hetzelfde bestand, in de nav, de voettekst en de koppen van de
+ * losse pagina's. Geef `hoogte` in px, de breedte volgt; zonder `hoogte` bepaalt de CSS-klasse de maat (zie .navlogo). */
+export function Logo({ hoogte, className = "", priority = false }: { hoogte?: number; className?: string; priority?: boolean }) {
+  return <Image src="/logos/saldoplan.png" alt="Saldoplan" width={720} height={218} priority={priority} className={`w-auto ${className}`} style={hoogte ? { height: hoogte } : undefined} />;
+}
 
 /** Beeldmerk: afgerond vierkant in de merkkleur met een wit vinkje. Op een donkere ondergrond wit met blauw vinkje. */
 export function Beeldmerk({ size = 28, donker = false }: { size?: number; donker?: boolean }) {

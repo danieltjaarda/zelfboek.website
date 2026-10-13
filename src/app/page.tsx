@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MERK, LOGIN_URL } from "@/lib/merk";
+import { Logo } from "@/components/Merk";
 import { Onthul } from "@/components/Onthul";
 import { BlokApp, BlokFoefjes, BlokKoppelingen, BlokPrijzen, BlokVragen } from "@/components/Blokken";
 import { Pijl } from "@/components/Iconen";
@@ -80,7 +81,7 @@ export default function Landing() {
       <Navigatie>
         <div className="navbalk">
           <div className="navinhoud flex items-center justify-between">
-            <Link href="/" aria-label={MERK}><Image src="/logos/saldoplan.png" alt="Saldoplan" width={720} height={218} priority className="navlogo w-auto" /></Link>
+            <Link href="/"><Logo className="navlogo" priority /></Link>
             <nav className="hidden items-center gap-7 text-[14px] font-medium text-tekst-2 md:flex">
               <a href="#functies" className="hover:text-tekst">Wat hij doet</a>
               <a href="#werkt-met" className="hover:text-tekst">Werkt met</a>
