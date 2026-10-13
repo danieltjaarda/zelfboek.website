@@ -400,8 +400,8 @@ body {
 .held-dash .dash-vak { aspect-ratio: 1 / 0.9; }
 .held-dash .dash-binnen::before { display: none; } /* geen spookraam op de foto, dat oogt als waas */
 .held-dash .dash-binnen { left: 0; top: 2%; width: 200%; } /* zonder spookraam kan het scherm in de hoek beginnen; iets marge voor de draai */
-/* Breed hangt het dashboard los in de held; in een laag venster zou het over de knoppen vallen, dan weg. Smal staat het onder de tekst. */
-@media (min-width: 1024px) and (max-height: 820px) { .held-dash { display: none; } }
+/* Breed hangt het dashboard los in de held, op de helft van de hoogte; in een laag venster zou dat over de knoppen vallen,
+   daarom nooit hoger dan 400px van boven (lg:top-[max(50%,400px)] in Held.tsx). Smal staat het onder de tekst. */
 .held-dash .dash-beeld { left: 0; top: 7%; } /* schuin scherm als in het dashboardblok; de held snijdt de onderkant af */
 .held-dash .dash-beeld { box-shadow: 0 0 0 1px rgba(255, 255, 255, .35), 0 30px 80px -30px rgba(0, 0, 0, .55); }
 .na-held { position: relative; overflow-x: clip; background: var(--wit); } /* clip: figuren naast een sectie mogen geen zijwaartse scroll geven */
@@ -583,3 +583,81 @@ body {
    squircle-fallback (clip-path) een box-shadow op de knop zelf weg. */
 .mobielknop { position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 20; visibility: hidden; opacity: 0; translate: 0 calc(100% + 16px); filter: drop-shadow(0 12px 20px rgba(26, 31, 54, .35)) drop-shadow(0 2px 4px rgba(26, 31, 54, .2)); transition: translate .5s cubic-bezier(.22, 1, .36, 1), opacity .3s, visibility 0s .5s; }
 .mobielknop[data-zichtbaar] { visibility: visible; opacity: 1; translate: 0 0; transition: translate .5s cubic-bezier(.22, 1, .36, 1), opacity .3s, visibility 0s; }
+
+/* Factuur opmaken (src/components/FactuurDemo.tsx): een vel op een grijs blok, rechts een klein glazen menu en een cursor
+   die kleur, vorm en letter kiest. Het vel is opgezet als een echte factuur en volgt via --accent, --letter en data-vorm
+   op .fdemo. Smal staat het menu als rij onder het vel; vanaf 640px hangt het rechts over de rand van het vel en loopt
+   het vel onderaan uit het blok. */
+.fdemo { position: relative; display: flex; flex-direction: column; overflow: hidden; padding: 20px 20px 0; border-radius: 24px; background: var(--papier); }
+.fdemo-vel { position: relative; overflow: hidden; max-height: 570px; margin-bottom: -20px; padding: 30px 20px 22px; border-radius: 12px 12px 0 0; background: #fff; border: 1px solid var(--lijn); border-bottom: 0; font-family: var(--letter); font-size: 11px; line-height: 1.45; color: var(--tekst); }
+@media (min-width: 640px) {
+  .fdemo { display: block; padding: 36px 36px 0; }
+  .fdemo-vel { width: 72%; max-height: 620px; margin-bottom: -28px; padding: 38px 28px 40px; font-size: 12px; }
+}
+.fdemo-band { position: absolute; left: 0; right: 0; top: 0; height: 8px; background: var(--accent); transition: background .35s; }
+.fdemo-kop { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.fdemo-afzender { display: flex; align-items: center; gap: 8px; font-size: 1.15em; letter-spacing: -.01em; }
+.fdemo-merk { display: block; width: 20px; height: 20px; background: var(--accent); border-radius: 6px; transition: background .35s, border-radius .35s, transform .35s; }
+.fdemo[data-vorm="rond"] .fdemo-merk { border-radius: 50%; }
+.fdemo[data-vorm="ruit"] .fdemo-merk { border-radius: 3px; transform: rotate(45deg) scale(.82); }
+.fdemo-adres { text-align: right; font-size: .92em; line-height: 1.5; color: var(--tekst-2); }
+.fdemo-titelrij { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-top: 24px; }
+.fdemo-titel { font-size: 2.1em; font-weight: 600; letter-spacing: -.02em; line-height: 1; }
+.fdemo-gegevens { display: grid; grid-template-columns: auto auto; gap: 2px 14px; margin: 0; font-size: .92em; }
+.fdemo-gegevens dt { white-space: nowrap; color: var(--tekst-3); }
+.fdemo-gegevens dd { margin: 0; white-space: nowrap; text-align: right; font-weight: 500; }
+.fdemo-aan { margin-top: 20px; line-height: 1.5; }
+.fdemo-kopje { margin-bottom: 2px; font-size: .9em; color: var(--tekst-3); }
+.fdemo-tabel { width: 100%; margin-top: 20px; border-collapse: separate; border-spacing: 0; font-size: .9em; }
+.fdemo-tabel th { padding: 6px 4px; text-align: left; font-weight: 600; background: var(--accent); color: #fff; transition: background .35s, border-radius .35s; }
+.fdemo-tabel th:first-child { border-radius: 6px 0 0 6px; }
+.fdemo-tabel th:last-child { border-radius: 0 6px 6px 0; }
+.fdemo[data-vorm="hoekig"] .fdemo-tabel th:first-child { border-radius: 3px 0 0 3px; }
+.fdemo[data-vorm="hoekig"] .fdemo-tabel th:last-child { border-radius: 0 3px 3px 0; }
+.fdemo[data-vorm="ruit"] .fdemo-tabel th { border-radius: 0; }
+.fdemo-tabel td { padding: 7px 4px; border-bottom: 1px solid var(--lijn); vertical-align: top; color: var(--tekst-2); }
+.fdemo-tabel td:first-child { color: var(--tekst); }
+.fdemo-tabel th:first-child, .fdemo-tabel td:first-child { padding-left: 8px; }
+.fdemo-tabel th:not(:first-child), .fdemo-tabel td:not(:first-child) { width: 1%; text-align: right; white-space: nowrap; }
+.fdemo-sommen { width: 72%; min-width: 200px; margin: 10px 0 0 auto; white-space: nowrap; }
+.fdemo-som { display: flex; justify-content: space-between; padding: 3px 6px; color: var(--tekst-2); }
+.fdemo-totaal { display: flex; align-items: baseline; justify-content: space-between; margin-top: 6px; padding: 8px 6px 0; border-top: 1.5px solid var(--inkt); font-size: 1.05em; font-weight: 600; }
+.fdemo-totaal strong { font-size: 1.3em; color: var(--accent); transition: color .35s; }
+.fdemo-betalen { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 14px; margin-top: 20px; padding: 12px 14px; border-radius: 10px; background: var(--papier); font-size: .95em; line-height: 1.5; color: var(--tekst-2); transition: border-radius .35s; }
+.fdemo-betalen p { flex: 1 1 180px; }
+.fdemo-betalen strong { color: var(--tekst); }
+.fdemo[data-vorm="rond"] .fdemo-betalen { border-radius: 14px; }
+.fdemo[data-vorm="ruit"] .fdemo-betalen { border-radius: 0; }
+.fdemo-knop { display: inline-block; flex-shrink: 0; padding: 7px 14px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 600; white-space: nowrap; transition: background .35s, border-radius .35s; }
+.fdemo[data-vorm="hoekig"] .fdemo-knop { border-radius: 7px; }
+.fdemo[data-vorm="ruit"] .fdemo-knop { border-radius: 2px; }
+.fdemo-voet { margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--lijn); font-size: .85em; color: var(--tekst-3); }
+/* Het menu: smal een rij met de drie groepen naast elkaar, breed een los paneel rechts. */
+.fdemo-menu { position: relative; z-index: 2; order: -1; display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: flex-start; margin: 0 0 16px; padding: 12px 14px 14px; border-radius: 18px; }
+.fdemo-menukop { display: flex; align-items: center; gap: 6px; width: 100%; font-size: 12px; font-weight: 600; color: var(--tekst); }
+.fdemo-label { margin-bottom: 6px; font-size: 11px; color: var(--tekst-3); }
+.fdemo-opties { display: flex; gap: 8px; }
+@media (min-width: 640px) {
+  .fdemo-menu { position: absolute; right: 20px; top: 44px; order: 0; display: block; width: 168px; margin: 0; padding: 14px 16px 16px; border-radius: 20px; }
+  .fdemo-groep { margin-top: 12px; }
+}
+.fdemo-optie { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 8px; background: #fff; box-shadow: 0 0 0 1px var(--lijn-2); cursor: pointer; transition: box-shadow .2s, transform .15s; }
+.fdemo-optie:hover { transform: translateY(-1px); }
+.fdemo-optie[aria-pressed="true"] { box-shadow: 0 0 0 1.5px var(--inkt); }
+.fdemo-kleur { border-radius: 50%; box-shadow: inset 0 0 0 2px #fff, 0 0 0 1px var(--lijn-2); }
+.fdemo-kleur[aria-pressed="true"] { box-shadow: inset 0 0 0 2px #fff, 0 0 0 1.5px var(--inkt); }
+.fdemo-vormicoon { display: block; width: 12px; height: 12px; background: var(--inkt); }
+.fdemo-vormicoon[data-vorm="rond"] { border-radius: 50%; }
+.fdemo-vormicoon[data-vorm="hoekig"] { border-radius: 3px; }
+.fdemo-vormicoon[data-vorm="ruit"] { border-radius: 2px; transform: rotate(45deg) scale(.85); }
+.fdemo-letter { width: auto; padding: 0 9px; font-size: 12px; font-weight: 600; }
+/* De cursor: een pijl met de punt op (3,2); bij een klik drukt hij in en springt er een ring uit de punt. */
+.fdemo-cursor { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; will-change: transform; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .3)); transition: transform .7s cubic-bezier(.35, .6, .25, 1), opacity .3s; }
+.fdemo-cursor[data-weg] { opacity: 0; }
+.fdemo-cursor svg { display: block; transform-origin: 3px 2px; }
+.fdemo-cursor[data-klik] svg { animation: fdemo-druk .42s ease-out; }
+.fdemo-cursor::after { content: ""; position: absolute; left: -11px; top: -12px; width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--primair); opacity: 0; }
+.fdemo-cursor[data-klik]::after { animation: fdemo-ring .42s ease-out; }
+@keyframes fdemo-druk { 0% { transform: scale(1); } 30% { transform: scale(.8); } 100% { transform: scale(1); } }
+@keyframes fdemo-ring { 0% { opacity: .9; transform: scale(.3); } 100% { opacity: 0; transform: scale(1.15); } }
+@media (prefers-reduced-motion: reduce) { .fdemo-cursor { display: none; } }

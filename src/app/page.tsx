@@ -15,6 +15,7 @@ import { Belastingkennis } from "@/components/Belastingkennis";
 import { MobieleKnop } from "@/components/MobieleKnop";
 import { Vragen } from "@/components/Vragen";
 import { FiguurS } from "@/components/Figuren";
+import { FactuurDemo } from "@/components/FactuurDemo";
 
 export const instant = false;
 
@@ -175,6 +176,19 @@ export default function Landing() {
               { titel: "Vraag het de bot", badge: "⌘K", tekst: "Overal in de app: open facturen, je grootste kostenpost, hoeveel btw je straks betaalt. Hij kijkt in je eigen cijfers en antwoordt in gewone taal.", beeld: "/schermen/bot.png", alt: `De bot in ${MERK}, geopend als paneel` },
             ]}
           />
+        </Onthul>
+      </section>
+
+      {/* Factuur opmaken: links de demo met het menu en de cursor (src/components/FactuurDemo.tsx), rechts de belofte. Smal eerst de tekst. */}
+      <section id="factuur" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
+        <Onthul>
+          <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
+            <div className="order-1 lg:order-2">
+              <h2 className="text-[34px] leading-[1.05] md:text-[48px]">Facturen die eruitzien als <span className="streep">jouw</span> bedrijf.</h2>
+              <p className="mt-5 max-w-md text-[17px] leading-relaxed text-tekst-2">Kies een kleur, een vorm en een letter. Klaar. Elke factuur, offerte en herinnering gaat zo de deur uit, met iDEAL-link en e-factuur erbij.</p>
+            </div>
+            <FactuurDemo className="order-2 lg:order-1" />
+          </div>
         </Onthul>
       </section>
 
