@@ -584,61 +584,47 @@ body {
 .mobielknop { position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 20; visibility: hidden; opacity: 0; translate: 0 calc(100% + 16px); filter: drop-shadow(0 12px 20px rgba(26, 31, 54, .35)) drop-shadow(0 2px 4px rgba(26, 31, 54, .2)); transition: translate .5s cubic-bezier(.22, 1, .36, 1), opacity .3s, visibility 0s .5s; }
 .mobielknop[data-zichtbaar] { visibility: visible; opacity: 1; translate: 0 0; transition: translate .5s cubic-bezier(.22, 1, .36, 1), opacity .3s, visibility 0s; }
 
-/* Factuur opmaken (src/components/FactuurDemo.tsx): een vel op een grijs blok, rechts een klein glazen menu en een cursor
-   die kleur, vorm en letter kiest. Het vel is opgezet als een echte factuur en volgt via --accent, --letter en data-vorm
-   op .fdemo. Smal staat het menu als rij onder het vel; vanaf 640px hangt het rechts over de rand van het vel en loopt
-   het vel onderaan uit het blok. */
-.fdemo { position: relative; display: flex; flex-direction: column; overflow: hidden; padding: 20px 20px 0; border-radius: 24px; background: var(--papier); }
-.fdemo-vel { position: relative; overflow: hidden; max-height: 570px; margin-bottom: -20px; padding: 30px 20px 22px; border-radius: 12px 12px 0 0; background: #fff; border: 1px solid var(--lijn); border-bottom: 0; font-family: var(--letter); font-size: 11px; line-height: 1.45; color: var(--tekst); }
+/* Factuur opmaken (src/components/FactuurDemo.tsx): een A4-vel op een grijs blok, rechts een klein glazen menu en een
+   cursor die kleur, vorm en letter kiest. Het vel volgt via --accent, --letter en data-vorm op .fdemo. De wrapper
+   .fdemo-a4 is een container; het vel zet zijn lettergrootte in cqw en alle maten erin in em, zodat de opmaak op elk
+   scherm dezelfde is en het vel altijd 210:297 blijft. Smal staat het menu als rij boven het vel. */
+.fdemo { position: relative; display: flex; flex-direction: column; overflow: hidden; padding: 20px; border-radius: 24px; background: var(--papier); }
+.fdemo-a4 { container-type: inline-size; width: 100%; }
+.fdemo-vel { display: flex; flex-direction: column; aspect-ratio: 210 / 297; padding: 2.2em 2em; border-radius: 10px; background: #fff; border: 1px solid var(--lijn); box-shadow: 0 24px 50px -24px rgba(26, 31, 54, .35); font-family: var(--letter); font-size: 11px; font-size: 3.15cqw; line-height: 1.45; color: var(--tekst); }
 @media (min-width: 640px) {
-  .fdemo { display: block; padding: 36px 36px 0; }
-  .fdemo-vel { width: 72%; max-height: 620px; margin-bottom: -28px; padding: 38px 28px 40px; font-size: 12px; }
+  .fdemo { display: block; padding: 36px; }
+  .fdemo-a4 { width: 68%; }
 }
-.fdemo-band { position: absolute; left: 0; right: 0; top: 0; height: 8px; background: var(--accent); transition: background .35s; }
-.fdemo-kop { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.fdemo-afzender { display: flex; align-items: center; gap: 8px; font-size: 1.15em; letter-spacing: -.01em; }
-.fdemo-merk { display: block; width: 20px; height: 20px; background: var(--accent); border-radius: 6px; transition: background .35s, border-radius .35s, transform .35s; }
+.fdemo-kop { display: flex; align-items: flex-start; justify-content: space-between; gap: 1em; }
+.fdemo-afzender { display: flex; align-items: center; gap: .7em; font-size: 1.15em; letter-spacing: -.01em; }
+.fdemo-merk { display: block; width: 1.5em; height: 1.5em; background: var(--accent); border-radius: .45em; transition: background .35s, border-radius .35s, transform .35s; }
 .fdemo[data-vorm="rond"] .fdemo-merk { border-radius: 50%; }
-.fdemo[data-vorm="ruit"] .fdemo-merk { border-radius: 3px; transform: rotate(45deg) scale(.82); }
-.fdemo-adres { text-align: right; font-size: .92em; line-height: 1.5; color: var(--tekst-2); }
-.fdemo-titelrij { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-top: 24px; }
-.fdemo-titel { font-size: 2.1em; font-weight: 600; letter-spacing: -.02em; line-height: 1; }
-.fdemo-gegevens { display: grid; grid-template-columns: auto auto; gap: 2px 14px; margin: 0; font-size: .92em; }
-.fdemo-gegevens dt { white-space: nowrap; color: var(--tekst-3); }
-.fdemo-gegevens dd { margin: 0; white-space: nowrap; text-align: right; font-weight: 500; }
-.fdemo-aan { margin-top: 20px; line-height: 1.5; }
-.fdemo-kopje { margin-bottom: 2px; font-size: .9em; color: var(--tekst-3); }
-.fdemo-tabel { width: 100%; margin-top: 20px; border-collapse: separate; border-spacing: 0; font-size: .9em; }
-.fdemo-tabel th { padding: 6px 4px; text-align: left; font-weight: 600; background: var(--accent); color: #fff; transition: background .35s, border-radius .35s; }
-.fdemo-tabel th:first-child { border-radius: 6px 0 0 6px; }
-.fdemo-tabel th:last-child { border-radius: 0 6px 6px 0; }
-.fdemo[data-vorm="hoekig"] .fdemo-tabel th:first-child { border-radius: 3px 0 0 3px; }
-.fdemo[data-vorm="hoekig"] .fdemo-tabel th:last-child { border-radius: 0 3px 3px 0; }
-.fdemo[data-vorm="ruit"] .fdemo-tabel th { border-radius: 0; }
-.fdemo-tabel td { padding: 7px 4px; border-bottom: 1px solid var(--lijn); vertical-align: top; color: var(--tekst-2); }
+.fdemo[data-vorm="ruit"] .fdemo-merk { border-radius: .2em; transform: rotate(45deg) scale(.82); }
+.fdemo-adres { text-align: right; font-size: .9em; line-height: 1.5; color: var(--tekst-2); }
+.fdemo-titel { margin-top: 1.4em; font-size: 1.9em; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+.fdemo-titel span { font-weight: 400; color: var(--tekst-3); }
+.fdemo-meta { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1em; margin-top: 1em; color: var(--tekst-2); }
+.fdemo-meta b { margin-right: .45em; font-weight: 600; color: var(--tekst); }
+.fdemo-tabel { width: 100%; margin-top: 1.3em; border-collapse: collapse; }
+.fdemo-tabel th { padding: 0 0 .5em; text-align: left; font-weight: 600; color: var(--accent); border-bottom: .13em solid var(--accent); transition: color .35s, border-color .35s; }
+.fdemo-tabel td { padding: .6em 0; border-bottom: 1px solid var(--lijn); color: var(--tekst-2); }
 .fdemo-tabel td:first-child { color: var(--tekst); }
-.fdemo-tabel th:first-child, .fdemo-tabel td:first-child { padding-left: 8px; }
-.fdemo-tabel th:not(:first-child), .fdemo-tabel td:not(:first-child) { width: 1%; text-align: right; white-space: nowrap; }
-.fdemo-sommen { width: 72%; min-width: 200px; margin: 10px 0 0 auto; white-space: nowrap; }
-.fdemo-som { display: flex; justify-content: space-between; padding: 3px 6px; color: var(--tekst-2); }
-.fdemo-totaal { display: flex; align-items: baseline; justify-content: space-between; margin-top: 6px; padding: 8px 6px 0; border-top: 1.5px solid var(--inkt); font-size: 1.05em; font-weight: 600; }
-.fdemo-totaal strong { font-size: 1.3em; color: var(--accent); transition: color .35s; }
-.fdemo-betalen { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 14px; margin-top: 20px; padding: 12px 14px; border-radius: 10px; background: var(--papier); font-size: .95em; line-height: 1.5; color: var(--tekst-2); transition: border-radius .35s; }
-.fdemo-betalen p { flex: 1 1 180px; }
-.fdemo-betalen strong { color: var(--tekst); }
-.fdemo[data-vorm="rond"] .fdemo-betalen { border-radius: 14px; }
-.fdemo[data-vorm="ruit"] .fdemo-betalen { border-radius: 0; }
-.fdemo-knop { display: inline-block; flex-shrink: 0; padding: 7px 14px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 600; white-space: nowrap; transition: background .35s, border-radius .35s; }
-.fdemo[data-vorm="hoekig"] .fdemo-knop { border-radius: 7px; }
-.fdemo[data-vorm="ruit"] .fdemo-knop { border-radius: 2px; }
-.fdemo-voet { margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--lijn); font-size: .85em; color: var(--tekst-3); }
-/* Het menu: smal een rij met de drie groepen naast elkaar, breed een los paneel rechts. */
+.fdemo-tabel th:not(:first-child), .fdemo-tabel td:not(:first-child) { width: 1%; padding-left: 1em; text-align: right; white-space: nowrap; }
+.fdemo-som { display: flex; justify-content: space-between; margin-top: .5em; color: var(--tekst-2); }
+.fdemo-tabel + .fdemo-som { margin-top: .9em; }
+.fdemo-totaal { display: flex; align-items: baseline; justify-content: space-between; margin-top: .8em; padding-top: .8em; border-top: .13em solid var(--inkt); font-size: 1.15em; font-weight: 600; }
+.fdemo-totaal strong { font-size: 1.25em; color: var(--accent); transition: color .35s; }
+.fdemo-knop { align-self: flex-start; margin: 1.2em 0 1.2em; padding: .6em 1.2em; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 600; white-space: nowrap; transition: background .35s, border-radius .35s; }
+.fdemo[data-vorm="hoekig"] .fdemo-knop { border-radius: .6em; }
+.fdemo[data-vorm="ruit"] .fdemo-knop { border-radius: .15em; }
+.fdemo-voet { margin-top: auto; padding-top: .9em; border-top: 1px solid var(--lijn); font-size: .75em; white-space: nowrap; color: var(--tekst-3); }
+/* Het menu: smal een rij boven het vel met de drie groepen naast elkaar, breed een los paneel rechts. */
 .fdemo-menu { position: relative; z-index: 2; order: -1; display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: flex-start; margin: 0 0 16px; padding: 12px 14px 14px; border-radius: 18px; }
 .fdemo-menukop { display: flex; align-items: center; gap: 6px; width: 100%; font-size: 12px; font-weight: 600; color: var(--tekst); }
 .fdemo-label { margin-bottom: 6px; font-size: 11px; color: var(--tekst-3); }
 .fdemo-opties { display: flex; gap: 8px; }
 @media (min-width: 640px) {
-  .fdemo-menu { position: absolute; right: 20px; top: 44px; order: 0; display: block; width: 168px; margin: 0; padding: 14px 16px 16px; border-radius: 20px; }
+  .fdemo-menu { position: absolute; right: 24px; top: 44px; order: 0; display: block; width: 168px; margin: 0; padding: 14px 16px 16px; border-radius: 20px; }
   .fdemo-groep { margin-top: 12px; }
 }
 .fdemo-optie { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 8px; background: #fff; box-shadow: 0 0 0 1px var(--lijn-2); cursor: pointer; transition: box-shadow .2s, transform .15s; }

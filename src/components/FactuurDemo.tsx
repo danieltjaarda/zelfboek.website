@@ -81,43 +81,33 @@ export function FactuurDemo({ className = "" }: { className?: string }) {
 
   return (
     <div ref={vak} className={`fdemo ${className}`} data-vorm={vorm} style={{ "--accent": kleur.hex, "--letter": letter.stack } as CSSProperties}>
-      {/* Het vel: opgezet als een echte Nederlandse factuur; de accentkleur zit in de band bovenaan, de tabelkop, het totaal en de betaalknop. */}
-      <div className="fdemo-vel" aria-hidden>
-        <span className="fdemo-band" />
-        <div className="fdemo-kop">
-          <div className="fdemo-afzender"><span className="fdemo-merk" /><strong>Studio Noord</strong></div>
-          <p className="fdemo-adres">Noorderhaven 14<br />9712 AB Groningen<br />hallo@studionoord.nl</p>
-        </div>
-        <div className="fdemo-titelrij">
-          <p className="fdemo-titel">Factuur</p>
-          <dl className="fdemo-gegevens">
-            <dt>Factuurnummer</dt><dd>2026-0041</dd>
-            <dt>Factuurdatum</dt><dd>13 okt 2026</dd>
-            <dt>Vervaldatum</dt><dd>27 okt 2026</dd>
-          </dl>
-        </div>
-        <div className="fdemo-aan">
-          <p className="fdemo-kopje">Factuur aan</p>
-          <p>Bakkerij De Korenaar<br />t.a.v. Sanne de Vries<br />Dorpsstraat 12<br />8011 AB Zwolle</p>
-        </div>
-        <table className="fdemo-tabel">
-          <thead><tr><th>Omschrijving</th><th>Aantal</th><th>Prijs</th><th>Bedrag</th></tr></thead>
-          <tbody>
-            <tr><td>Website ontwerpen</td><td>1</td><td>€ 1.800,00</td><td>€ 1.800,00</td></tr>
-            <tr><td>Fotografie, dagdeel</td><td>2</td><td>€ 320,00</td><td>€ 640,00</td></tr>
-            <tr><td>Hosting, per maand</td><td>12</td><td>€ 15,00</td><td>€ 180,00</td></tr>
-          </tbody>
-        </table>
-        <div className="fdemo-sommen">
-          <p className="fdemo-som"><span>Subtotaal excl. btw</span><span>€ 2.620,00</span></p>
+      {/* Het vel: A4-verhouding, alle maten in em op een lettergrootte die meeschaalt met de breedte (cqw), zodat de opmaak
+          op elk scherm dezelfde blijft. De accentkleur zit in het logoblokje, de tabelkop, het totaal en de knop. */}
+      <div className="fdemo-a4">
+        <div className="fdemo-vel" aria-hidden>
+          <div className="fdemo-kop">
+            <div className="fdemo-afzender"><span className="fdemo-merk" /><strong>Studio Noord</strong></div>
+            <p className="fdemo-adres">Noorderhaven 14<br />9712 AB Groningen</p>
+          </div>
+          <p className="fdemo-titel">Factuur <span>2026-0041</span></p>
+          <div className="fdemo-meta">
+            <p><b>Aan</b><br />Bakkerij De Korenaar<br />Dorpsstraat 12, Zwolle</p>
+            <p><b>Datum</b>13 okt 2026<br /><b>Vervalt</b>27 okt 2026</p>
+          </div>
+          <table className="fdemo-tabel">
+            <thead><tr><th>Omschrijving</th><th>Aantal</th><th>Bedrag</th></tr></thead>
+            <tbody>
+              <tr><td>Website ontwerpen</td><td>1</td><td>€ 1.800,00</td></tr>
+              <tr><td>Fotografie, dagdeel</td><td>2</td><td>€ 640,00</td></tr>
+              <tr><td>Hosting, per maand</td><td>12</td><td>€ 180,00</td></tr>
+            </tbody>
+          </table>
+          <p className="fdemo-som"><span>Subtotaal</span><span>€ 2.620,00</span></p>
           <p className="fdemo-som"><span>Btw 21%</span><span>€ 550,20</span></p>
-          <p className="fdemo-totaal"><span>Totaal incl. btw</span><strong>€ 3.170,20</strong></p>
-        </div>
-        <div className="fdemo-betalen">
-          <p><strong>Betaal binnen 14 dagen</strong>, uiterlijk 27 oktober 2026, via de knop of op NL21 INGB 0001 2345 67 t.n.v. Studio Noord o.v.v. 2026-0041.</p>
+          <p className="fdemo-totaal"><span>Totaal</span><strong>€ 3.170,20</strong></p>
           <span className="fdemo-knop">Betaal met iDEAL</span>
+          <p className="fdemo-voet">KvK 12345678 · Btw-id NL001234567B01 · IBAN NL21 INGB 0001 2345 67</p>
         </div>
-        <p className="fdemo-voet">Studio Noord · KvK 12345678 · Btw-id NL001234567B01 · IBAN NL21 INGB 0001 2345 67</p>
       </div>
 
       <div className="fdemo-menu glas" onClick={() => { hand.current = Math.max(hand.current, Date.now() + 4000); }} onPointerEnter={() => { setHover(true); hand.current = Infinity; }} onPointerLeave={() => { setHover(false); hand.current = Date.now() + 800; }}>
