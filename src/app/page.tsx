@@ -1,14 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MERK, LOGIN_URL } from "@/lib/merk";
-import { Logo } from "@/components/Merk";
 import { Onthul } from "@/components/Onthul";
 import { BlokApp, BlokFoefjes, BlokKoppelingen, BlokPrijzen, BlokVragen } from "@/components/Blokken";
-import { Pijl } from "@/components/Iconen";
 import { Accordeon } from "@/components/Accordeon";
 import { Voettekst } from "@/components/Voettekst";
 import { Held } from "@/components/Held";
-import { Navigatie } from "@/components/Navigatie";
+import { Kop } from "@/components/Kop";
+import { Slot } from "@/components/Slot";
 import { Meldingen, type Melding } from "@/components/Meldingen";
 import { Ervaringen } from "@/components/Ervaringen";
 import { Belastingkennis } from "@/components/Belastingkennis";
@@ -78,24 +77,7 @@ const vragen: [string, string][] = [
 export default function Landing() {
   return (
     <main className="flex-1">
-      {/* Navigatie */}
-      <Navigatie>
-        <div className="navbalk">
-          <div className="navinhoud flex items-center justify-between">
-            <Link href="/"><Logo className="navlogo" priority /></Link>
-            <nav className="hidden items-center gap-7 text-[14px] font-medium text-tekst-2 md:flex">
-              <a href="#functies" className="hover:text-tekst">Wat hij doet</a>
-              <a href="#werkt-met" className="hover:text-tekst">Werkt met</a>
-              <a href="#prijs" className="hover:text-tekst">Prijs</a>
-              <a href="#vragen" className="hover:text-tekst">Vragen</a>
-            </nav>
-            <div className="flex items-center gap-2">
-              <Link href={LOGIN_URL} className="hidden px-3 text-[14px] font-medium text-tekst-2 hover:text-tekst sm:inline-flex">Inloggen</Link>
-              <Link href={LOGIN_URL} className="pilknop pilknop-klein">Gratis proberen</Link>
-            </div>
-          </div>
-        </div>
-      </Navigatie>
+      <Kop />
 
       {/* Held met wallpaper, naar het voorbeeld van moneybird.nl: foto van een kledingwinkel als vaste achtergrond, het
           personage als aparte laag die zichtbaar blijft terwijl de foto bij scrollen vervaagt (src/components/Held.tsx).
@@ -298,18 +280,7 @@ export default function Landing() {
         </Onthul>
       </section>
 
-      {/* Slot */}
-      <section id="slot" className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
-        <Onthul>
-          <div className="relative overflow-hidden rounded-[24px] bg-[linear-gradient(135deg,#1db1df,#0c7f9f)] px-7 py-16 text-center text-white md:py-24">
-            {/* Figuur: de S groot en wit in de rechterhoek, afgesneden door de rand van het blok. */}
-            <FiguurS className="figuur-slot" />
-            <h2 className="relative mx-auto max-w-2xl text-[34px] leading-[1.05] md:text-[56px]">Morgenochtend is je boekhouding al gedaan.</h2>
-            <Link href={LOGIN_URL} className="pilknop-licht relative mt-9 bg-white">Start gratis, 30 dagen <Pijl /></Link>
-            <p className="relative mt-4 text-[13px] text-white/75">Account in dertig seconden, alleen een e-mailadres.</p>
-          </div>
-        </Onthul>
-      </section>
+      <Slot />
 
       <Voettekst />
       </div>

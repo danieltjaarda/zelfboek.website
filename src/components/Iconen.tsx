@@ -17,6 +17,20 @@ const paden: Record<string, React.ReactNode> = {
   koppel: <><path d="M10 14a4 4 0 005.7 0l2.6-2.6a4 4 0 00-5.7-5.7L11 7.3" /><path d="M14 10a4 4 0 00-5.7 0l-2.6 2.6a4 4 0 005.7 5.7L13 16.7" /></>,
   import: <><path d="M12 19V8" /><path d="M8 12l4-4 4 4" /><path d="M4 20h16" /></>,
   bel: <><path d="M6 16V11a6 6 0 0112 0v5l2 2H4z" /><path d="M10 20a2 2 0 004 0" /></>,
+  // Sectoren en bedrijfsvormen (menu "Voor wie", src/lib/voorwie.ts).
+  palet: <><path d="M12 3a9 9 0 100 18c1.6 0 2.2-1.1 1.6-2.2-.5-1 .1-1.8 1.4-1.8H17a4 4 0 004-4c0-5.5-4-10-9-10z" /><circle cx="7.5" cy="12.5" r="1.1" fill="currentColor" stroke="none" /><circle cx="9.5" cy="8" r="1.1" fill="currentColor" stroke="none" /><circle cx="14.5" cy="7.5" r="1.1" fill="currentColor" stroke="none" /></>,
+  helm: <><path d="M4 16a8 8 0 0116 0v1H4z" /><path d="M2 17h20" /><path d="M10 8v6M14 8v6" /></>,
+  code: <><path d="M8 8l-4 4 4 4" /><path d="M16 8l4 4-4 4" /><path d="M14 5l-4 14" /></>,
+  coach: <><circle cx="10" cy="7" r="3.5" /><path d="M4 20a6 6 0 0112 0" /><path d="M18.5 14V9" /><path d="M16 11.5L18.5 9l2.5 2.5" /></>,
+  winkelwagen: <><path d="M3 4h2l2.5 11h11l2-8H6.2" /><circle cx="9" cy="19" r="1.5" /><circle cx="17" cy="19" r="1.5" /></>,
+  pen: <><path d="M12 19l7-7 3 3-7 7-3-3z" /><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" /><path d="M2 2l7.6 7.6" /><circle cx="11" cy="11" r="2" /></>,
+  bestek: <><path d="M7 3v18" /><path d="M4 3v5a3 3 0 006 0V3" /><path d="M17 3c-1.5 2-2 5-2 8h2v10" /><path d="M17 3v8" /></>,
+  advies: <><path d="M3 6a2 2 0 012-2h9a2 2 0 012 2v5a2 2 0 01-2 2H9l-4 3v-3a2 2 0 01-2-2z" /><path d="M19 9a2 2 0 012 2v5a2 2 0 01-2 2h-1v3l-4-3h-3" /></>,
+  smartphone: <><rect x="7" y="2" width="10" height="20" rx="2.5" /><path d="M11 18h2" /></>,
+  raster: <><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></>,
+  gebruiker: <><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0116 0" /></>,
+  gebouw: <><rect x="4" y="3" width="16" height="18" rx="1.5" /><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2" /><path d="M10 21v-3h4v3" /></>,
+  handen: <><circle cx="9" cy="12" r="5" /><circle cx="15" cy="12" r="5" /></>,
   instel: <><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" /></>,
 };
 

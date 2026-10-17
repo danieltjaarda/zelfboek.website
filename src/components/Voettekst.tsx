@@ -4,7 +4,7 @@ import { Logo } from "@/components/Merk";
 
 const kolommen: { kop: string; links: [string, string][] }[] = [
   { kop: "Product", links: [["Wat hij doet", "/#functies"], ["Werkt met", "/#werkt-met"], ["Prijs", "/#prijs"], ["Inloggen", LOGIN_URL]] },
-  { kop: "Voor wie", links: [["Zzp’ers en freelancers", "/#functies"], ["Webshops en marktplaatsen", "/#werkt-met"], ["Overstappen van een ander pakket", "/#werkt-met"]] },
+  { kop: "Voor wie", links: [["Alle sectoren", "/sectoren"], ["Webshops en e-commerce", "/sectoren/webshops-en-e-commerce"], ["Zzp", "/bedrijfsvormen/zzp"], ["Vof", "/bedrijfsvormen/vof"], ["Bv en holding", "/bedrijfsvormen/bv-en-holding"]] },
   { kop: "Hulp", links: [["Veelgestelde vragen", "/#vragen"], ["Contact", "mailto:hallo@zelfboek.nl"]] },
   { kop: "Juridisch", links: [["Privacy", "/privacy"], ["Voorwaarden", "/voorwaarden"], ["Verwerkers\u00adovereenkomst", "/privacy#verwerker"]] },
 ];
